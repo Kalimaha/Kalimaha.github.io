@@ -29,12 +29,26 @@
     <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css?family=Ubuntu" rel="stylesheet">
+    <link href="../src/css/jssocials.css" rel="stylesheet">
+    <link href="../src/css/jssocials-theme-plain.css" rel="stylesheet">
     <link href="../src/css/guido-barbaglia.css" rel="stylesheet">
 
     <script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/handlebars.js/4.0.6/handlebars.min.js"></script>
+    <script src="../src/js/jssocials.min.js"></script>
     <script src="../src/js/main.js"></script>
+    <script>
+      function load_social_media() {
+        $("#share").jsSocials({
+          text: 'Simple client/server architecture with Docker Compose',
+          url: 'http://guido-barbaglia.blog/posts/simple_client_server_architecture_with_docker_compose.html',
+          showLabel: false,
+          showCount: false,
+          shares: ["email", "twitter", "facebook", "googleplus", "linkedin", "pocket", "whatsapp"]
+        });
+      }
+    </script>
     <script>
       (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
       (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
@@ -45,7 +59,7 @@
     </script>
   </head>
 
-  <body>
+  <body onload="load_social_media();">
     <br>
     <div class="container">
       <hr>
@@ -68,10 +82,10 @@
               <div class='col-lg-12'>
                 <p style='font-size: 22px; font-weight: 100;'>
                   This post builds on the <a>previous one</a> to create a simple
-                  client/server architecture for a web-app developed with <a>Flask</a>,
-                  for the back-end, and <a>RequireJS</a>, for the front-end. These two
-                  components will be incapsulated through the use of <a>Docker
-                  Compose</a> in order to be ready for deployment.
+                  client/server architecture for a web-app developed with
+                  <a>Flask</a>, for the back-end, and <a>RequireJS</a>, for the front-end.
+                  These two components will be incapsulated through the use
+                  of Docker Compose in order to be ready for deployment.
                 </p>
               </div>
             </div>
@@ -81,7 +95,7 @@
         <div class='row'>
           <div class='col-lg-12'>
             <h1>
-              Simple client/server architecture with Docker Compose
+              Post's Title
             </h1>
           </div>
         </div>
@@ -95,6 +109,12 @@
       <br>
       <hr>
       <div class="row">
+        <div class="col-lg-12 text-center">
+          <div id="share"></div>
+        </div>
+      </div>
+      <hr>
+      <div class="row">
         <div class="col-lg-12">
           <div id="disqus_thread"></div>
             <script>
@@ -106,22 +126,6 @@
               })();
             </script>
           </div>
-      </div>
-      <hr>
-      <div class="row">
-        <div class="col-lg-12 text-center">
-          <a href="https://github.com/Kalimaha" target="_blank">
-            <i class="fa fa-github fa-2x"></i>
-          </a>
-          &nbsp;&nbsp;&nbsp;
-          <a href="https://twitter.com/Kalimaha" target="_blank">
-            <i class="fa fa-twitter fa-2x"></i>
-          </a>
-          &nbsp;&nbsp;&nbsp;
-          <a href="https://au.linkedin.com/in/guidobarbaglia" target="_blank">
-            <i class="fa fa-linkedin fa-2x"></i>
-          </a>
-        </div>
       </div>
       <hr>
     </div>
