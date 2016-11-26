@@ -1,0 +1,20 @@
+body {
+  font-family: 'Ubuntu', sans-serif;
+}
+
+a {
+  color: #337ab7;
+  cursor: pointer;
+}
+
+a:link, a:visited, a:hover, a:active {
+  color: #337ab7;
+}
+
+hr {
+  margin: 10px 0 10px 0;
+}
+
+.tile {
+  border: 1px solid #000;
+}

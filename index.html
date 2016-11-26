@@ -1,20 +1,20 @@
 <html>
   <head>
-    <title>Guido Barbaglia - Blog</title>
+    <title>Guido Barbaglia</title>
 
-    <link rel="apple-touch-icon" sizes="57x57" href="icons/apple-icon-57x57.png">
-    <link rel="apple-touch-icon" sizes="60x60" href="icons/apple-icon-60x60.png">
-    <link rel="apple-touch-icon" sizes="72x72" href="icons/apple-icon-72x72.png">
-    <link rel="apple-touch-icon" sizes="76x76" href="icons/apple-icon-76x76.png">
-    <link rel="apple-touch-icon" sizes="114x114" href="icons/apple-icon-114x114.png">
-    <link rel="apple-touch-icon" sizes="120x120" href="icons/apple-icon-120x120.png">
-    <link rel="apple-touch-icon" sizes="144x144" href="icons/apple-icon-144x144.png">
-    <link rel="apple-touch-icon" sizes="152x152" href="icons/apple-icon-152x152.png">
-    <link rel="apple-touch-icon" sizes="180x180" href="icons/apple-icon-180x180.png">
-    <link rel="icon" type="image/png" sizes="192x192"  href="icons/android-icon-192x192.png">
-    <link rel="icon" type="image/png" sizes="32x32" href="icons/favicon-32x32.png">
-    <link rel="icon" type="image/png" sizes="96x96" href="icons/favicon-96x96.png">
-    <link rel="icon" type="image/png" sizes="16x16" href="icons/favicon-16x16.png">
+    <link rel="apple-touch-icon" sizes="57x57" href="src/icons/apple-icon-57x57.png">
+    <link rel="apple-touch-icon" sizes="60x60" href="src/icons/apple-icon-60x60.png">
+    <link rel="apple-touch-icon" sizes="72x72" href="src/icons/apple-icon-72x72.png">
+    <link rel="apple-touch-icon" sizes="76x76" href="src/icons/apple-icon-76x76.png">
+    <link rel="apple-touch-icon" sizes="114x114" href="src/icons/apple-icon-114x114.png">
+    <link rel="apple-touch-icon" sizes="120x120" href="src/icons/apple-icon-120x120.png">
+    <link rel="apple-touch-icon" sizes="144x144" href="src/icons/apple-icon-144x144.png">
+    <link rel="apple-touch-icon" sizes="152x152" href="src/icons/apple-icon-152x152.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="src/icons/apple-icon-180x180.png">
+    <link rel="icon" type="image/png" sizes="192x192"  href="src/icons/android-icon-192x192.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="src/icons/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="96x96" href="src/icons/favicon-96x96.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="src/icons/favicon-16x16.png">
     <link rel="manifest" href="/manifest.json">
     <meta name="msapplication-TileColor" content="#ffffff">
     <meta name="msapplication-TileImage" content="/ms-icon-144x144.png">
@@ -29,36 +29,52 @@
     <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css?family=Ubuntu" rel="stylesheet">
-
-    <style type="text/css">
-      body {
-        font-family: 'Ubuntu', sans-serif;
-      }
-    </style>
+    <link href="src/css/guido-barbaglia.css" rel="stylesheet">
 
     <script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/handlebars.js/4.0.6/handlebars.min.js"></script>
+    <script src="src/js/main.js"></script>
     <script>
       (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
       (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
       m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
       })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
-
       ga('create', 'UA-87710589-1', 'auto');
       ga('send', 'pageview');
-
     </script>
   </head>
 
-  <body>
-    <div class="container text-center">
-      <h1>
-        Welcome
-      </h1>
+  <body onload="load('home_page');">
+    <br>
+    <div class="container">
       <hr>
-      <h3>
-        Work in Progress.
-      </h3>
+      <h4 class="text-center">
+        <a onclick="load('home_page');">
+          Guido Barbaglia
+        </a>
+      </h4>
+      <hr>
+      <br>
+      <div id="placeholder"></div>
+      <br>
+      <hr>
+      <div class="row">
+        <div class="col-lg-12 text-center">
+          <a href="https://github.com/Kalimaha" target="_blank">
+            <i class="fa fa-github fa-2x"></i>
+          </a>
+          &nbsp;&nbsp;&nbsp;
+          <a href="https://twitter.com/Kalimaha" target="_blank">
+            <i class="fa fa-twitter fa-2x"></i>
+          </a>
+          &nbsp;&nbsp;&nbsp;
+          <a href="https://au.linkedin.com/in/guidobarbaglia" target="_blank">
+            <i class="fa fa-linkedin fa-2x"></i>
+          </a>
+        </div>
+      </div>
+      <hr>
     </div>
   </body>
 </html>
