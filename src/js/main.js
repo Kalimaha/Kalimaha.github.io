@@ -1,17 +1,53 @@
-const load = template_name => {
-  $.ajax({
-    url: `src/templates/${template_name}.handlebars`,
+const build_page = () => {
+  load_template('imports')
+  load_template('social')
+  load_google_analytics()
+  load_disqus()
+  load_social_media()
+}
 
-    success:  function(content) { render(content, template_name) },
-    error:    function(error)   { load('404') }
+const load_template = (id) => {
+  $.ajax({
+    url: `../src/templates/${id}.hbs`,
+
+    success:  function(content) {
+      const source    = $(content).filter(`#${id}`).html()
+      const template  = Handlebars.compile(source)
+      const html      = template({})
+
+      $(`#${id}`).html(html)
+    }
   })
 }
 
-const render = (content, template_name) => {
-  const source        = $(content).filter(`#${template_name}`).html() ||
-                        $(content).filter('#404').html()
-  const template      = Handlebars.compile(source)
-  const html          = template({})
+const load_google_analytics = () => {
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+  ga('create', 'UA-87710589-1', 'auto');
+  ga('send', 'pageview');
+}
 
-  $('#placeholder').html(html)
+const load_disqus = () => {
+  (function() {
+    var d = document, s = d.createElement('script');
+    s.src = '//guido-barbaglia.disqus.com/embed.js';
+    s.setAttribute('data-timestamp', +new Date());
+    (d.head || d.body).appendChild(s);
+  })();
+}
+
+const load_social_media = () => {
+  const title = $(document).find('title').text()
+  const url   = window.location.href
+
+  setTimeout(function() {
+    $('#twitter').attr('href', `http://twitter.com/intent/tweet?status=${title}+${url}`)
+    $('#facebook').attr('href', `http://www.facebook.com/sharer/sharer.php?u=${url}&title=${title}`)
+    $('#google-plus').attr('href', `https://plus.google.com/share?url=${url}`)
+    $('#reddit').attr('href', `http://www.reddit.com/submit?url=${url}&title=${title}`)
+    $('#linkedin').attr('href', `http://www.linkedin.com/shareArticle?mini=true&url=${url}&title=${title}`)
+    console.log('social media links loaded')
+  }, 3000)
 }

@@ -1,5 +1,5 @@
 body {
-  font-family: 'Ubuntu', sans-serif;
+  font-family: 'Roboto' !important;
 }
 
 hr {
@@ -10,6 +10,7 @@ hr {
   border: 1px solid #000;
 }
 
-.jssocials-share-link {
-  border-radius: 50%;
+a, a:link, a:visited, a:active {
+  cursor: pointer;
+  color: #000;
 }
