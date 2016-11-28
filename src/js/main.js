@@ -39,7 +39,7 @@ const load_disqus = () => {
 }
 
 const load_social_media = () => {
-  const title = $(document).find('title').text()
+  const title = $(document).find('title').text().trim()
   const url   = window.location.href
 
   setTimeout(function() {

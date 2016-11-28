@@ -1,5 +1,10 @@
 body {
   font-family: 'Roboto' !important;
+  background-color: #eee;
+}
+
+.container {
+  background-color: #fff;
 }
 
 hr {
