@@ -19,3 +19,13 @@ a, a:link, a:visited, a:active {
   cursor: pointer;
   color: #000;
 }
+
+pre {
+  padding: 0;
+  margin: 0;
+  background-color: #f0f0f0;
+}
+
+p {
+  font-size: 18px;
+}

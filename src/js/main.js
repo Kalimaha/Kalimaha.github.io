@@ -1,21 +1,22 @@
-const build_page = () => {
+const build_page = (post_title) => {
   load_template('imports')
   load_template('social')
   load_google_analytics()
+  load_template(post_title, 'post_content')
   load_disqus()
   load_social_media()
 }
 
-const load_template = (id) => {
+const load_template = (templateID, divID = templateID) => {
   $.ajax({
-    url: `../src/templates/${id}.hbs`,
+    url: `../src/templates/${templateID}.hbs`,
 
     success:  function(content) {
-      const source    = $(content).filter(`#${id}`).html()
+      const source    = $(content).filter(`#${templateID}`).html()
       const template  = Handlebars.compile(source)
       const html      = template({})
 
-      $(`#${id}`).html(html)
+      $(`#${divID}`).html(html)
     }
   })
 }
