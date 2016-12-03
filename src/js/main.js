@@ -53,15 +53,15 @@ const load_disqus = () => {
 }
 
 const load_social_media = () => {
-  const title = $(document).find('title').text().trim()
-  const url   = window.location.href
+  const title     = $(document).find('title').text().trim()
+  const base_url  = 'http://guido-barbaglia.blog'
+  const url       = base_url + window.location.pathname
 
   setTimeout(function() {
-    $('#twitter').attr('href', `http://twitter.com/intent/tweet?status=${title}+${url}`)
+    $('#twitter').attr('href', `https://twitter.com/intent/tweet?text=${title}&url=${url}&via=Kalimaha`)
     $('#facebook').attr('href', `http://www.facebook.com/sharer/sharer.php?u=${url}&title=${title}`)
     $('#google-plus').attr('href', `https://plus.google.com/share?url=${url}`)
     $('#reddit').attr('href', `http://www.reddit.com/submit?url=${url}&title=${title}`)
     $('#linkedin').attr('href', `http://www.linkedin.com/shareArticle?mini=true&url=${url}&title=${title}`)
-    console.log('social media links loaded')
   }, 3000)
 }
