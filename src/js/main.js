@@ -12,13 +12,17 @@ const load_markdown = (templateID, divID = templateID) => {
     url: `../src/markdown/${templateID}.md`,
 
     success:  function(content) {
-      const converter = new showdown.Converter()
+      const converter = new showdown.Converter({'tables': true})
       const html      = converter.makeHtml(content)
 
       $(`#${divID}`).html(html)
 
-      hljs.highlightBlock($('pre').get(0))
+      const pres = $('pre')
+      for (var idx of Array(pres.length).keys()) { hljs.highlightBlock(pres.get(idx)) }
+      // [...Array(pres.length)].map((_, idx) => hljs.highlightBlock(pres.get(idx)))
+
       $('a').addClass('keyword')
+      $('table').addClass('table table-striped table-bordered table-condensed table-hover')
     }
   })
 }
