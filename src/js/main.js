@@ -2,9 +2,24 @@ const build_page = (post_title) => {
   load_template('imports')
   load_template('social')
   load_google_analytics()
-  load_template(post_title, 'post_content')
+  load_markdown(post_title, 'post_content')
   load_disqus()
   load_social_media()
+}
+
+const load_markdown = (templateID, divID = templateID) => {
+  $.ajax({
+    url: `../src/markdown/${templateID}.md`,
+
+    success:  function(content) {
+      const converter = new showdown.Converter()
+      const html      = converter.makeHtml(content)
+
+      $(`#${divID}`).html(html)
+
+      hljs.highlightBlock($('pre').get(0))
+    }
+  })
 }
 
 const load_template = (templateID, divID = templateID) => {
@@ -13,10 +28,8 @@ const load_template = (templateID, divID = templateID) => {
 
     success:  function(content) {
       const source    = $(content).filter(`#${templateID}`).html()
-      const template  = Handlebars.compile(source)
-      const html      = template({})
 
-      $(`#${divID}`).html(html)
+      $(`#${divID}`).html(source)
     }
   })
 }

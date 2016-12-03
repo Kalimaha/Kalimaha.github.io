@@ -1,6 +1,8 @@
 body {
   font-family: 'Roboto' !important;
-  background-color: #eee;
+  /*background-color: #eee;*/
+  background-image: url('../images/clouds.jpg');
+  background-repeat: repeat;
 }
 
 .container {
