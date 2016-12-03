@@ -18,6 +18,7 @@ const load_markdown = (templateID, divID = templateID) => {
       $(`#${divID}`).html(html)
 
       hljs.highlightBlock($('pre').get(0))
+      $('a').addClass('keyword')
     }
   })
 }
@@ -27,7 +28,7 @@ const load_template = (templateID, divID = templateID) => {
     url: `../src/templates/${templateID}.hbs`,
 
     success:  function(content) {
-      const source    = $(content).filter(`#${templateID}`).html()
+      const source    = $(content).filter(`#${templateID}`).html().trim()
 
       $(`#${divID}`).html(source)
     }
