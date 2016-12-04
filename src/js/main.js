@@ -1,5 +1,5 @@
 const build_page = (post_title) => {
-  load_template('imports')
+  // load_template('imports')
   load_template('social')
   load_google_analytics()
   load_markdown(post_title, 'post_content')
