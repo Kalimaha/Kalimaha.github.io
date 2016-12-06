@@ -6,6 +6,18 @@
             http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd">
   <url>
     <loc>http://guido-barbaglia.blog/</loc>
-    <changefreq>weekly</changefreq>
+    <lastmod>2016-12-05T21:06:50+00:00</lastmod>
+  </url>
+  <url>
+    <loc>http://guido-barbaglia.blog/index.html</loc>
+    <lastmod>2016-12-05T21:06:50+00:00</lastmod>
+  </url>
+  <url>
+    <loc>http://guido-barbaglia.blog/about.html</loc>
+    <lastmod>2016-12-05T21:06:50+00:00</lastmod>
+  </url>
+  <url>
+    <loc>http://guido-barbaglia.blog/posts/use_docker_to_run_flask_based_rest_services.html</loc>
+    <lastmod>2016-12-05T21:06:50+00:00</lastmod>
   </url>
 </urlset>
