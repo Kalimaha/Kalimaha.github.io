@@ -10,20 +10,40 @@
     <meta name="description" content="This post explains how to setup a REST web service developed with Flask and how to run it through Docker.">
     <meta name="keywords" content="docker, flask, python, rest, tutorial, howto">
     <meta name="robots" content="index,follow">
-    
+
     <script type="application/ld+json">
       {
-        "@context": "http://schema.org", 
-        "@type": "BlogPosting",
-        "headline": "Use Docker to run Flask-based REST services",
-        "image": "http://guido-barbaglia.blog/src/images/docker.png",
-        "editor": "Guido Barbaglia", 
-        "genre": "tutorial", 
-        "keywords": "docker, flask, python, rest, tutorial, howto", 
-        "url": "http://guido-barbaglia.blog/posts/use_docker_to_run_flask_based_rest_services.html",
+        "@context":"http://schema.org",
+        "@type":"BlogPosting",
+        "mainEntityOfPage": {
+          "@type": "WebPage",
+          "@id": "http://guido-barbaglia.blog/posts/use_docker_to_run_flask_based_rest_services.html"
+        },
+        "headline":"Use Docker to run Flask-based REST services",
+        "description":"This post explains how to setup a REST web service developed with Flask and how to run it through Docker.",
+        "author": {
+        	"@type": "Person",
+            "name": "Guido Barbaglia"
+        },
         "datePublished": "2016-12-05",
-        "description": "This post explains how to setup a REST web service developed with Flask and how to run it through Docker."
-     }
+        "dateModified": "2016-12-05",
+        "publisher": {
+          "@type": "Organization",
+          "name": "Guido Barbaglia",
+          "logo": {
+            "@type": "ImageObject",
+            "url": "http://guido-barbaglia.blog/src/images/portrait.jpg",
+            "width": "150",
+            "height": 60
+          }
+        },
+        "image": {
+          "@type": "ImageObject",
+          "url": "http://guido-barbaglia.blog/src/images/docker.png",
+          "height": 150,
+          "width": "150"
+        }
+      }
     </script>
 
     <link rel="shortcut icon" href="../src/icons/favicon.ico">
@@ -40,7 +60,7 @@
     <script src="../src/js/main.js"></script>
   </head>
 
-  <body>
+  <body onload="build_page('use_docker_to_run_flask_based_rest_services');">
     <br class="hidden-xs hidden-sm">
     <br class="hidden-xs hidden-sm">
     <div class="container">
@@ -86,9 +106,6 @@
             <div id="post_content"></div>
           </article>
         </div>
-        <script>
-          build_page('use_docker_to_run_flask_based_rest_services');
-        </script>
       </div>
       <br>
       <hr>
