@@ -1,0 +1,127 @@
+<html>
+  <head>
+    <title>Use Docker to run Flask-based REST services</title>
+
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="format-detection" content="telephone=no">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <meta name="description" content="This post explains how to setup a REST web service developed with Flask and how to run it through Docker.">
+    <meta name="keywords" content="docker, flask, python, rest, tutorial, howto">
+    <meta name="robots" content="index,follow">
+
+    <script type="application/ld+json">
+      {
+        "@context":"http://schema.org",
+        "@type":"BlogPosting",
+        "mainEntityOfPage": {
+          "@type": "WebPage",
+          "@id": "http://guido-barbaglia.blog/posts/use_docker_to_run_flask_based_rest_services.html"
+        },
+        "headline":"Use Docker to run Flask-based REST services",
+        "description":"This post explains how to setup a REST web service developed with Flask and how to run it through Docker.",
+        "author": {
+        	"@type": "Person",
+            "name": "Guido Barbaglia"
+        },
+        "datePublished": "2016-12-05",
+        "dateModified": "2016-12-05",
+        "publisher": {
+          "@type": "Organization",
+          "name": "Guido Barbaglia",
+          "logo": {
+            "@type": "ImageObject",
+            "url": "http://guido-barbaglia.blog/src/images/portrait.jpg",
+            "width": "150",
+            "height": 60
+          }
+        },
+        "image": {
+          "@type": "ImageObject",
+          "url": "http://guido-barbaglia.blog/src/images/docker.png",
+          "height": 150,
+          "width": "150"
+        }
+      }
+    </script>
+
+    <link rel="shortcut icon" href="../src/icons/favicon.ico">
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet">
+    <link href="../src/css/guido-barbaglia.css" rel="stylesheet">
+    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.8.0/styles/default.min.css">
+
+    <script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.8.0/highlight.min.js"></script>
+    <script src="//cdn.rawgit.com/showdownjs/showdown/1.5.1/dist/showdown.min.js"></script>
+    <script src="../src/js/main.js"></script>
+  </head>
+
+  <body onload="build_page('use_docker_to_run_flask_based_rest_services');">
+    <br class="hidden-xs hidden-sm">
+    <br class="hidden-xs hidden-sm">
+    <div class="container">
+      <hr>
+      <h4 class="text-center">
+        <a href="../index.html">Home</a>
+      </h4>
+      <hr>
+      <br>
+
+      <div class='row'>
+        <div class='col-lg-4 hidden-xs hidden-sm hidden-md hidden-print'>
+          <img  src='../src/images/use_docker_to_run_flask_based_rest_services.png'
+                class='img-responsive img-circle center-block'
+                style="border: 1px solid #000;" >
+          <br>
+        </div>
+        <div class='col-lg-8'>
+          <div class='row text-justify'>
+            <div class='col-lg-11'>
+              <p style='font-size: 22px; font-weight: 100;'>
+                This post explains how to setup a REST web service developed
+                with <a href="http://flask.pocoo.org/" target="_blank"><u>Flask</u></a>
+                and how to run it through
+                <a href="https://www.docker.com/" target="_blank"><u>Docker</u></a>.
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+      <hr>
+      <div class='row'>
+        <div class='col-lg-12'>
+          <article>
+            <div id="post_content"></div>
+          </article>
+        </div>
+      </div>
+      <br>
+      <hr>
+      <div class="row">
+        <div class="col-lg-12 text-center">
+          <div id="social"></div>
+        </div>
+      </div>
+      <hr>
+      <div class="row">
+        <div class="col-lg-12">
+          <div id="disqus_thread"></div>
+        </div>
+      </div>
+      <hr>
+      <script src="//z-na.amazon-adsystem.com/widgets/onejs?MarketPlace=US&adInstanceId=03df545c-279d-4a52-a4e4-f6e790dd0f1c&storeId=guidobarbagli-20"></script>
+      <hr>
+      <p class="text-center">
+        &copy; 2016 Guido Barbaglia
+      </p>
+      <hr>
+    </div>
+    <div id="imports"></div>
+    <br class="hidden-xs hidden-sm">
+    <br class="hidden-xs hidden-sm">
+  </body>
+</html>
