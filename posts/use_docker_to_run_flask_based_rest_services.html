@@ -1,127 +1,370 @@
 <html>
-  <head>
-    <title>Use Docker to run Flask-based REST services</title>
+    <head>
+      <title>Use docker to run Flask based REST services</title>
 
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <meta name="format-detection" content="telephone=no">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-    <meta name="description" content="This post explains how to setup a REST web service developed with Flask and how to run it through Docker.">
-    <meta name="keywords" content="docker, flask, python, rest, tutorial, howto">
-    <meta name="robots" content="index,follow">
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+      <meta name="format-detection" content="telephone=no">
+      <meta http-equiv="X-UA-Compatible" content="IE=edge">
+      <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+      <meta name="description" content="{description}">
+      <meta name="keywords" content="{keywords}">
+      <meta name="robots" content="index,follow">
 
-    <script type="application/ld+json">
-      {
-        "@context":"http://schema.org",
-        "@type":"BlogPosting",
-        "mainEntityOfPage": {
-          "@type": "WebPage",
-          "@id": "http://guido-barbaglia.blog/posts/use_docker_to_run_flask_based_rest_services.html"
-        },
-        "headline":"Use Docker to run Flask-based REST services",
-        "description":"This post explains how to setup a REST web service developed with Flask and how to run it through Docker.",
-        "author": {
-        	"@type": "Person",
-            "name": "Guido Barbaglia"
-        },
-        "datePublished": "2016-12-05",
-        "dateModified": "2016-12-05",
-        "publisher": {
-          "@type": "Organization",
-          "name": "Guido Barbaglia",
-          "logo": {
+      <script type="application/ld+json">
+        {
+          "@context":"http://schema.org",
+          "@type":"BlogPosting",
+          "mainEntityOfPage": {
+            "@type": "WebPage",
+            "@id": "http://guido-barbaglia.blog/posts/use_docker_to_run_flask_based_rest_services.html"
+          },
+          "headline":"Use docker to run Flask based REST services",
+          "description":"&lt;h2 id&#x3D;&quot;thispostexplainshowtosetuparestwebservicedevelopedwithflaskhttpflaskpocooorgandhowtorunitthroughdockerhttpswwwdockercom&quot;&gt;This post explains how to setup a REST web service developed with &lt;a href&#x3D;&quot;http://flask.pocoo.org/&quot;&gt;Flask&lt;/a&gt; and how to run it through &lt;a href&#x3D;&quot;https://www.docker.com/&quot;&gt;Docker&lt;/a&gt;.&lt;/h2&gt;",
+          "author": {
+              "@type": "Person",
+              "name": "Guido Barbaglia"
+          },
+          "datePublished": "2016-12-07T11:23:37.183Z",
+          "dateModified": "2016-12-07T11:23:37.183Z",
+          "publisher": {
+            "@type": "Organization",
+            "name": "Guido Barbaglia",
+            "logo": {
+              "@type": "ImageObject",
+              "url": "http://guido-barbaglia.blog/src/images/portrait.jpg",
+              "width": "150",
+              "height": 60
+            }
+          },
+          "image": {
             "@type": "ImageObject",
-            "url": "http://guido-barbaglia.blog/src/images/portrait.jpg",
-            "width": "150",
-            "height": 60
+            "url": "http://guido-barbaglia.blog/src/images/use_docker_to_run_Flask_based_REST_services.png",
+            "height": 150,
+            "width": "150"
           }
-        },
-        "image": {
-          "@type": "ImageObject",
-          "url": "http://guido-barbaglia.blog/src/images/docker.png",
-          "height": 150,
-          "width": "150"
         }
-      }
-    </script>
+      </script>
 
-    <link rel="shortcut icon" href="../src/icons/favicon.ico">
-    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet">
-    <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet">
-    <link href="../src/css/guido-barbaglia.css" rel="stylesheet">
-    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.8.0/styles/default.min.css">
+      <link rel="shortcut icon" href="../src/icons/favicon.ico">
+      <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet">
+      <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
+      <link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet">
+      <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.8.0/styles/default.min.css">
+        <link href="../src/css/guido-barbaglia.css" rel="stylesheet">
 
-    <script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
-    <script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.8.0/highlight.min.js"></script>
-    <script src="//cdn.rawgit.com/showdownjs/showdown/1.5.1/dist/showdown.min.js"></script>
-    <script src="../src/js/main.js"></script>
-  </head>
+      <script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
+      <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.8.0/highlight.min.js"></script>
+      <script src="https://cdn.rawgit.com/showdownjs/showdown/1.5.1/dist/showdown.min.js"></script>
+      <script src="../src/js/main.js"></script>
 
-  <body onload="build_page('use_docker_to_run_flask_based_rest_services');">
-    <br class="hidden-xs hidden-sm">
-    <br class="hidden-xs hidden-sm">
-    <div class="container">
-      <hr>
-      <h4 class="text-center">
-        <a href="../index.html">Home</a>
-      </h4>
-      <hr>
-      <br>
+      <script>
+        function enhance() {
+            const pres = $('pre');
+            for (var idx of Array(pres.length).keys()) { hljs.highlightBlock(pres.get(idx)) }
+            $('table').addClass('table table-striped table-bordered table-condensed table-hover');
+            $('a').addClass('keyword');
+        }
+      </script>
+    </head>
 
-      <div class='row'>
-        <div class='col-lg-4 hidden-xs hidden-sm hidden-md hidden-print'>
-          <img  src='../src/images/docker.png'
-                class='img-responsive img-circle center-block'
-                style="border: 1px solid #000;" >
-          <br>
-        </div>
-        <div class='col-lg-8'>
-          <div class='row text-justify'>
-            <div class='col-lg-11'>
-              <p style='font-size: 22px; font-weight: 100;'>
-                This post explains how to setup a REST web service developed
-                with <a href="http://flask.pocoo.org/" target="_blank"><u>Flask</u></a>
-                and how to run it through
-                <a href="https://www.docker.com/" target="_blank"><u>Docker</u></a>.
-              </p>
+    <body onload="enhance();">
+      <br class="hidden-xs hidden-sm">
+      <br class="hidden-xs hidden-sm">
+      <div class="container">
+        <hr>
+        <h4 class="text-center">
+          <a href="../">Home</a>
+        </h4>
+        <hr>
+        <br>
+
+        <div class='row'>
+          <div class='col-lg-4 hidden-xs hidden-sm hidden-md hidden-print'>
+            <img  src='../src/images/use_docker_to_run_Flask_based_REST_services.png'
+                  class='img-responsive img-circle center-block'
+                  style="border: 1px solid #000;" >
+            <br>
+          </div>
+          <div class='col-lg-8'>
+            <div class='row text-justify'>
+              <div class='col-lg-11'>
+                <p style='font-size: 22px; font-weight: 100;'>
+                  <h2 id="thispostexplainshowtosetuparestwebservicedevelopedwithflaskhttpflaskpocooorgandhowtorunitthroughdockerhttpswwwdockercom">This post explains how to setup a REST web service developed with <a href="http://flask.pocoo.org/">Flask</a> and how to run it through <a href="https://www.docker.com/">Docker</a>.</h2>
+                </p>
+              </div>
             </div>
           </div>
         </div>
-      </div>
-      <hr>
-      <div class='row'>
-        <div class='col-lg-12'>
-          <article>
-            <div id="post_content"></div>
-          </article>
+        <hr>
+        <div class='row'>
+          <div class='col-lg-12'>
+            <article>
+                <h1 id="usedockertorunflaskbasedrestservices">Use Docker to run Flask-based REST services</h1>
+<p><hr>
+<br></p>
+<p>Many articles of this kind exist, but most of these tutorials start from
+the easiest <a href="http://flask.pocoo.org/">Flask</a> example possible:</p>
+<pre><code>from flask import Flask
+
+
+app = Flask(__name__)
+
+
+@app.route("/")
+def hello():
+    return "Hello World!"
+
+if __name__ == "__main__":
+    app.run()
+</code></pre>
+<p><br>
+Although these examples are very useful to understand the Docker setup,
+the objective of this post is to present a situation that is closer
+(<em>just a little bit</em>) to the real life. The final Docker image will contain
+the REST services, and it will be possible to install the whole application
+on any machine supporting Docker. In addition to having a fully functional
+web application that can be quickly deployed, this approach also allows
+the versioning, the configurability, the portability and the share of the
+deploy objects, a.k.a. the Docker images.</p>
+<h1 id="architecture">Architecture</h1>
+<p>The architecture is composed by two back-end modules: the main REST service
+and an additional service implemented as a Flask blueprint. A <a href="http://flask.pocoo.org/docs/0.10/blueprints/">Flask blueprint</a> “<em>works similarly to
+a Flask application object, but it is not actually an application. Rather it
+is a blueprint of how to construct or extend an application</em>“.
+The use of such objects allows the implementation of a modular back-end.</p>
+<p><img class="img-responsive center-block" src="../src/images/simple_flask_01.png"></p>
+<p>Back-end projects have been organized in a core and a rest package to isolate
+even more the responsibilities of each element. The structure of such projects
+is shown below:</p>
+<pre><code>simple_flask/
+├── requirements.txt
+├── setup.py
+├── simple_flask
+│   ├── core
+│   │   └── core.py
+│   └── rest
+│       └── rest.py
+└── simple_flask_test
+    ├── core
+    │   └── core_test.py
+    └── rest
+        └── rest_test.py
+</code></pre>
+<p><br></p>
+<p>Enters Docker. The final goal is to encapsulate the whole application
+inside Docker. As shown in the next figure this process will be seamless for
+the final user, that will keep interacting with the application with no extra
+settings required.</p>
+<p><img class="img-responsive center-block" src="../src/images/simple_flask_02.png"></p>
+<h1 id="sourcecode">Source Code</h1>
+<p>The source code of all the projects used in this tutorial is available on
+GitHub: feel free to download, fork and/or star it!</p>
+<table>
+<thead>
+<tr>
+<th>Project</th>
+<th>URL</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Simple Flask</td>
+<td><a href="https://github.com/Kalimaha/simple_flask">https://github.com/Kalimaha/simple_flask</a></td>
+</tr>
+<tr>
+<td>Simple Flask Blueprint</td>
+<td><a href="https://github.com/Kalimaha/simple_flask_blueprint">https://github.com/Kalimaha/simple<em>flask</em>blueprint</a></td>
+</tr>
+<tr>
+<td>Simple Flask Dockerizer</td>
+<td><a href="https://github.com/Kalimaha/simple_flask_dockerizer">https://github.com/Kalimaha/simple<em>flask</em>dockerizer</a></td>
+</tr>
+</tbody>
+</table>
+<h1 id="flaskblueprint">Flask Blueprint</h1>
+<p>As mentioned before blueprints are objects used to create a modular
+application. This simple component follows the structure previously described
+and contains a core library and, of course, a blueprint. The only function of
+the core is used to greet the user:</p>
+<pre><code>def say_hallo(name=None):
+  s = 'Hallo ' + str(name) + '!' if name is not None else 'Hallo!'
+  return s
+</code></pre>
+<p><br></p>
+<p>The blueprint itself is very simple as well: it exposes two routes to greet
+the user, one generic, and one customizable with the user name. The resulting
+service takes advantage of the core library to do so:</p>
+<pre><code>from flask import Blueprint
+from simple_flask_blueprint.core.blueprint_core import say_hallo
+
+
+bp = Blueprint('simple_flask_blueprint', __name__)
+
+
+@bp.route('/')
+def say_hallo_service():
+    return say_hallo()
+
+@bp.route('/&amp;lt;name&amp;gt;/')
+def say_hallo_to_guest_service(name):
+    return say_hallo(name)
+</code></pre>
+<p><br></p>
+<p>As shown by the code the development of the service is very similar to the
+standard Flask, with the only exception of the Blueprint object declared at
+line 5.</p>
+<h1 id="flaskrestservice">Flask REST Service</h1>
+<p>The main back-end module has a core library as well, with the same
+<code>say_hallo</code> function, which returns a message that is only slightly
+different from the previous one:</p>
+<pre><code>s = 'Hallo ' + str(name) + ' from CORE!' if name is not None else 'Hallo from CORE!'
+</code></pre>
+<p><br></p>
+<p>This difference will be used to test that both the main service and the
+blueprint are working correctly. The main REST service, defined in <code>rest.py</code>,
+register the blueprint on the <code>/blueprint</code> entry point as follows:</p>
+<pre><code>from simple_flask_blueprint.rest.blueprint_rest import bp
+
+
+class RootREST:
+
+    def __init__(self, host, run_flask):
+        [...]
+        self.app.register_blueprint(bp, url_prefix='/blueprint')
+</code></pre>
+<p><br></p>
+<p>In addition to that the <code>RootREST</code> class exposes two routes, similar to the
+ones described for the blueprint, but it also starts the Flask engine:</p>
+<pre><code>if self.run_flask:
+    self.app.run(host=self.host, debug=True)
+</code></pre>
+<p><br></p>
+<p>Once the engine is up and running, it is possible to invoke the REST service
+through the browser at <a href="http://localhost:5000/">http://localhost:5000/</a>
+(<em>that will display <code>Hallo from CORE!</code></em>) or
+<a href="http://localhost:5000/Kalimaha/">http://localhost:5000/Kalimaha/</a>
+(<em>which will display <code>Hallo Kalimaha from CORE!</code> instead</em>).</p>
+<p>As mentioned before the service has been designed to be modular through the
+use of blueprints. It is possible to test such blueprint by hitting the
+<a href="http://localhost:5000/blueprint/">http://localhost:5000/blueprint/</a> URL
+(<code>Hallo!</code>), or
+<a href="http://localhost:5000/blueprint/Kalimaha/">http://localhost:5000/blueprint/Kalimaha/</a>
+(<code>Hallo Kalimaha!</code>).</p>
+<h1 id="docker">Docker</h1>
+<p>The most important file is the
+<a href="https://github.com/Kalimaha/simple_flask_dockerizer/blob/master/Dockerfile">Dockerfile</a>,
+that basically tells Docker what to do. Some parts of this file deserve
+to be highlighted, starting with:</p>
+<pre><code>FROM ubuntu:14.04
+RUN apt-get update
+</code></pre>
+<p><br></p>
+<p>These instructions generate a new container starting from
+<a href="http://www.ubuntu.com/">Ubuntu</a> and update its repositories.
+In the next step Docker is instructed to install
+<a href="https://www.python.org/">Python</a>, and few other useful things, such as
+<a href="https://virtualenv.pypa.io/en/latest/">Virtualenv</a>, in the newly create
+container:</p>
+<pre><code>RUN apt-get install -y -q build-essential python-gdal python-simplejson
+RUN apt-get install -y python python-pip wget
+RUN apt-get install -y python-dev
+RUN pip install virtualenv
+</code></pre>
+<p><br></p>
+<p>Subsequently the script creates a folder for the source code, creates and
+run a virtual environment in it, and finally adds and installs all the
+requirements:</p>
+<pre><code>RUN mkdir deployment
+ADD requirements.txt /deployment/requirements.txt
+ADD start.py /deployment/start.py
+RUN virtualenv /deployment/env/
+RUN /deployment/env/bin/pip install wheel
+RUN /deployment/env/bin/pip install -r /deployment/requirements.txt
+</code></pre>
+<p><br></p>
+<p>Requirements are specified through a simple text file:</p>
+<pre><code>watchdog
+Flask
+flask-cors
+https://github.com/Kalimaha/simple_flask/archive/master.zip
+https://github.com/Kalimaha/simple_flask_blueprint/archive/master.zip
+</code></pre>
+<p><br></p>
+<p>This file tells Docker to install watchdog, Flask and flask-cors from
+Python repositories, while back-end modules will be retrieved and installed
+straight from their GitHub repositories. The last file required to dockerize
+the project is a simple Python script:</p>
+<pre><code>from simple_flask.rest import rest as rest_engine
+
+
+rest_engine.run_engine('0.0.0.0')
+</code></pre>
+<p><br></p>
+<p>This file imports and run the main REST engine of the application.
+The host of this application has to be set to <code>0.0.0.0</code>, as shown at line 4,
+in order to allow users to access the service inside Docker.
+Time to run the build (<em>and don’t forget the <code>.</code> at the end!</em>):</p>
+<pre><code>docker build -t simple_flask .
+</code></pre>
+<p><br></p>
+<p>Once a new Docker image has been created it is possible to run it through
+the following instruction:</p>
+<pre><code>docker run -it -p 5000:5000 simple_flask /deployment/env/bin/python /deployment/start.py
+</code></pre>
+<p><br></p>
+<p>This instruction runs the <code>simple_flask</code> image (<em>created in the previous step</em>),
+links the internal port 5000 with the host port 5000 (<code>-p 5000:5000</code>), and
+executes, through Virtualenv, the starting script
+(<code>/deployment/env/bin/python /deployment/start.py</code>). It is possible to test
+the service through the URL’s specified in the <em>Flask REST Service section</em>.</p>
+            </article>
+          </div>
         </div>
-      </div>
-      <br>
-      <hr>
-      <div class="row">
-        <div class="col-lg-12 text-center">
-          <div id="social"></div>
+        <br>
+        <hr>
+        <div class="row">
+          <div class="col-lg-12 text-center">
+              <a id="twitter" class="keyword" target="_blank" title="Share it on Twitter" href="https://twitter.com/intent/tweet?text=Use docker to run Flask based REST services&url=http://guido-barbaglia.blog/posts/use_docker_to_run_flask_based_rest_services.html">
+                  <i class="fa fa-twitter fa-2x"></i></a>
+              &nbsp;
+              <a id="linkedin" class="keyword" target="_blank" title="Share it on LinkedIn" href="http://www.linkedin.com/shareArticle?mini=true&url=http://guido-barbaglia.blog/posts/use_docker_to_run_flask_based_rest_services.html&title=Use docker to run Flask based REST services">
+                  <i class="fa fa-linkedin fa-2x"></i></a>
+              &nbsp;
+              <a id="reddit" class="keyword" target="_blank" title="Share it on Reddit" href="http://www.reddit.com/submit?url=http://guido-barbaglia.blog/posts/use_docker_to_run_flask_based_rest_services.html&title=Use docker to run Flask based REST services">
+                  <i class="fa fa-reddit fa-2x"></i></a>
+              &nbsp;
+              <a id="facebook" class="keyword" target="_blank" title="Share it on Facebook" href="http://www.facebook.com/sharer/sharer.php?u=http://guido-barbaglia.blog/posts/use_docker_to_run_flask_based_rest_services.html&title=Use docker to run Flask based REST services">
+                  <i class="fa fa-facebook fa-2x"></i></a>
+              &nbsp;
+              <a id="google-plus" class="keyword" target="_blank" title="Share it on Google+" href="https://plus.google.com/share?url=http://guido-barbaglia.blog/posts/use_docker_to_run_flask_based_rest_services.html">
+                  <i class="fa fa-google-plus fa-2x"></i></a>
+          </div>
         </div>
-      </div>
-      <hr>
-      <div class="row">
-        <div class="col-lg-12">
-          <div id="disqus_thread"></div>
+        <hr>
+        <div class="row">
+          <div class="col-lg-12">
+            <script>
+                (function() {
+                    var d = document, s = d.createElement('script');
+                    s.src = '//guido-barbaglia.disqus.com/embed.js';
+                    s.setAttribute('data-timestamp', +new Date());
+                    (d.head || d.body).appendChild(s);
+                })();
+            </script>
+          </div>
         </div>
+        <hr>
+        <script src="//z-na.amazon-adsystem.com/widgets/onejs?MarketPlace=US&adInstanceId=03df545c-279d-4a52-a4e4-f6e790dd0f1c&storeId=guidobarbagli-20"></script>
+        <hr>
+        <p class="text-center">
+          &copy; 2016 Guido Barbaglia
+        </p>
+        <hr>
       </div>
-      <hr>
-      <script src="//z-na.amazon-adsystem.com/widgets/onejs?MarketPlace=US&adInstanceId=03df545c-279d-4a52-a4e4-f6e790dd0f1c&storeId=guidobarbagli-20"></script>
-      <hr>
-      <p class="text-center">
-        &copy; 2016 Guido Barbaglia
-      </p>
-      <hr>
-    </div>
-    <div id="imports"></div>
-    <br class="hidden-xs hidden-sm">
-    <br class="hidden-xs hidden-sm">
-  </body>
+      <div id="imports"></div>
+      <br class="hidden-xs hidden-sm">
+      <br class="hidden-xs hidden-sm">
+    </body>
 </html>
