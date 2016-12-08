@@ -37,12 +37,14 @@
     const hbs               = grunt.file.read('./src/templates/post.hbs', [null, {encoding: 'utf8'}]);
     const template          = Handlebars.compile(hbs);
 
+    const striptags         = require('striptags');
     const summary_markdown  = grunt.file.read(`./src/summaries/${filename}`, [null, {encoding: 'utf8'}]);
     const summary_content   = converter.makeHtml(summary_markdown);
 
     const html = template({
       title: create_post_title(filename),
-      description: summary_content,
+      description: striptags(summary_content),
+      summary: summary_content,
       html_name: create_html_name(filename),
       logo: create_logo(filename),
       date_published: new Date().toISOString(),

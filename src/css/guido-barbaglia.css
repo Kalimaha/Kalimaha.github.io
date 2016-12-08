@@ -18,7 +18,8 @@ hr {
 
 a, a:link, a:visited, a:active {
   cursor: pointer;
-  color: #000;
+  text-decoration: underline;
+  color: #61AFFF !important;
 }
 
 pre {
@@ -31,7 +32,11 @@ p {
   font-size: 16px;
 }
 
-.keyword {
-  text-decoration: underline;
-  color: #61AFFF !important;
+li {
+  font-size: 16px;
+}
+
+.summary p{
+  font-size: 28px;
+  font-weight: 100;
 }
