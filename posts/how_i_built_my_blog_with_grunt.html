@@ -1,13 +1,15 @@
 <html>
     <head>
-      <title>{{title}}</title>
+      <title>How I built my blog with Grunt</title>
 
       <meta charset="utf-8">
       <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
       <meta name="format-detection" content="telephone=no">
       <meta http-equiv="X-UA-Compatible" content="IE=edge">
       <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-      <meta name="description" content="{{description}}">
+      <meta name="description" content="In the beginning it was WordPress. But then I wanted something more &quot;personal&quot;,
+so I ended up building the whole blog from scratch with the help
+of Grunt.">
       <meta name="robots" content="index,follow">
 
       <script type="application/ld+json">
@@ -16,16 +18,18 @@
           "@type":"BlogPosting",
           "mainEntityOfPage": {
             "@type": "WebPage",
-            "@id": "http://guido-barbaglia.blog/posts/{{html_name}}"
+            "@id": "http://guido-barbaglia.blog/posts/how_i_built_my_blog_with_grunt.html"
           },
-          "headline":"{{title}}",
-          "description":"{{description}}",
+          "headline":"How I built my blog with Grunt",
+          "description":"In the beginning it was WordPress. But then I wanted something more &quot;personal&quot;,
+so I ended up building the whole blog from scratch with the help
+of Grunt.",
           "author": {
               "@type": "Person",
               "name": "Guido Barbaglia"
           },
-          "datePublished": "{{date_published}}",
-          "dateModified": "{{date_modified}}",
+          "datePublished": "2016-12-08T10:10:50.117Z",
+          "dateModified": "2016-12-08T10:10:50.117Z",
           "publisher": {
             "@type": "Organization",
             "name": "Guido Barbaglia",
@@ -38,7 +42,7 @@
           },
           "image": {
             "@type": "ImageObject",
-            "url": "http://guido-barbaglia.blog/src/images/{{logo}}",
+            "url": "http://guido-barbaglia.blog/src/images/how_i_built_my_blog_with_grunt.png",
             "height": 150,
             "width": "150"
           }
@@ -81,7 +85,7 @@
 
         <div class='row'>
           <div class='col-lg-4 hidden-xs hidden-sm hidden-md hidden-print'>
-            <img  src='../src/images/{{logo}}'
+            <img  src='../src/images/how_i_built_my_blog_with_grunt.png'
                   class='img-responsive img-circle center-block'
                   style="border: 1px solid #000;" >
             <br>
@@ -90,7 +94,9 @@
             <div class='row'>
               <div class='col-lg-11'>
                 <div class='summary'>
-                  {{{summary}}}
+                  <p>In the beginning it was WordPress. But then I wanted something more "personal",
+so I ended up building the whole blog from scratch with the help
+of <a href="http://gruntjs.com/">Grunt</a>.</p>
                 </div>
               </div>
             </div>
@@ -100,7 +106,68 @@
         <div class='row'>
           <div class='col-lg-12'>
             <article>
-                {{{content}}}
+                <h1 id="howibuiltmyblogwithgrunt">How I built my blog with Grunt</h1>
+<p><hr>
+<br></p>
+<p>Most of the contents of this blog used to live in <a href="https://kalimadev.wordpress.com/">WordPress</a>, and it was all
+good. But after a while I started noticing small things. For example, the
+analytics is very minimal. Or the editor is quite slow, with a very poor
+support for synthax highlighting (<em>well, basically none</em>). And these are all
+things that I know how to fix! So I decided to move the blog somewhere else,
+and implement all the things as I like them to be! I am a developer after
+all, right? 😎</p>
+<h1 id="customdns">Custom DNS</h1>
+<p>First thing first, I want my name on it! At the time they just started
+selling the new <code>.blog</code> domains, and I got mine at a very affordable price.
+That was easy.</p>
+<h1 id="ithastobefree">It has to be free!</h1>
+<p>The DNS was cheap enough, but what about the hosting? A blog is just a bounce
+of static contents, how much would it cost me? Well, if you host the whole thing
+on GitHub it's all free! Perfect!</p>
+<p>But, how do I connect my domain name with my repository? My first solution was
+to use the <a href="https://it.godaddy.com/">GoDaddy</a>'s redirect feature with
+masking, but... Well, they just take your content and put it in a giant
+<code>&lt;frameset&gt;</code>... Bad GoDaddy!</p>
+<p>So, read the documentation! OK, on the GitHub side, I just had to create a
+file named <code>CNAME</code> in the root of my project and put my domain name in it, as
+simple as:</p>
+<pre><code>guido-barbaglia.blog
+</code></pre>
+<p><br></p>
+<p>On the GoDaddy side (<em>Manage DNS, or something similar</em>), I had to remove
+the default <code>A</code> and <code>CNAME</code> records and add the GitHub ones:</p>
+<table>
+<thead>
+<tr>
+<th>Type</th>
+<th>Name</th>
+<th>Value</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>A</td>
+<td>@</td>
+<td>192.30.252.153</td>
+</tr>
+<tr>
+<td>A</td>
+<td>@</td>
+<td>192.30.252.154</td>
+</tr>
+<tr>
+<td>CNAME</td>
+<td>www</td>
+<td>kalimaha.github.io</td>
+</tr>
+</tbody>
+</table>
+<h1 id="mobilefirst">Mobile first</h1>
+<h1 id="markdownplease">Markdown, please!</h1>
+<h1 id="besocial">Be social</h1>
+<h1 id="feedback">Feedback</h1>
+<h1 id="structureddata">Structured data</h1>
+<h1 id="puttingalltogetherwithgrunt">Putting all together with Grunt</h1>
             </article>
           </div>
         </div>
@@ -108,19 +175,19 @@
         <hr>
         <div class="row">
           <div class="col-lg-12 text-center">
-              <a id="twitter" class="keyword" target="_blank" title="Share it on Twitter" href="https://twitter.com/intent/tweet?text={{title}}&url={{url}}">
+              <a id="twitter" class="keyword" target="_blank" title="Share it on Twitter" href="https://twitter.com/intent/tweet?text=How I built my blog with Grunt&url=http://guido-barbaglia.blog/posts/how_i_built_my_blog_with_grunt.html">
                   <i class="fa fa-twitter fa-2x"></i></a>
               &nbsp;
-              <a id="linkedin" class="keyword" target="_blank" title="Share it on LinkedIn" href="http://www.linkedin.com/shareArticle?mini=true&url={{url}}&title={{title}}">
+              <a id="linkedin" class="keyword" target="_blank" title="Share it on LinkedIn" href="http://www.linkedin.com/shareArticle?mini=true&url=http://guido-barbaglia.blog/posts/how_i_built_my_blog_with_grunt.html&title=How I built my blog with Grunt">
                   <i class="fa fa-linkedin fa-2x"></i></a>
               &nbsp;
-              <a id="reddit" class="keyword" target="_blank" title="Share it on Reddit" href="http://www.reddit.com/submit?url={{url}}&title={{title}}">
+              <a id="reddit" class="keyword" target="_blank" title="Share it on Reddit" href="http://www.reddit.com/submit?url=http://guido-barbaglia.blog/posts/how_i_built_my_blog_with_grunt.html&title=How I built my blog with Grunt">
                   <i class="fa fa-reddit fa-2x"></i></a>
               &nbsp;
-              <a id="facebook" class="keyword" target="_blank" title="Share it on Facebook" href="http://www.facebook.com/sharer/sharer.php?u={{url}}&title={{title}}">
+              <a id="facebook" class="keyword" target="_blank" title="Share it on Facebook" href="http://www.facebook.com/sharer/sharer.php?u=http://guido-barbaglia.blog/posts/how_i_built_my_blog_with_grunt.html&title=How I built my blog with Grunt">
                   <i class="fa fa-facebook fa-2x"></i></a>
               &nbsp;
-              <a id="google-plus" class="keyword" target="_blank" title="Share it on Google+" href="https://plus.google.com/share?url={{url}}">
+              <a id="google-plus" class="keyword" target="_blank" title="Share it on Google+" href="https://plus.google.com/share?url=http://guido-barbaglia.blog/posts/how_i_built_my_blog_with_grunt.html">
                   <i class="fa fa-google-plus fa-2x"></i></a>
           </div>
         </div>
