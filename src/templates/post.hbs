@@ -1,0 +1,153 @@
+<html>
+    <head>
+      <title>{{title}}</title>
+
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+      <meta name="format-detection" content="telephone=no">
+      <meta http-equiv="X-UA-Compatible" content="IE=edge">
+      <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+      <meta name="description" content="{{description}}">
+      <meta name="robots" content="index,follow">
+
+      <script type="application/ld+json">
+        {
+          "@context":"http://schema.org",
+          "@type":"BlogPosting",
+          "mainEntityOfPage": {
+            "@type": "WebPage",
+            "@id": "http://guido-barbaglia.blog/posts/{{html_name}}"
+          },
+          "headline":"{{title}}",
+          "description":"{{description}}",
+          "author": {
+              "@type": "Person",
+              "name": "Guido Barbaglia"
+          },
+          "datePublished": "{{date_published}}",
+          "dateModified": "{{date_modified}}",
+          "publisher": {
+            "@type": "Organization",
+            "name": "Guido Barbaglia",
+            "logo": {
+              "@type": "ImageObject",
+              "url": "http://guido-barbaglia.blog/src/images/portrait.jpg",
+              "width": "150",
+              "height": 60
+            }
+          },
+          "image": {
+            "@type": "ImageObject",
+            "url": "http://guido-barbaglia.blog/src/images/{{logo}}",
+            "height": 150,
+            "width": "150"
+          }
+        }
+      </script>
+
+      <link rel="shortcut icon" href="../src/icons/favicon.ico">
+      <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet">
+      <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
+      <link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet">
+      <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.8.0/styles/default.min.css">
+        <link href="../src/css/guido-barbaglia.css" rel="stylesheet">
+
+      <script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
+      <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.8.0/highlight.min.js"></script>
+      <script src="https://cdn.rawgit.com/showdownjs/showdown/1.5.1/dist/showdown.min.js"></script>
+      <script src="../src/js/main.js"></script>
+
+      <script>
+        function enhance() {
+            const pres = $('pre');
+            for (var idx of Array(pres.length).keys()) { hljs.highlightBlock(pres.get(idx)) }
+            $('table').addClass('table table-striped table-bordered table-condensed table-hover');
+            $('a').addClass('keyword');
+        }
+      </script>
+    </head>
+
+    <body onload="enhance();">
+      <br class="hidden-xs hidden-sm">
+      <br class="hidden-xs hidden-sm">
+      <div class="container">
+        <hr>
+        <h4 class="text-center">
+          <a href="../">Home</a>
+        </h4>
+        <hr>
+        <br>
+
+        <div class='row'>
+          <div class='col-lg-4 hidden-xs hidden-sm hidden-md hidden-print'>
+            <img  src='../src/images/{{logo}}'
+                  class='img-responsive img-circle center-block'
+                  style="border: 1px solid #000;" >
+            <br>
+          </div>
+          <div class='col-lg-8'>
+            <div class='row text-justify'>
+              <div class='col-lg-11'>
+                <p style='font-size: 22px; font-weight: 100;'>
+                  {{{description}}}
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+        <hr>
+        <div class='row'>
+          <div class='col-lg-12'>
+            <article>
+                {{{content}}}
+            </article>
+          </div>
+        </div>
+        <br>
+        <hr>
+        <div class="row">
+          <div class="col-lg-12 text-center">
+              <a id="twitter" class="keyword" target="_blank" title="Share it on Twitter" href="https://twitter.com/intent/tweet?text={{title}}&url={{url}}">
+                  <i class="fa fa-twitter fa-2x"></i></a>
+              &nbsp;
+              <a id="linkedin" class="keyword" target="_blank" title="Share it on LinkedIn" href="http://www.linkedin.com/shareArticle?mini=true&url={{url}}&title={{title}}">
+                  <i class="fa fa-linkedin fa-2x"></i></a>
+              &nbsp;
+              <a id="reddit" class="keyword" target="_blank" title="Share it on Reddit" href="http://www.reddit.com/submit?url={{url}}&title={{title}}">
+                  <i class="fa fa-reddit fa-2x"></i></a>
+              &nbsp;
+              <a id="facebook" class="keyword" target="_blank" title="Share it on Facebook" href="http://www.facebook.com/sharer/sharer.php?u={{url}}&title={{title}}">
+                  <i class="fa fa-facebook fa-2x"></i></a>
+              &nbsp;
+              <a id="google-plus" class="keyword" target="_blank" title="Share it on Google+" href="https://plus.google.com/share?url={{url}}">
+                  <i class="fa fa-google-plus fa-2x"></i></a>
+          </div>
+        </div>
+        <hr>
+        <div class="row">
+          <div class="col-lg-12">
+            <div id="disqus_thread"></div>
+            <script>
+                (function() {
+                    var d = document, s = d.createElement('script');
+                    s.src = '//guido-barbaglia.disqus.com/embed.js';
+                    s.setAttribute('data-timestamp', +new Date());
+                    (d.head || d.body).appendChild(s);
+                })();
+            </script>
+          </div>
+        </div>
+        <hr>
+        <script src="//z-na.amazon-adsystem.com/widgets/onejs?MarketPlace=US&adInstanceId=03df545c-279d-4a52-a4e4-f6e790dd0f1c&storeId=guidobarbagli-20"></script>
+        <hr>
+        <p class="text-center">
+          &copy; 2016 Guido Barbaglia
+        </p>
+        <hr>
+      </div>
+      <div id="imports"></div>
+      <br class="hidden-xs hidden-sm">
+      <br class="hidden-xs hidden-sm">
+    </body>
+</html>

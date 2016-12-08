@@ -1,0 +1,17 @@
+{
+  "name": "guido-barbaglia.blog",
+  "description": "Guido Barbaglia's blog.",
+  "homepage": "https://github.com/Kalimaha/Kalimaha.github.io",
+  "version": "0.1.0",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/Kalimaha/Kalimaha.github.io"
+  },
+  "devDependencies": {
+    "grunt": "^1.0.1",
+    "handlebars": "^4.0.6",
+    "highlight": "^0.2.4",
+    "showdown": "^1.5.1"
+  }
+}

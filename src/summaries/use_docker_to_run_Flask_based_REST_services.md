@@ -1,0 +1,1 @@
+## This post explains how to setup a REST web service developed with [Flask](http://flask.pocoo.org/) and how to run it through [Docker](https://www.docker.com/).
