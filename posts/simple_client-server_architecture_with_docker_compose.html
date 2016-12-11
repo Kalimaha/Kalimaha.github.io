@@ -28,8 +28,8 @@ various components for the deployment.",
               "@type": "Person",
               "name": "Guido Barbaglia"
           },
-          "datePublished": "2016-12-11T05:02:54.000Z",
-          "dateModified": "2016-12-11T05:02:54.000Z",
+          "datePublished": "2016-12-11T07:27:08.470Z",
+          "dateModified": "2016-12-11T07:27:08.470Z",
           "publisher": {
             "@type": "Organization",
             "name": "Guido Barbaglia",
@@ -170,7 +170,7 @@ front-end. The filesystem of the project is shown in the following schema:</p>
     └── JavaScript files to implement I18N
 </code></pre>
 <p><br></p>
-<p>As specified in the <code>index.html file</code>, the application loads RequireJS and
+<p>As specified in the <code>index.html</code> file, the application loads RequireJS and
 execute the <code>main.js</code> file:</p>
 <pre><code>&lt;script data-main='js/main' src='js/libs/require.js'&gt;&lt;/script&gt;
 </code></pre>
@@ -213,7 +213,7 @@ require(['APPLICATION'], function(APP) {
 <p>The <code>application.js</code> module loads a Handlebars template containing an input
 field and two buttons: the first one will invoke the main REST service, while
 the second is linked to the Blueprint. The base URL for the AJAX calls has
-been set to `http://localhost:5000/``, that is the address exposed by Docker
+been set to <code>http://localhost:5000/</code>, that is the address exposed by Docker
 for Flask, as seen in the <a href="http://guido-barbaglia.blog/posts/use_docker_to_run_flask_based_rest_services.html">previous post</a>.
 The business logic of the front-end is very simple and is described in the
 schema below:</p>

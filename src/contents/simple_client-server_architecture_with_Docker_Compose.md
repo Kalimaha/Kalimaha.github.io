@@ -60,7 +60,7 @@ simple_flask_ui/
 ```
 <br>
 
-As specified in the `index.html file`, the application loads RequireJS and
+As specified in the `index.html` file, the application loads RequireJS and
 execute the `main.js` file:
 
 ```
@@ -109,7 +109,7 @@ require(['APPLICATION'], function(APP) {
 The `application.js` module loads a Handlebars template containing an input
 field and two buttons: the first one will invoke the main REST service, while
 the second is linked to the Blueprint. The base URL for the AJAX calls has
-been set to `http://localhost:5000/``, that is the address exposed by Docker
+been set to `http://localhost:5000/`, that is the address exposed by Docker
 for Flask, as seen in the [previous post](http://guido-barbaglia.blog/posts/use_docker_to_run_flask_based_rest_services.html).
 The business logic of the front-end is very simple and is described in the
 schema below:

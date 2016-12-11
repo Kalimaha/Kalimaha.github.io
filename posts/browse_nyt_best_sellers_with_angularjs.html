@@ -1,0 +1,421 @@
+<html>
+    <head>
+      <title>Browse NYT best sellers with AngularJS</title>
+
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+      <meta name="format-detection" content="telephone=no">
+      <meta http-equiv="X-UA-Compatible" content="IE=edge">
+      <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+      <meta name="description" content="Create a simple Single Page Application to consume the New York Times 
+API with AngularJS.">
+      <meta name="robots" content="index,follow">
+
+      <script type="application/ld+json">
+        {
+          "@context":"http://schema.org",
+          "@type":"BlogPosting",
+          "mainEntityOfPage": {
+            "@type": "WebPage",
+            "@id": "http://guido-barbaglia.blog/posts/browse_nyt_best_sellers_with_angularjs.html"
+          },
+          "headline":"Browse NYT best sellers with AngularJS",
+          "description":"Create a simple Single Page Application to consume the New York Times 
+API with AngularJS.",
+          "author": {
+              "@type": "Person",
+              "name": "Guido Barbaglia"
+          },
+          "datePublished": "2016-12-11T07:27:08.334Z",
+          "dateModified": "2016-12-11T07:27:08.334Z",
+          "publisher": {
+            "@type": "Organization",
+            "name": "Guido Barbaglia",
+            "logo": {
+              "@type": "ImageObject",
+              "url": "http://guido-barbaglia.blog/src/images/portrait.jpg",
+              "width": "150",
+              "height": 60
+            }
+          },
+          "image": {
+            "@type": "ImageObject",
+            "url": "http://guido-barbaglia.blog/src/images/browse_nyt_best_sellers_with_angularjs.png",
+            "height": 150,
+            "width": "150"
+          }
+        }
+      </script>
+
+      <link rel="shortcut icon" href="../src/icons/favicon.ico">
+      <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet">
+      <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
+      <link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet">
+      <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.8.0/styles/default.min.css">
+        <link href="../src/css/guido-barbaglia.css" rel="stylesheet">
+
+      <script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
+      <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.8.0/highlight.min.js"></script>
+      <script src="https://cdn.rawgit.com/showdownjs/showdown/1.5.1/dist/showdown.min.js"></script>
+
+      <script>
+        function enhance() {
+            const pres = $('pre');
+            for (var idx of Array(pres.length).keys()) { hljs.highlightBlock(pres.get(idx)) }
+            $('table').addClass('table table-striped table-bordered table-condensed table-hover');
+            $('a').addClass('keyword');
+        }
+      </script>
+    </head>
+
+    <body onload="enhance();">
+      <br class="hidden-xs hidden-sm">
+      <br class="hidden-xs hidden-sm">
+      <div class="container">
+        <hr>
+        <h4 class="text-center">
+          <a href="../">Home</a>
+        </h4>
+        <hr>
+        <br>
+
+        <div class='row'>
+          <div class='col-lg-4 hidden-xs hidden-sm hidden-md hidden-print'>
+            <img  src='../src/images/browse_nyt_best_sellers_with_angularjs.png'
+                  class='img-responsive img-circle center-block'
+                  style="border: 1px solid #000;" >
+            <br>
+          </div>
+          <div class='col-lg-8'>
+            <div class='row'>
+              <div class='col-lg-11'>
+                <div class='summary'>
+                  <p>Create a simple Single Page Application to consume the New York Times 
+API with AngularJS.</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <hr>
+        <div class='row'>
+          <div class='col-lg-12'>
+            <article>
+                <h1 id="browsenytbestsellerswithangularjs">Browse NYT best sellers with AngularJS</h1>
+<p><hr>
+<br></p>
+<p><a href="https://angularjs.org/">AngularJS</a> is a popular JavaScript front-end framework
+that is mainly maintained by Google. This projects aims to make the HTML more
+readable by adding custom elements and controllers, so that a developer can
+understand the flow of the application by just reading the HTML, with no need
+to dig into the JavaScript code. AngularJS also provides routing capabilities
+and it is mainly used to create
+<a href="https://en.wikipedia.org/wiki/Single-page_application">Single Page Applications</a>.
+After having spent some time reading about this framework, I have decided to
+implement a very simple front-end application with AngularJS to better
+understand its potential. The result is a single page application that takes
+advantage of the
+<a href="https://en.wikipedia.org/wiki/Single-page_application">New York Times API</a> to
+fetch and display the top 20 best seller books.</p>
+<h1 id="resources">Resources</h1>
+<p>There are several online courses that allow you to learn AngularJS for free.
+I’d suggest the <a href="http://www.w3schools.com/angular/">W3School</a> (<em>an evergreen</em>), <a href="https://www.codecademy.com/learn/learn-angularjs">Codecademy</a> and <a href="https://www.codeschool.com/courses/shaping-up-with-angular-js">Code School</a> to start,
+but also <a href="https://thinkster.io/topics/angular">Thinkster</a> and <a href="https://www.youtube.com/results?search_query=angularjs">YouTube</a>, where users
+dump an impressive amount of step-by-step tutorials.</p>
+<p>When I started working on this project, I wanted to focus on AngularJS, in
+order to learn it in the best possible way. AngularJS is a front-end framework,
+so I didn’t want to waste my energies in setting up databases and services.
+But I needed a datasource! After a while I finally found the <a href="https://www.publicapis.com/">PublicAPIs</a> directory, which lists an
+impressive number of APIs that can be potentially used for similar use cases.
+An interesting alternative is the <a href="http://jsonplaceholder.typicode.com/">JSONPlaceholder</a> project, which is a free REST service that can be used to test <a href="https://en.wikipedia.org/wiki/Create,_read,_update_and_delete">CRUD operations</a>
+with fake data.</p>
+<p>The little application described in the next sections is available on GitHub,
+so you may also consider to watch, fork or star the project!</p>
+<h1 id="overview">Overview</h1>
+<p>The single page application of this example is divided into three pages. In
+the first one, the user can select a literary genre, while in the second the
+top 20 best-seller book of the selected genre are listed. Finally, a short
+description of the selected book, a link to the corresponding Amazon web page
+and the book review (<em>if any</em>) are displayed in the last section. A <a href="http://guido-barbaglia.blog/NYTBestSellers/">live demo</a> of the web app is available
+online.</p>
+<h1 id="initialsetup">Initial setup</h1>
+<p>The first thing we need to do is to import the AngularJS library in the main
+HTML file. After that, we modify the body tag of our <code>index.html</code> page to
+include the <code>ngApp</code> directive. This instruction tells AngularJS which is
+the root tag of the application.</p>
+<pre><code>&lt;html&gt;
+  &lt;head&gt;
+    &lt;script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.9/angular.js"&lt;/script&gt;
+    &lt;script src="src/js/app.js"&lt;/script&gt;
+  &lt;/head&gt;
+  &lt;body ng-app="NYTBestSellers"&gt;
+  &lt;/body&gt;
+&lt;/html&gt;
+</code></pre>
+<p><br></p>
+<p>We also need to include a simple <code>app.js</code> script, where we will initialize
+the AngularJS application. In the script, we define a variable called app that
+stores the AngularJS module. This module has the same name that we defined
+through the <code>ngApp</code> directive in the HTML file.</p>
+<pre><code>(function () {
+  'use strict';
+
+  var app = angular.module('NYTBestSellers', []);
+}());
+</code></pre>
+<p><br></p>
+<h1 id="routing">Routing</h1>
+<p>In more recent versions of AngularJS the routing module has been divided from
+the core library, so we need to import it in the main HTML, at line 4.</p>
+<pre><code>&lt;html&gt;
+  &lt;head&gt;
+    &lt;script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.9/angular.js"&lt;/script&gt;
+    &lt;script src = "http://ajax.googleapis.com/ajax/libs/angularjs/1.4.9/angular-route.js"&gt;&lt;/script&gt;
+    &lt;script src="src/js/app.js"&lt;/script&gt;
+  &lt;/head&gt;
+  &lt;body ng-app="NYTBestSellers"&gt;
+  &lt;/body&gt;
+&lt;/html&gt;
+</code></pre>
+<p><br></p>
+<p>We need to define 3 different routes: the list of genres, the list of genre’s
+best-sellers, and the details of the selected book. To do so, we create a file
+called <code>router.js</code> in <code>src/js</code>, and we import this script in the <code>index.html</code>.</p>
+<pre><code>(function () {
+  'use strict';
+
+  var app = angular.module('NYTBestSellers', ['ngRoute']);
+
+  app.config(function ($routeProvider) {
+    $routeProvider.when('/genres', {
+      templateUrl: 'src/html/genres.html',
+      controller: 'GenresController'
+    }).when('/genres/:genre', {
+      templateUrl: 'src/html/genre.html',
+      controller: 'GenreController'
+    }).when('/genres/:genre/:isbn', {
+      templateUrl: 'src/html/book.html'
+    }).otherwise({
+      redirectTo: '/genres'
+    });
+  });
+}());
+</code></pre>
+<p><br></p>
+<p>We need to import the <code>ngRoute</code> module to allow users to navigate through the
+pages. Routes are defined in the configuration of our AngularJS module,
+through the use of the <code>$routeProvider</code> object. Each route defines the endpoint
+of each page (<em>e.g. <code>/genres</code></em>), but also the template (<em>through the <code>templateUrl</code> instruction</em>) and the controller (<em>e.g. <code>GenresController</code></em>) associated with it.
+It is also possible to define dynamic parameters for the route through the use
+of colons (<em>e.g. <code>:isbn</code></em>). The route defined at line 14 by the instruction
+otherwise will catch any other request and redirect the user to the genres page.</p>
+<p>We will now take advantage of another AngularJS directive to link this piece of
+code to the HTML page. In the body section we define three areas: an header,
+a footer, and the main content. Header and footer will remain the same in all
+the pages, but we want the main content to change according to the user
+navigation. To do so, we add the <code>ngView</code> directive to our main <code>div</code>.
+AngularJS will render the templates defined in the <code>routes.js</code> script in the
+main <code>div</code>, by leaving the rest of the page unaltered.</p>
+<pre><code>&lt;body&gt;
+  &lt;body ng-app="NYTBestSellers"&gt;
+    &lt;!-- Header. --&gt;
+    ...
+
+    &lt;!-- Main content. --&gt;
+    &lt;div ng-view&gt;&lt;/div&gt;
+
+    &lt;!-- Footer. --&gt;
+    ...
+&lt;/body&gt;
+</code></pre>
+<p><br></p>
+<h1 id="consumerestfulservices">Consume RESTful services</h1>
+<p>In the <code>router.js</code> file we defined, for each route, a template and a controller.
+The latter is in charge of the business logic of the page, while the template
+handles the presentation layer. To make the web app consume data through the
+NYT API, we need to define its behaviour in the controller. For example,
+we can define the <code>GenresController</code> as follows:</p>
+<pre><code>(function () {
+  'use strict';
+
+  var app = angular.module('NYTBestSellers');
+
+  app.controller('GenresController', function ($scope, $routeParams, $http) {
+    var url = 'http://api.nytimes.com/svc/books/v3/lists/names.json?api-key=sample-key';
+    $http.get(url).then(function (response) {
+      $scope.genres = response.data.results;
+    }).catch(function (e) {
+      $scope.error = e;
+    });
+  });
+}());
+</code></pre>
+<p><br></p>
+<p>When it is defined, the controller imports three objects: <code>$scope</code>,
+<code>$routeParams</code> and <code>$http</code>. The first is used to exchange data with the
+templates, the second to fetch data from the routes (<em>e.g. <code>/:isbn</code></em>), while
+<code>$http</code> is used to access remote resources. This object is used to invoke a
+URL (<em>and pass parameters to it, if required</em>), and it returns a promise.
+The result of the asynchronous call is then stored in the <code>$scope</code> object, so
+that it can be used by the template.</p>
+<h1 id="templating">Templating</h1>
+<p>The template makes use of another AngularJS directive: <code>ngRepeat</code>. In this
+example, the template access the genres object from the <code>$scope</code>, and iterates
+over it. At each iteration a portion of HTML is filled with information from
+the object (<em>e.g. <code>g.display_name</code></em>) and rendered.</p>
+<pre><code>&lt;h1&gt;
+  &lt;div class="row"&gt;
+    &lt;div class="col-lg-12 text-center"&gt;
+      &lt;i class="fa fa-spinner fa-pulse fa-5x" ng-hide="genres.length"&gt;&lt;/i&gt;
+    &lt;/div&gt;
+    &lt;div ng-repeat="g in genres"&gt;
+      &lt;div class="col-lg-3"&gt;
+        &lt;a href="#genres/{{g.list_name_encoded}}"&gt;
+          &lt;div class="thumbnail"&gt;
+            &lt;div class="caption"&gt;
+              &lt;h5&gt;
+                {{g.display_name}}
+              &lt;/h5&gt;
+              &lt;p class="date"&gt;
+                From {{g.oldest_published_date | date}} to {{g.newest_published_date | date}}
+              &lt;/p&gt;
+            &lt;/div&gt;
+          &lt;/div&gt;
+        &lt;/a&gt;
+      &lt;/div&gt;
+    &lt;/div&gt;
+  &lt;/div&gt;
+&lt;/h1&gt;
+</code></pre>
+<p><br></p>
+<h1 id="customhtmltags">Custom HTML tags</h1>
+<p>This example makes use of several built-in directives of AngularJS: <code>ngApp</code>,
+<code>ngView</code>, <code>ngRepeat</code>, and so forth. It is also possible to define custom
+directives. The last route of our application shows the details of the
+selected book. We want to define a new HTML tag, for example <code>&lt;book&gt;</code>, that
+will render all the information. Therefore, the template defined in the
+route configuration will simply look like that:</p>
+<pre><code>&lt;book&gt;&lt;/book&gt;
+</code></pre>
+<p><br></p>
+<p>We need to define the new directive, so we create a new script named <code>book.js</code>
+with the following content:</p>
+<pre><code>(function () {
+  'use strict';
+
+  var app = angular.module('NYTBestSellers');
+
+  app.directive('book', function () {
+    return {
+      restrict: 'E',
+      templateUrl: 'src/html/directives/book.html',
+      controller: function ($scope, $routeParams, $http) {
+        $scope.id = $routeParams.id;
+        $scope.isbn = $routeParams.isbn;
+        var url = 'http://api.nytimes.com/svc/books/v3/lists/' + $routeParams.genre + '.json?sort-by=rank&amp;sort-order=ASC&amp;api-key=sample-key',
+            i,
+            b;
+        $http.get(url).then(function (response) {
+          for (i = 0; i &lt; response.data.results.books.length; i += 1) {
+            b = response.data.results.books[i];
+            if (b.isbns[0].isbn13 === $routeParams.isbn) {
+              $scope.book = b;
+              break;
+            }
+          }
+        }).catch(function (e) {
+          $scope.error = e;
+        });
+      }
+    };
+  });
+}());
+</code></pre>
+<p><br></p>
+<p>The <code>restrict</code> option tells AngularJS that we are creating a new element, but
+it is also possible to create attributes, comments and classes. The
+<code>templateUrl</code> defines the HTML file that will be rendered inside our new tag,
+while the <code>controller</code> defines the business logic of the new directive.</p>
+<h1 id="conslusions">Conslusions</h1>
+<p>AngularJS is a very powerful front-end framework that allows you to create
+single page applications. It lets you modularize your application, define
+routes and bind together the data and the presentation layers. Everything you
+may need, in one framework. This can be an advantage, but also a limitation.
+An alternative solution is to combine several libraries to achieve the same
+goal of AngularJS, as per the (<em>simplistic</em>) image below.</p>
+<p><img class="img-responsive center-block" src="../src/images/angular_01.png"></p>
+<p><a href="http://handlebarsjs.com/">Handlebars</a> (<em>or <a href="https://mustache.github.io/">Mustache</a>,
+or <a href="http://meteorcapture.com/spacebars/">Spacebars</a>, or...</em>) could be used for the templating, <a href="http://requirejs.org/">RequireJS</a> for the modularization,
+<a href="http://backbonejs.org/">Backbone</a> for the routing, and
+<a href="http://documentup.com/kriskowal/q/">Q</a> for the promises. Which are the pros
+and cons of AngularJS compared to the alternative scenario?</p>
+<p><strong>Pro:</strong> Everything you need is in one place. You need to learn, use, but
+most importantly, debug, only one framework. AngularJS has a strong community,
+and there are many resources available to learn how to use it. The integration
+of different technologies requires more learning time, and it could also
+lead to integration problems among the different modules (<em>versions, bugs, …</em>).</p>
+<p><strong>Cons:</strong> You are limited to one framework. When you combine different
+technologies, you have the freedom to switch any component with a better one,
+if it is convenient in terms of time and performances. Although more time is
+required to learn how to use different technologies, each library is highly
+specialized and it may provide more features and higher performances if
+compared to a more generic framework.</p>
+<p>Nothing is completely black or white, of course. For example, it is still
+possible to use AngularJS with Require, and it is probably possible to
+introduce other technologies as well. But then things start becoming a bit
+messy, so it would be probably better to chose either AngularJS or a
+components-based approach.</p>
+<p>Should I use AngularJS then? Same old song and dance: it depends! On the
+requirements, time available, resources. But AngularJS is definitely a
+valid framework, and I strongly suggest you to give it a shot!</p>
+            </article>
+          </div>
+        </div>
+        <br>
+        <hr>
+        <div class="row">
+          <div class="col-lg-12 text-center">
+              <a id="twitter" class="keyword" target="_blank" title="Share it on Twitter" href="https://twitter.com/intent/tweet?text=Browse NYT best sellers with AngularJS&url=http://guido-barbaglia.blog/posts/browse_nyt_best_sellers_with_angularjs.html">
+                  <i class="fa fa-twitter fa-2x"></i></a>
+              &nbsp;
+              <a id="linkedin" class="keyword" target="_blank" title="Share it on LinkedIn" href="http://www.linkedin.com/shareArticle?mini=true&url=http://guido-barbaglia.blog/posts/browse_nyt_best_sellers_with_angularjs.html&title=Browse NYT best sellers with AngularJS">
+                  <i class="fa fa-linkedin fa-2x"></i></a>
+              &nbsp;
+              <a id="reddit" class="keyword" target="_blank" title="Share it on Reddit" href="http://www.reddit.com/submit?url=http://guido-barbaglia.blog/posts/browse_nyt_best_sellers_with_angularjs.html&title=Browse NYT best sellers with AngularJS">
+                  <i class="fa fa-reddit fa-2x"></i></a>
+              &nbsp;
+              <a id="facebook" class="keyword" target="_blank" title="Share it on Facebook" href="http://www.facebook.com/sharer/sharer.php?u=http://guido-barbaglia.blog/posts/browse_nyt_best_sellers_with_angularjs.html&title=Browse NYT best sellers with AngularJS">
+                  <i class="fa fa-facebook fa-2x"></i></a>
+              &nbsp;
+              <a id="google-plus" class="keyword" target="_blank" title="Share it on Google+" href="https://plus.google.com/share?url=http://guido-barbaglia.blog/posts/browse_nyt_best_sellers_with_angularjs.html">
+                  <i class="fa fa-google-plus fa-2x"></i></a>
+          </div>
+        </div>
+        <hr>
+        <div class="row">
+          <div class="col-lg-12">
+            <div id="disqus_thread"></div>
+            <script>
+                (function() {
+                    var d = document, s = d.createElement('script');
+                    s.src = '//guido-barbaglia.disqus.com/embed.js';
+                    s.setAttribute('data-timestamp', +new Date());
+                    (d.head || d.body).appendChild(s);
+                })();
+            </script>
+          </div>
+        </div>
+        <hr>
+        <script src="//z-na.amazon-adsystem.com/widgets/onejs?MarketPlace=US&adInstanceId=03df545c-279d-4a52-a4e4-f6e790dd0f1c&storeId=guidobarbagli-20"></script>
+        <hr>
+        <p class="text-center">
+          &copy; 2016 Guido Barbaglia
+        </p>
+        <hr>
+      </div>
+      <div id="imports"></div>
+      <br class="hidden-xs hidden-sm">
+      <br class="hidden-xs hidden-sm">
+    </body>
+</html>
