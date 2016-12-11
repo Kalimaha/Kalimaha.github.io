@@ -1,0 +1,339 @@
+<html>
+    <head>
+      <title>Simple client-server architecture with Docker Compose</title>
+
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+      <meta name="format-detection" content="telephone=no">
+      <meta http-equiv="X-UA-Compatible" content="IE=edge">
+      <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+      <meta name="description" content="We will build a simple client/server architecture and then use
+Docker Compose to incapsulate the
+various components for the deployment.">
+      <meta name="robots" content="index,follow">
+
+      <script type="application/ld+json">
+        {
+          "@context":"http://schema.org",
+          "@type":"BlogPosting",
+          "mainEntityOfPage": {
+            "@type": "WebPage",
+            "@id": "http://guido-barbaglia.blog/posts/simple_client-server_architecture_with_docker_compose.html"
+          },
+          "headline":"Simple client-server architecture with Docker Compose",
+          "description":"We will build a simple client/server architecture and then use
+Docker Compose to incapsulate the
+various components for the deployment.",
+          "author": {
+              "@type": "Person",
+              "name": "Guido Barbaglia"
+          },
+          "datePublished": "2016-12-11T05:02:54.000Z",
+          "dateModified": "2016-12-11T05:02:54.000Z",
+          "publisher": {
+            "@type": "Organization",
+            "name": "Guido Barbaglia",
+            "logo": {
+              "@type": "ImageObject",
+              "url": "http://guido-barbaglia.blog/src/images/portrait.jpg",
+              "width": "150",
+              "height": 60
+            }
+          },
+          "image": {
+            "@type": "ImageObject",
+            "url": "http://guido-barbaglia.blog/src/images/simple_client-server_architecture_with_docker_compose.png",
+            "height": 150,
+            "width": "150"
+          }
+        }
+      </script>
+
+      <link rel="shortcut icon" href="../src/icons/favicon.ico">
+      <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet">
+      <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
+      <link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet">
+      <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.8.0/styles/default.min.css">
+        <link href="../src/css/guido-barbaglia.css" rel="stylesheet">
+
+      <script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
+      <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.8.0/highlight.min.js"></script>
+      <script src="https://cdn.rawgit.com/showdownjs/showdown/1.5.1/dist/showdown.min.js"></script>
+
+      <script>
+        function enhance() {
+            const pres = $('pre');
+            for (var idx of Array(pres.length).keys()) { hljs.highlightBlock(pres.get(idx)) }
+            $('table').addClass('table table-striped table-bordered table-condensed table-hover');
+            $('a').addClass('keyword');
+        }
+      </script>
+    </head>
+
+    <body onload="enhance();">
+      <br class="hidden-xs hidden-sm">
+      <br class="hidden-xs hidden-sm">
+      <div class="container">
+        <hr>
+        <h4 class="text-center">
+          <a href="../">Home</a>
+        </h4>
+        <hr>
+        <br>
+
+        <div class='row'>
+          <div class='col-lg-4 hidden-xs hidden-sm hidden-md hidden-print'>
+            <img  src='../src/images/simple_client-server_architecture_with_docker_compose.png'
+                  class='img-responsive img-circle center-block'
+                  style="border: 1px solid #000;" >
+            <br>
+          </div>
+          <div class='col-lg-8'>
+            <div class='row'>
+              <div class='col-lg-11'>
+                <div class='summary'>
+                  <p>We will build a simple client/server architecture and then use
+<a href="https://docs.docker.com/compose/">Docker Compose</a> to incapsulate the
+various components for the deployment.</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <hr>
+        <div class='row'>
+          <div class='col-lg-12'>
+            <article>
+                <h1 id="simpleclientserverarchitecturewithdockercompose">Simple client/server architecture with Docker Compose</h1>
+<p><hr>
+<br></p>
+<p>This post builds on the <a href="http://guido-barbaglia.blog/posts/use_docker_to_run_flask_based_rest_services.html">previous one</a>
+to create a simple client/server architecture for a web-app developed with <a href="http://flask.pocoo.org/">Flask</a>, for the back-end, and
+<a href="http://requirejs.org/">RequireJS</a>, for the front-end.
+These two components will be incapsulated with
+<a href="https://docs.docker.com/compose/">Docker Compose</a> in order to be
+ready for deployment.</p>
+<h1 id="architecture">Architecture</h1>
+<p>The web-app is composed by a back-end, made of a main
+<a href="http://flask.pocoo.org/">Flask</a> REST service and an additional <a href="http://flask.pocoo.org/docs/0.10/blueprints/">Blueprint</a>, and a front-end
+module developed with <a href="http://requirejs.org/">RequireJS</a>. A
+<a href="https://www.docker.com/">Docker</a> module will be created for both the client
+and the server side of the application.</p>
+<p><img class="img-responsive center-block" src="../src/images/docker_compose_01.png"></p>
+<p>The two will be linked together through Docker Compose and the final user
+experience will be not affected by this setup.</p>
+<p><img class="img-responsive center-block" src="../src/images/docker_compose_01.png"></p>
+<h1 id="sourcecode">Source code</h1>
+<p>The source code of all the projects used in this tutorial is available on GitHub:
+feel free to download, fork and/or star it!</p>
+<table>
+<thead>
+<tr>
+<th>Project</th>
+<th>URL</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Simple Flask UI</td>
+<td><a href="https://github.com/Kalimaha/simple_flask_ui">https://github.com/Kalimaha/simple<em>flask</em>ui</a></td>
+</tr>
+<tr>
+<td>Simple Flask Docker Composer</td>
+<td><a href="https://github.com/Kalimaha/simple_flask_docker_composer">https://github.com/Kalimaha/simple<em>flask</em>docker_composer</a></td>
+</tr>
+</tbody>
+</table>
+<h1 id="requirejsclient">RequireJS client</h1>
+<p><a href="http://requirejs.org/">RequireJS</a> is a JavaScript file and module loader that
+implements the <a href="https://en.wikipedia.org/wiki/Asynchronous_module_definition">AMD</a>.
+The simple client module implemented for this example has a <code>main.js</code> file,
+that defines the required libraries and starts the component,
+and an <code>application.js</code> script that implements the business logic of the
+front-end. The filesystem of the project is shown in the following schema:</p>
+<pre><code>simple_flask_ui/
+├── css
+│   ├── bootstrap.min.css
+│   ├── select2.min.css
+│   ├── simple-flask-ui.css
+│   └── sweet-alert.css
+├── html
+│   └── templates.hbs
+├── index.html
+├── js
+│   ├── application.js
+│   ├── main.js
+│   └── libs
+│       └── 3rd Party JavaScript Libraries
+└── nls
+    └── JavaScript files to implement I18N
+</code></pre>
+<p><br></p>
+<p>As specified in the <code>index.html file</code>, the application loads RequireJS and
+execute the <code>main.js</code> file:</p>
+<pre><code>&lt;script data-main='js/main' src='js/libs/require.js'&gt;&lt;/script&gt;
+</code></pre>
+<p><br></p>
+<p>This script declares the implemented modules (<em>in paths</em>), loads the required
+libraries (<em>through the <code>baseUrl</code></em>), specifies their mutual dependencies
+(<em>in shim</em>) and starts the <code>application.js</code> module:</p>
+<pre><code>require.config({
+
+  baseUrl: 'js/libs',
+
+  paths: {
+    application: '../../',
+    APPLICATION: '../application'
+  },
+
+  shim: {
+    bootstrap: ['jquery'],
+    backbone: {
+      deps: ['jquery', 'underscore'],
+      exports: 'Backbone'
+    },
+    highcharts: ['jquery'],
+    underscore: {
+      exports: '_'
+    }
+  }
+});
+
+require(['APPLICATION'], function(APP) {
+
+  /* Initiate components. */
+  var app = new APP();
+
+  /* Initiate the application. */
+  app.init();
+});
+</code></pre>
+<hr>
+<p>The <code>application.js</code> module loads a Handlebars template containing an input
+field and two buttons: the first one will invoke the main REST service, while
+the second is linked to the Blueprint. The base URL for the AJAX calls has
+been set to `http://localhost:5000/``, that is the address exposed by Docker
+for Flask, as seen in the <a href="http://guido-barbaglia.blog/posts/use_docker_to_run_flask_based_rest_services.html">previous post</a>.
+The business logic of the front-end is very simple and is described in the
+schema below:</p>
+<p><img class="img-responsive center-block" src="../src/images/docker_compose_03.png"></p>
+<h1 id="dockercompose">Docker Compose</h1>
+<p>As per the official documentation "<em>Compose is a tool for defining and running
+multi-container applications with Docker</em>". The
+<a href="https://github.com/Kalimaha/simple_flask_docker_composer">Simple Flask Docker Composer</a>
+project contains two folders, one with the definition of the front-end
+<a href="https://www.docker.com/">Docker</a> image, one for the back-end, and a
+<code>docker-compose.yml</code> file that tells
+<a href="https://docs.docker.com/compose/">Docker Compose</a> how to handle the two images.
+The client side image is built starting from <a href="http://www.ubuntu.com/">Ubuntu</a>,
+to which <a href="http://httpd.apache.org/">Apache</a> and the source code are then added:</p>
+<pre><code># Create a container from Ubuntu.
+FROM ubuntu:14.04
+
+# Update Ubuntu repositories.
+RUN apt-get update
+
+# Install Apache.
+RUN apt-get -y install apache2
+
+# Install unzip.
+RUN apt-get -y install wget
+RUN apt-get -y install unzip
+
+# Get and unzip sources.
+RUN wget https://github.com/Kalimaha/simple_flask_ui/archive/master.zip
+RUN unzip master.zip
+RUN mv simple_flask_ui-master/ /var/www/html/simple_flask_ui
+</code></pre>
+<p><br></p>
+<p>The final step is the definition of the <code>docker-compose.yml</code> file, in which we
+specify that there are two volumes called client and server. For each module
+Docker Compose will run the Docker build:</p>
+<pre><code>build: ./server
+</code></pre>
+<p><br></p>
+<p>and</p>
+<pre><code>build: ./client
+</code></pre>
+<p><br></p>
+<p>Each volume specifies which are the ports that need to be exposed: <code>5000</code> for
+the server and <code>9999</code> for the client. In addition to that for each volume
+there is a command instruction specified, that will be executed once Docker
+Compose is up. Finally, the links directive tells Docker Compose to link the
+server and the client volumes. The complete <code>docker-compose.yml</code> file is shown
+below:</p>
+<pre><code>server:
+  build: ./server
+  ports:
+    - "5000:5000"
+  command: "/deployment/env/bin/python /deployment/start.py"
+  links:
+    - client
+client:
+  build: ./client
+  ports:
+      - "9999:80"
+  command: "/usr/sbin/apache2ctl -D FOREGROUND"
+</code></pre>
+<p><br></p>
+<p>Time to build the project:</p>
+<pre><code>docker-compose build
+</code></pre>
+<p><br></p>
+<p>and finally run it:</p>
+<pre><code>docker-compose up
+</code></pre>
+<p><br></p>
+<p>Once the project is up and running it is possible to visit the UI at the
+following URL: <a href="http://localhost:9999/simple_flask_ui">http://localhost:9999/simple<em>flask</em>ui</a>.</p>
+            </article>
+          </div>
+        </div>
+        <br>
+        <hr>
+        <div class="row">
+          <div class="col-lg-12 text-center">
+              <a id="twitter" class="keyword" target="_blank" title="Share it on Twitter" href="https://twitter.com/intent/tweet?text=Simple client-server architecture with Docker Compose&url=http://guido-barbaglia.blog/posts/simple_client-server_architecture_with_docker_compose.html">
+                  <i class="fa fa-twitter fa-2x"></i></a>
+              &nbsp;
+              <a id="linkedin" class="keyword" target="_blank" title="Share it on LinkedIn" href="http://www.linkedin.com/shareArticle?mini=true&url=http://guido-barbaglia.blog/posts/simple_client-server_architecture_with_docker_compose.html&title=Simple client-server architecture with Docker Compose">
+                  <i class="fa fa-linkedin fa-2x"></i></a>
+              &nbsp;
+              <a id="reddit" class="keyword" target="_blank" title="Share it on Reddit" href="http://www.reddit.com/submit?url=http://guido-barbaglia.blog/posts/simple_client-server_architecture_with_docker_compose.html&title=Simple client-server architecture with Docker Compose">
+                  <i class="fa fa-reddit fa-2x"></i></a>
+              &nbsp;
+              <a id="facebook" class="keyword" target="_blank" title="Share it on Facebook" href="http://www.facebook.com/sharer/sharer.php?u=http://guido-barbaglia.blog/posts/simple_client-server_architecture_with_docker_compose.html&title=Simple client-server architecture with Docker Compose">
+                  <i class="fa fa-facebook fa-2x"></i></a>
+              &nbsp;
+              <a id="google-plus" class="keyword" target="_blank" title="Share it on Google+" href="https://plus.google.com/share?url=http://guido-barbaglia.blog/posts/simple_client-server_architecture_with_docker_compose.html">
+                  <i class="fa fa-google-plus fa-2x"></i></a>
+          </div>
+        </div>
+        <hr>
+        <div class="row">
+          <div class="col-lg-12">
+            <div id="disqus_thread"></div>
+            <script>
+                (function() {
+                    var d = document, s = d.createElement('script');
+                    s.src = '//guido-barbaglia.disqus.com/embed.js';
+                    s.setAttribute('data-timestamp', +new Date());
+                    (d.head || d.body).appendChild(s);
+                })();
+            </script>
+          </div>
+        </div>
+        <hr>
+        <script src="//z-na.amazon-adsystem.com/widgets/onejs?MarketPlace=US&adInstanceId=03df545c-279d-4a52-a4e4-f6e790dd0f1c&storeId=guidobarbagli-20"></script>
+        <hr>
+        <p class="text-center">
+          &copy; 2016 Guido Barbaglia
+        </p>
+        <hr>
+      </div>
+      <div id="imports"></div>
+      <br class="hidden-xs hidden-sm">
+      <br class="hidden-xs hidden-sm">
+    </body>
+</html>
