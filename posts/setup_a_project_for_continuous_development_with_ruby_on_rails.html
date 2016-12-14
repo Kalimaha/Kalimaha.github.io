@@ -1,0 +1,564 @@
+<html>
+    <head>
+      <title>Setup a project for continuous development with Ruby on Rails</title>
+
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+      <meta name="format-detection" content="telephone=no">
+      <meta http-equiv="X-UA-Compatible" content="IE=edge">
+      <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+      <meta name="description" content="Build your first Ruby web application with Ruby-on-Rails and deploy it to the cloud ">
+      <meta name="robots" content="index,follow">
+
+      <script>
+        (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+        (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+        m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+        })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+        ga('create', 'UA-87710589-1', 'auto');
+        ga('send', 'pageview');
+      </script>
+      <script type="application/ld+json">
+        {
+          "@context":"http://schema.org",
+          "@type":"BlogPosting",
+          "mainEntityOfPage": {
+            "@type": "WebPage",
+            "@id": "http://guido-barbaglia.blog/posts/setup_a_project_for_continuous_development_with_ruby_on_rails.html"
+          },
+          "headline":"Setup a project for continuous development with Ruby on Rails",
+          "description":"Build your first Ruby web application with Ruby-on-Rails and deploy it to the cloud ",
+          "author": {
+              "@type": "Person",
+              "name": "Guido Barbaglia"
+          },
+          "datePublished": "2016-12-14T10:34:57.782Z",
+          "dateModified": "2016-12-14T10:34:57.782Z",
+          "publisher": {
+            "@type": "Organization",
+            "name": "Guido Barbaglia",
+            "logo": {
+              "@type": "ImageObject",
+              "url": "http://guido-barbaglia.blog/src/images/portrait.jpg",
+              "width": "150",
+              "height": 60
+            }
+          },
+          "image": {
+            "@type": "ImageObject",
+            "url": "http://guido-barbaglia.blog/src/images/setup_a_project_for_continuous_development_with_ruby_on_rails.png",
+            "height": 150,
+            "width": "150"
+          }
+        }
+      </script>
+
+      <meta name="twitter:card" content="summary" />
+      <meta name="twitter:site" content="http://guido-barbaglia.blog/posts/setup_a_project_for_continuous_development_with_ruby_on_rails.html" />
+      <meta name="twitter:title" content="Setup a project for continuous development with Ruby on Rails" />
+      <meta name="twitter:description" content="Build your first Ruby web application with Ruby-on-Rails and deploy it to the cloud " />
+      <meta name="twitter:image" content="http://guido-barbaglia.blog/src/images/setup_a_project_for_continuous_development_with_ruby_on_rails.png" />
+
+      <link rel="shortcut icon" href="../src/icons/favicon.ico">
+      <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet">
+      <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
+      <link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet">
+      <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.8.0/styles/default.min.css">
+        <link href="../src/css/guido-barbaglia.css" rel="stylesheet">
+
+      <script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
+      <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.8.0/highlight.min.js"></script>
+      <script src="https://cdn.rawgit.com/showdownjs/showdown/1.5.1/dist/showdown.min.js"></script>
+
+      <script>
+        function enhance() {
+            const pres = $('pre');
+            for (var idx of Array(pres.length).keys()) { hljs.highlightBlock(pres.get(idx)) }
+            $('table').addClass('table table-striped table-bordered table-condensed table-hover');
+            $('a').addClass('keyword');
+        }
+      </script>
+    </head>
+
+    <body onload="enhance();">
+      <br class="hidden-xs hidden-sm">
+      <br class="hidden-xs hidden-sm">
+      <div class="container">
+        <hr>
+        <h4 class="text-center">
+          <a href="../">Home</a>
+        </h4>
+        <hr>
+        <br>
+
+        <div class='row'>
+          <div class='col-lg-4 hidden-xs hidden-sm hidden-md hidden-print'>
+            <img  src='../src/images/setup_a_project_for_continuous_development_with_ruby_on_rails.png'
+                  class='img-responsive img-circle center-block'
+                  style="border: 1px solid #000;" >
+            <br>
+          </div>
+          <div class='col-lg-8'>
+            <div class='row'>
+              <div class='col-lg-11'>
+                <div class='summary'>
+                  <p>Build your first Ruby web application with Ruby-on-Rails and deploy it to the cloud </p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <hr>
+        <div class='row'>
+          <div class='col-lg-12'>
+            <article>
+                <h1 id="setupaprojectforcontinuousdevelopmentwithrubyonrails">Setup a project for continuous development with Ruby on Rails</h1>
+<p><hr>
+<br></p>
+<p><a href="http://rubyonrails.org/">Ruby on Rails</a> (<em>RoR</em>) is a popular web framework
+based on the <a href="https://www.ruby-lang.org/it/">Ruby</a> programming language.
+According to <a href="https://builtwith.com/">BuiltWith</a> there are more than 700.000
+websites using RoR. This framework implements the MVC pattern and it provides
+the basic structure for database connection, CRUD web-services and the
+related web pages.</p>
+<p>RoR promotes the DRY (<em>Don’t Repeat Yourself</em>) philosophy and it is strongly
+based on the Coding Over Convention principle. As per its name, by using RoR
+you develop <strong>ON RAILS</strong>, meaning that everything is already pre-configured
+and pre-organized.</p>
+<p>The framework provides a number of useful scripts that can be run through
+the CLI and it gives the impression that lots of things happen by magic.
+You are therefore required to learn a lot of spells and the learning curve
+may be a bit steep (<em>well, at least for me</em>).</p>
+<p>The final goal of this experiment is to have fully functional RoR web-app
+suitable for continuous development. The source code will be hosted on GitHub,
+the final app will be deployed on Heroku and it will have a front-end based
+on Bootstrap. What is more, the software will have automated tests hosted by
+TravisCI and its code coverage will be evaluated through Coveralls.</p>
+<h1 id="resources">Resources</h1>
+<table>
+<thead>
+<tr>
+<th>Resource</th>
+<th>Platform</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Source Code</td>
+<td><a href="https://github.com/Kalimaha/RubyMovieDB">GitHub</a></td>
+</tr>
+<tr>
+<td>Live Demo</td>
+<td><a href="https://rmdb.herokuapp.com/">Heroku</a></td>
+</tr>
+<tr>
+<td>Continuous Integration</td>
+<td><a href="https://travis-ci.org/Kalimaha/RubyMovieDB">TravisCI</a></td>
+</tr>
+<tr>
+<td>Tests Coverage</td>
+<td><a href="https://coveralls.io/github/Kalimaha/RubyMovieDB">Coveralls</a></td>
+</tr>
+</tbody>
+</table>
+<h1 id="setupthewebapp">Setup the web-app</h1>
+<p>The project is very simple and it is based on the excellent
+<a href="http://guides.rubyonrails.org/getting_started.html">Getting Started guide</a>
+available on the RoR web-site, with some extras. The web-app represents a
+small clone of the <a href="http://www.imdb.com/">IMDB</a>, the RubyMovieDB, limited to
+movies and directors. As said before, the main objective of this article is to
+setup a working environment for the continuous development. The starting point
+is very humble, but there is plenty of room for improvements! To create the
+web-app, simply run:</p>
+<pre><code>rails new RubyMovieDB
+</code></pre>
+<p><br></p>
+<p>This command generates the structure for the whole project, the initial
+source code, tests, dependencies and so forth. To install the dependencies,
+move to the project’s root and execute:</p>
+<pre><code>bundle install
+</code></pre>
+<p><br></p>
+<p>After that the project is ready for the first run. Start-up the server as
+follows:</p>
+<pre><code>rails s
+</code></pre>
+<p><br></p>
+<p>and visit <a href="http://localhost:3000/">http://localhost:3000/</a> to visualize the
+default RoR welcome page.</p>
+<h1 id="addbootstrap">Add Bootstrap</h1>
+<p>The look-and-feel of an application is always very important, so, before
+proceeding with the actual implementation of the project, it is good to take
+care of the make-up of the web pages.</p>
+<p><a href="http://getbootstrap.com/">Bootstrap</a> is a very popular front-end framework
+that provides a grid system and a widgets toolkit. The use of this framework
+allows developers to create nice-looking projects that can also be easily
+modified and improved by graphic designers with no hassle.</p>
+<p>To add Bootstrap to the project it is necessary to include its <code>gem</code> in the
+project’s <code>Gemfile</code>:</p>
+<pre><code>gem 'bootstrap-sass', '~&gt; 3.2.0'
+gem 'autoprefixer-rails'
+</code></pre>
+<p><br></p>
+<p>After that the package must be installed through the aforementioned:</p>
+<pre><code>bundle install
+</code></pre>
+<p><br></p>
+<p>Bootstrap uses <a href="http://sass-lang.com/">SASS</a>, so it is necessary to rename
+the main CSS (<em>located at <code>app/assets/stylesheets</code></em>) file from
+<code>application.css</code> to <code>application.css.sass</code>, and include the following
+statements in it:</p>
+<pre><code>@import 'bootstrap-sprockets';
+@import 'bootstrap';
+</code></pre>
+<p><br></p>
+<p>The last step required is to modify the <code>app/assets/javascripts/application.js</code>
+file in order to include the following:</p>
+<pre><code>//= require bootstrap-sprockets
+</code></pre>
+<p><br></p>
+<p>This statement must be added right after the <a href="https://jquery.com/">JQuery</a>
+inclusion in the same file. After that Bootstrap can be used in the
+application. The <code>app/views/layouts/application.html.erb</code> file holds the main
+structure of the application, and the statement:</p>
+<pre><code>&lt;%= yield %&gt;
+</code></pre>
+<p><br></p>
+<p>acts as a placeholder for the user’s code. Such placeholder can be wrapped
+by a Bootstrap container in order to start using the grid system and the
+widgets toolkit as follows:</p>
+<pre><code>&lt;body&gt;
+  &lt;div class="container"&gt;
+    &lt;%= yield %&gt;
+  &lt;/div&gt;
+&lt;/body&gt;
+</code></pre>
+<p><br></p>
+<p>Another change that is required in this file is the inclusion of the
+viewport settings in the head section, in order to have a fully
+responsive web-site. The whole <code>app/views/layouts/application.html.erb</code> file
+is listed below:</p>
+<pre><code>&lt;!DOCTYPE html&gt;
+&lt;html&gt;
+  &lt;head&gt;
+    &lt;title&gt;The Ruby Movie DB&lt;/title&gt;
+    &lt;meta charset='utf-8'&gt;
+    &lt;meta name='viewport' content='width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no'&gt;
+    &lt;meta name='format-detection' content='telephone=no'&gt;
+    &lt;meta http-equiv='X-UA-Compatible' content='IE=edge'&gt;
+    &lt;meta http-equiv='Content-Type' content='text/html; charset=utf-8'&gt;
+    &lt;%= stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track' =&gt; true %&gt;
+    &lt;%= javascript_include_tag 'application', 'data-turbolinks-track' =&gt; true %&gt;
+    &lt;%= csrf_meta_tags %&gt;
+  &lt;/head&gt;
+  &lt;body&gt;
+    &lt;div class="container"&gt;
+      &lt;%= yield %&gt;
+    &lt;/div&gt;
+  &lt;/body&gt;
+&lt;/html&gt;
+</code></pre>
+<h1 id="addfontawesome">Add FontAwesome</h1>
+<p><a href="http://fontawesome.io/">FontAwesome</a> is a font which contains a set of
+general purpose icons and it can be included in the project by adding the
+relative <code>gem</code> in the <code>Gemfile</code>:</p>
+<pre><code>gem 'font-awesome-rails', '~&gt; 4.1.0.0'
+</code></pre>
+<p><br></p>
+<p>Once again, run:</p>
+<pre><code>bundle install
+</code></pre>
+<p><br></p>
+<p>to download the dependency. After that the CSS must be included in the
+aforementioned <code>app/views/layouts/application.html.erb</code> file by adding the
+following statement:</p>
+<pre><code>&lt;link href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css" rel="stylesheet"&gt;
+</code></pre>
+<p><br></p>
+<p>This statements includes FontAwesome CSS through its CDN.</p>
+<h1 id="themovieresource">The movie resource</h1>
+<p>The main purpose of the RubyMovieDB is the management of a movies DB through
+CRUD services. To achieve this goal it is necessary to create a resource,
+a controller and the related views. RoR provides one very useful command
+to do so:</p>
+<pre><code>rails g scaffold Movie title:string year:int synopsis:text
+</code></pre>
+<p><br></p>
+<p>Where <code>g</code> is short for generate, while <code>scaffold</code> is the shortcut to
+generate the aforementioned resources. This statements also generates a
+DB migration, so to make it effective you need to execute the following:</p>
+<pre><code>rake db:migrate
+</code></pre>
+<p><br></p>
+<p>Which alters the DB by adding the new table <code>Movie</code> as specified by the
+scaffold command. Once the model, its controller, and the related views
+have been created, it is possible to fill the gaps (<em>if any</em>) and add the
+missing code as described in the <em>Getting Started</em> guide of RoR.</p>
+<p>Bootstrap and Font Awesome, introduced in the previous paragraphs, help making
+the views nicer. For example, tables can be easily improved adding the table
+class. Another nice trick consists in adding Bootstrap classes and FontAwesome
+icons to the buttons, for example:</p>
+<pre><code>&lt;%= link_to '&lt;i class="fa fa-magic"&gt;&lt;/i&gt; New Movie'.html_safe, new_movie_path, class: 'btn btn-primary' %&gt;
+</code></pre>
+<p><br></p>
+<h1 id="addinganewmodel">Adding a new model</h1>
+<p>RoR allows you to work on your project incrementally, through the migration
+mechanism. For example, I now need to make the RubyMovieDB a little more
+complete, so I want to add the directors of the movies. Through the
+aforementioned scaffold command I can then generate a new model, controller
+and web views for my new model:</p>
+<pre><code>rails g scaffold Director first_name:string last_name:string birthday:date
+</code></pre>
+<p><br></p>
+<p>The new model has an impact on the DB, therefore it needs to be updated as
+follows:</p>
+<pre><code>rake db:migrate
+</code></pre>
+<p><br></p>
+<p>Through this statement RoR updates the DB structure by adding a new table.
+What is more, there is a clear one-to-many relationship between a director
+and its movies. Such relationship can be added to the model through the
+migration statement, as follows:</p>
+<pre><code>rails g migration AddDirectorIdToMovies director:references
+</code></pre>
+<p><br></p>
+<p>The command generates a new migration that must be execute with the usual
+<code>rake db:migrate</code> statement. After the migration has been executed, the <code>Movie</code>
+table contains a reference to a director through its ID.</p>
+<p>RoR generates everything we need for the new model, but does not update what
+is already in place. To select a director for the movie, we should include a
+dropdown in the creation form as follows:</p>
+<pre><code>&lt;div class="field"&gt;
+  &lt;%= f.label :director %&gt;&lt;br&gt;
+  &lt;%= f.collection_select :director_id, Director.all, :id, :full_name, {:prompt =&gt; 'Please select a director'} %&gt;
+&lt;/div&gt;
+</code></pre>
+<p><br></p>
+<p>Such dropdown will be automatically populated with the content from the DB
+through the <code>f.collection_select</code> statement. The <code>:full_name</code> statement is
+referred to a new method that has been added to the director’s model:</p>
+<pre><code>def full_name
+  "#{first_name} #{last_name}"
+end
+</code></pre>
+<p><br></p>
+<p>Make sure to allow the new <code>director_id</code> parameter in the <code>movie_controller</code>,
+otherwise this will not be written in the DB:</p>
+<pre><code>def movie_params
+  params.require(:movie).permit(:title, :year, :synopsis, :director_id)
+end
+</code></pre>
+<p><br></p>
+<p>These changes will allow us to link new movies to existing directors. To
+display this information we then need to alter the <code>show</code> method in the
+<code>movies_controller</code>:</p>
+<pre><code>def show
+  @director = Director.find(@movie.director_id)
+end
+</code></pre>
+<p><br></p>
+<p>And subsequently the related view, by adding:</p>
+<pre><code>&lt;p&gt;
+  &lt;strong&gt;Director:&lt;/strong&gt;
+  &lt;%= @director.full_name %&gt;
+&lt;/p&gt;
+</code></pre>
+<p><br></p>
+<p>One last change is required not to break the tests: fixtures must be adapted
+to include the director’s id, both in <code>directors.yml</code>:</p>
+<pre><code>one:
+  id: 1
+  first_name: James
+  last_name: Cameron
+  birthday: 1954-08-16
+</code></pre>
+<p><br></p>
+<p>and in <code>movies.yml</code>:</p>
+<pre><code>one:
+  title: The Terminator
+  year: 1984
+  synopsis: Description of the movie.
+  director_id: 1
+</code></pre>
+<p><br></p>
+<h1 id="deployonheroku">Deploy on Heroku</h1>
+<p><a href="http://www.heroku.com/">Heroku</a> is a cloud
+<a href="https://en.wikipedia.org/wiki/Platform_as_a_service">Platform-as-a-Service (PaaS)</a>
+that can be used to deploy RoR projects. The Heroku deployment can be
+configured through the <code>Procfile</code> that must be stored in the root of the project.
+Such file is plain simple, as it contains only one line:</p>
+<pre><code>web: bundle exec rails server -p $PORT
+</code></pre>
+<p><br></p>
+<p>The only big difference between the development environment and the production
+in this case is the DB. RoR uses <a href="https://sqlite.org/">SQLite</a> by default, a
+DB that is not supported by Heroku, which offers
+<a href="https://www.postgresql.org/">PostgreSQL</a> instead.</p>
+<p>That is not a problem, as RoR can be configured to use different DBs for
+different environments. To achieve such a goal, we need to modify the
+<code>Gemfile</code> as follows:</p>
+<pre><code># Use sqlite3 as the database for Active Record
+# gem 'sqlite3'
+
+# PostgreSQL
+gem 'pg'
+
+# Use SQLite in the test and development environments
+group :development, :test do
+  gem 'sqlite3'
+  gem 'byebug'
+end
+
+group :development do
+  gem 'web-console', '~&gt; 2.0'
+  gem 'spring'
+  gem 'sqlite3'
+end
+</code></pre>
+<p><br></p>
+<p>By doing so, SQLite will be used in the development and test environments
+only, while PostgreSQL will be used in production.</p>
+<p>To deploy the app, head to Heroku, create a new app, and link the GitHub
+repository to it. Then select <code>Deploy Branch</code> in the <code>Manual Deploy</code> section.
+You can now view your app, but you should receive an error at this point.</p>
+<p>That’s because Heroku doesn’t automatically migrate the DB. The next command,
+that must be run from the CLI, is used to overcome this problem:</p>
+<pre><code>heroku run rake db:migrate --app=rmdb
+</code></pre>
+<p><br>
+You app is now app and running in the cloud!</p>
+<h1 id="tests">Tests</h1>
+<p>The aforementioned scaffold command generates automated tests and fixtures
+(<em>sample data</em>) for the models and the controllers. The tests for the
+controllers are very useful to check whether all the CRUD functionalities
+have been implemented and that these are working as expected. Such tests
+can be automated through a continuous integration environment,
+as described further on.</p>
+<h1 id="continuousintegration">Continuous integration</h1>
+<p><a href="https://travis-ci.org">TravisCI</a> is an online platform for continuous
+integration that can be linked to any GitHub repository. A configuration file,
+named <code>.travis.yml</code>, must be added in the root of the project in order to
+setup the TravisCI builds. Such file specifies the language of the project,
+the version and the scripts to be executed before and after the tests. The
+configuration file used for this project is the following:</p>
+<pre><code>language: ruby
+
+rvm:
+  - 2.2
+
+env:
+  - DB=sqlite
+  - DB=postgresql
+
+before_script:
+  - psql -c 'create database myapp_test' -U postgres
+
+script:
+  - RAILS_ENV=test bundle exec rake db:migrate --trace
+  - bundle exec rake db:test:prepare
+  - bundle exec rake test
+
+bundler_args: --binstubs=./bundler_stubs
+
+after_success:
+  - coveralls
+</code></pre>
+<p><br></p>
+<p>The script section is used to run all the required DB migrations before the
+tests, while the after_success section tells TravisCI to send the code
+coverage to the <a href="https://coveralls.io/">Coveralls</a> platform after the
+tests have been successfully completed.</p>
+<p>Please note that it is possible to run the tests against different DBs. This is
+achieved with the <code>env</code> and <code>before_script</code> sections of the configuration file.
+Such configuration is very useful when you use different DB for different
+environments, as seen in the previous paragraph for the Heroku deployment.
+TravisCI will start two sub-builds and execute the tests against both
+SQLite <strong>and</strong> PostgreSQL.</p>
+<h1 id="testcoverage">Test coverage</h1>
+<p><a href="https://coveralls.io/">Coveralls</a> is an online platform that can be used to
+track the test coverage of GitHub projects. The Coveralls gem must be included
+in the <code>Gemfile</code>:</p>
+<pre><code>gem 'coveralls', require: false
+</code></pre>
+<p><br></p>
+<p>After the inclusion the bundle install command must be executed to fetch the
+required libraries. After that, it is also necessary to alter the
+<code>test/test_helper.rb</code> file in order to include Coveralls in the test process.
+Following an example of the complete file:</p>
+<pre><code>ENV['RAILS_ENV'] ||= 'test'
+
+# Coveralls
+require 'coveralls'
+Coveralls.wear!('rails')
+
+require File.expand_path('../../config/environment', __FILE__)
+require 'rails/test_help'
+
+class ActiveSupport::TestCase
+  # Setup all fixtures in test/fixtures/*.yml for all tests in alphabetical order.
+  fixtures :all
+end
+</code></pre>
+<p>Coveralls generates a report about which lines of code are covered by unit
+tests and which are not, so that you can fill the gaps and provide a better
+tests coverage.</p>
+<h1 id="conclusions">Conclusions</h1>
+<p>RoR is a powerful frameworks that allows you to easily create web-apps based
+on CRUD RESTful services and the Model-View-Controller architecture. Many
+things happen by magic, therefore a bit of practice is required to learn all
+the spells. That’s not a great issue, considering that the documentation is
+very good and that there’s a huge community of very active users. You will
+basically find the answer to your problems in few Google searches. If you
+prefer a framework to a boilerplate solution, probably RoR is a very good
+choice to implement your next web-site.</p>
+            </article>
+          </div>
+        </div>
+        <br>
+        <hr>
+        <div class="row">
+          <div class="col-lg-12 text-center">
+              <a id="twitter" class="keyword" target="_blank" title="Share it on Twitter" href="https://twitter.com/intent/tweet?text=Setup a project for continuous development with Ruby on Rails&url=http://guido-barbaglia.blog/posts/setup_a_project_for_continuous_development_with_ruby_on_rails.html">
+                  <i class="fa fa-twitter fa-2x"></i></a>
+              &nbsp;
+              <a id="linkedin" class="keyword" target="_blank" title="Share it on LinkedIn" href="http://www.linkedin.com/shareArticle?mini=true&url=http://guido-barbaglia.blog/posts/setup_a_project_for_continuous_development_with_ruby_on_rails.html&title=Setup a project for continuous development with Ruby on Rails">
+                  <i class="fa fa-linkedin fa-2x"></i></a>
+              &nbsp;
+              <a id="reddit" class="keyword" target="_blank" title="Share it on Reddit" href="http://www.reddit.com/submit?url=http://guido-barbaglia.blog/posts/setup_a_project_for_continuous_development_with_ruby_on_rails.html&title=Setup a project for continuous development with Ruby on Rails">
+                  <i class="fa fa-reddit fa-2x"></i></a>
+              &nbsp;
+              <a id="facebook" class="keyword" target="_blank" title="Share it on Facebook" href="http://www.facebook.com/sharer/sharer.php?u=http://guido-barbaglia.blog/posts/setup_a_project_for_continuous_development_with_ruby_on_rails.html&title=Setup a project for continuous development with Ruby on Rails">
+                  <i class="fa fa-facebook fa-2x"></i></a>
+              &nbsp;
+              <a id="google-plus" class="keyword" target="_blank" title="Share it on Google+" href="https://plus.google.com/share?url=http://guido-barbaglia.blog/posts/setup_a_project_for_continuous_development_with_ruby_on_rails.html">
+                  <i class="fa fa-google-plus fa-2x"></i></a>
+          </div>
+        </div>
+        <hr>
+        <div class="row">
+          <div class="col-lg-12">
+            <div id="disqus_thread"></div>
+            <script>
+                (function() {
+                    var d = document, s = d.createElement('script');
+                    s.src = '//guido-barbaglia.disqus.com/embed.js';
+                    s.setAttribute('data-timestamp', +new Date());
+                    (d.head || d.body).appendChild(s);
+                })();
+            </script>
+          </div>
+        </div>
+        <hr>
+        <script src="//z-na.amazon-adsystem.com/widgets/onejs?MarketPlace=US&adInstanceId=03df545c-279d-4a52-a4e4-f6e790dd0f1c&storeId=guidobarbagli-20"></script>
+        <hr>
+        <p class="text-center">
+          &copy; 2016 Guido Barbaglia
+        </p>
+        <hr>
+      </div>
+      <div id="imports"></div>
+      <br class="hidden-xs hidden-sm">
+      <br class="hidden-xs hidden-sm">
+    </body>
+</html>
