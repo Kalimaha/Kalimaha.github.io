@@ -1,0 +1,452 @@
+<html>
+    <head>
+      <title>DIY Twitter with Redis and Ruby on Rails</title>
+
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+      <meta name="format-detection" content="telephone=no">
+      <meta http-equiv="X-UA-Compatible" content="IE=edge">
+      <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+      <meta name="description" content="Let&#x27;s implement a Twitter clone based on Redis as explained by its creator
+Salvatore Sanfilippo in a post dated 2014. And let&#x27;s use Ruby instead of PHP. 🙂">
+      <meta name="robots" content="index,follow">
+
+      <script>
+        (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+        (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+        m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+        })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+        ga('create', 'UA-87710589-1', 'auto');
+        ga('send', 'pageview');
+      </script>
+      <script type="application/ld+json">
+        {
+          "@context":"http://schema.org",
+          "@type":"BlogPosting",
+          "mainEntityOfPage": {
+            "@type": "WebPage",
+            "@id": "http://guido-barbaglia.blog/posts/diy_twitter_with_redis_and_ruby_on_rails.html"
+          },
+          "headline":"DIY Twitter with Redis and Ruby on Rails",
+          "description":"Let&#x27;s implement a Twitter clone based on Redis as explained by its creator
+Salvatore Sanfilippo in a post dated 2014. And let&#x27;s use Ruby instead of PHP. 🙂",
+          "author": {
+              "@type": "Person",
+              "name": "Guido Barbaglia"
+          },
+          "datePublished": "2017-01-05T11:41:33.255Z",
+          "dateModified": "2017-01-05T11:41:33.255Z",
+          "publisher": {
+            "@type": "Organization",
+            "name": "Guido Barbaglia",
+            "logo": {
+              "@type": "ImageObject",
+              "url": "http://guido-barbaglia.blog/src/images/portrait.jpg",
+              "width": "150",
+              "height": 60
+            }
+          },
+          "image": {
+            "@type": "ImageObject",
+            "url": "http://guido-barbaglia.blog/src/images/diy_twitter_with_redis_and_ruby_on_rails.png",
+            "height": 150,
+            "width": "150"
+          }
+        }
+      </script>
+
+      <meta name="twitter:card" content="summary" />
+      <meta name="twitter:site" content="http://guido-barbaglia.blog/posts/diy_twitter_with_redis_and_ruby_on_rails.html" />
+      <meta name="twitter:title" content="DIY Twitter with Redis and Ruby on Rails" />
+      <meta name="twitter:description" content="Let&#x27;s implement a Twitter clone based on Redis as explained by its creator
+Salvatore Sanfilippo in a post dated 2014. And let&#x27;s use Ruby instead of PHP. 🙂" />
+      <meta name="twitter:image" content="http://guido-barbaglia.blog/src/images/diy_twitter_with_redis_and_ruby_on_rails.png" />
+      
+      <meta property="og:url" content="http://guido-barbaglia.blog/posts/diy_twitter_with_redis_and_ruby_on_rails.html" />
+      <meta property="og:type" content="article" />
+      <meta property="og:title" content="DIY Twitter with Redis and Ruby on Rails" />
+      <meta property="og:description" content="Let&#x27;s implement a Twitter clone based on Redis as explained by its creator
+Salvatore Sanfilippo in a post dated 2014. And let&#x27;s use Ruby instead of PHP. 🙂" />
+      <meta property="og:image" content="http://guido-barbaglia.blog/src/images/diy_twitter_with_redis_and_ruby_on_rails.png" />
+
+      <link rel="shortcut icon" href="../src/icons/favicon.ico">
+      <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet">
+      <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
+      <link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet">
+      <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.8.0/styles/default.min.css">
+        <link href="../src/css/guido-barbaglia.css" rel="stylesheet">
+
+      <script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
+      <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.8.0/highlight.min.js"></script>
+      <script src="https://cdn.rawgit.com/showdownjs/showdown/1.5.1/dist/showdown.min.js"></script>
+
+      <script>
+        function enhance() {
+            const pres = $('pre');
+            for (var idx of Array(pres.length).keys()) { hljs.highlightBlock(pres.get(idx)) }
+            $('table').addClass('table table-striped table-bordered table-condensed table-hover');
+            $('a').addClass('keyword');
+        }
+      </script>
+    </head>
+
+    <body onload="enhance();">
+      <br class="hidden-xs hidden-sm">
+      <br class="hidden-xs hidden-sm">
+      <div class="container">
+        <hr>
+        <h4 class="text-center">
+          <a href="../">Home</a>
+        </h4>
+        <hr>
+        <br>
+
+        <div class='row'>
+          <div class='col-lg-4 hidden-xs hidden-sm hidden-md hidden-print'>
+            <img  src='../src/images/diy_twitter_with_redis_and_ruby_on_rails.png'
+                  class='img-responsive img-circle center-block'
+                  style="border: 1px solid #000;" >
+            <br>
+          </div>
+          <div class='col-lg-8'>
+            <div class='row'>
+              <div class='col-lg-11'>
+                <div class='summary'>
+                  <p>Let's implement a Twitter clone based on Redis as explained by its creator
+Salvatore Sanfilippo in a post dated 2014. And let's use Ruby instead of PHP. 🙂</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <hr>
+        <div class='row'>
+          <div class='col-lg-12'>
+            <article>
+                <h1 id="diytwitterwithredisandrubyonrails">DIY Twitter with Redis and Ruby on Rails</h1>
+<p><a href="http://redis.io/">Redis</a> is a key-value in-memory database that was initially
+released in 2009, and since then it gained great popularity. This kind of DB
+is mainly used for real time analysis, counting and sorting problems, pub/sub,
+queues and caching. In 2014, <a href="https://blog.pivotal.io/pivotal/pivotal-people/pivotal-people-salvatore-sanfilippo-inventor-of-redis">Salvatore Sanfilippo</a>
+(<em>the creator of Redis, a.k.a. <a href="http://antirez.com/">antirez</a></em>) published <a href="http://redis.io/topics/twitter-clone">a
+very interesting post</a> where he describes
+the design and implementation of a Twitter clone based on Redis. This article
+shows how Redis goes beyond the aforementioned use cases and how it could be
+used as the primary data storage for an application. The original article is
+intended to be a tutorial for newbies, so I will use it to learn and practice
+with Redis. However, I will use <a href="http://rubyonrails.org/">Ruby on Rails</a>
+(<em>instead of PHP</em>) to implement the final web application. By doing so, I will
+have the opportunity to approach a new technology and also to explore a new
+scenario with Ruby on Rails. The application has been named <em>R3Twitter</em> after
+the technologies involved: Redis, Ruby and Rails.</p>
+<h1 id="resources">Resources</h1>
+<p>The source code is available on GitHub, so please consider to watch, fork or
+star it! The following table contains the links to all the resources available
+for this project.</p>
+<table>
+<thead>
+<tr>
+<th>Resource</th>
+<th>Host</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Source Code</td>
+<td><a href="https://github.com/Kalimaha/R3Twitter">GitHub</a></td>
+</tr>
+<tr>
+<td>Live Demo</td>
+<td><a href="https://r3twitter.herokuapp.com/">Heroku</a></td>
+</tr>
+<tr>
+<td>CI</td>
+<td><a href="https://travis-ci.org/Kalimaha/R3Twitter">TravisCi</a></td>
+</tr>
+<tr>
+<td>Tests Coverage</td>
+<td><a href="https://coveralls.io/github/Kalimaha/R3Twitter">Coveralls</a></td>
+</tr>
+</tbody>
+</table>
+<h1 id="thebrainredis">The brain: Redis</h1>
+<p>Antirez’s post provides a detailed overview of Redis commands and also explains
+more in depth the design of the application, so for more details please refer
+to the <a href="http://redis.io/topics/twitter-clone">original post</a>.</p>
+<h2 id="uniqueids">Unique IDs</h2>
+<p>Redis provides the <code>INCR</code> command, an atomic operator used to increment a
+counter in a concurrent environment. This means that when multiple clients try
+to modify the same variable at the same time, this will be protected by
+simultaneous accesses for the time required for the update, keeping the value
+of the variable consistent. <em>R3Twitter</em> requires two entities: <code>users</code> and
+<code>tweets</code>, therefore we need two different counters. The <code>user_id</code> counter can
+be simply generated as follows:</p>
+<pre><code>INCR user_id
+</code></pre>
+<p><br></p>
+<p>Such counter can be retrieved at any time:</p>
+<pre><code>GET user_id
+</code></pre>
+<p><br></p>
+<p>The same concepts can be obviously applied for <code>tweet_id</code>.</p>
+<h2 id="usersandtweets">Users and Tweets</h2>
+<p>Once the mechanism required to generate unique IDs is in place, it is possible
+to store both the users and the tweets. <code>HMSET</code> is the Redis way to associate a
+key (<em>e.g. <code>user_id</code> or <code>tweet_id</code></em>) to an object in the DB. The user having
+<code>user_id</code> "<em>42</em>" can be stored in the DB as follows:</p>
+<pre><code>HMSET user:42 username "kalimaha" password "12345678"
+</code></pre>
+<p><br></p>
+<p>Similarly, a tweet posted by the previous user having <code>tweet_id</code> "<em>1982</em>" will
+be saved like this:</p>
+<pre><code>HMSET tweet:1982 user "42" time "1460935326" body "Hello, World!"
+</code></pre>
+<p><br></p>
+<p>For login purposes, it is also required to keep track of the mapping between
+the username and its internal ID. The set named users will hold such
+relationship:</p>
+<pre><code>HSET users "kalimaha" "42"
+</code></pre>
+<p><br></p>
+<p>The login process can be charted as follows:
+<br><br>
+<img class="img-responsive center-block" src="../src/images/r3twitter_01.png"></p>
+<h2 id="followers">Followers</h2>
+<p>Each user has a list of followers, and a list of followings. The first list
+will be used to update other users timelines, while the latter can be used to
+keep track of the user’s network. Such lists can be implemented either as a set
+or as an ordered set. We will use the latter to keep track of the changes of
+the two networks over time. <code>ZADD</code> allows you to create an ordered list through
+the use of a score, which is a value that defines the priority of an item over
+another. The followers list can be created using a timestamp as the score value
+as follows:</p>
+<pre><code>ZADD followers:42 "1460935326" "27"
+</code></pre>
+<p><br></p>
+<p>Where "<em>1460935326</em>" is the score and "<em>27</em>" is the hypothetical ID of another
+user (<em>a follower</em>). In case we decide to follow "<em>27</em>" back, we need to update
+the following list as well:</p>
+<pre><code>ZADD following:27 "1460935326" "42"
+</code></pre>
+<p><br></p>
+<h2 id="timeline">Timeline</h2>
+<p>The timeline of an user is simply a list of tweets made by the people the user
+is currently following. To add a tweet to the user’s timeline we will use
+<code>LPUSH</code>, which adds an item at the top of a list:</p>
+<pre><code>LPUSH timeline:42 "1982"
+</code></pre>
+<p><br></p>
+<p>The tweet having <code>tweet_id</code> "<em>42</em>" has been added to the author’s timeline
+because usually the Twitter timeline also shows your own updates. To retrieve
+the list of tweets, simply execute:</p>
+<pre><code>LRANGE timeline:42 0 -1
+</code></pre>
+<p><br></p>
+<p>The two parameters at the end, 0 and -1, define the starting and ending point
+of the list’s portion we are retrieving, and these can be used to paginate the
+query’s result (<em>e.g. show the latest 100 tweets only</em>).</p>
+<h1 id="themusclerubyonrails">The muscle: Ruby on Rails</h1>
+<p><a href="http://rubyonrails.org/">Ruby on Rails</a> (<em>RoR</em>) is a web framework based on
+the Ruby programming language, it follows the MVC (<em>Model-View-Controller</em>)
+pattern, and it is heavily centered on the resources and the CRUD operations
+that it is possible to perform on them. This project is based on Redis,
+which is a key-value DB, so we can’t really map our resources on RoR models,
+therefore we need to find another way to manage our simple models: user and
+tweet. The first thing to do then is to get rid of the
+<a href="http://guides.rubyonrails.org/active_record_basics.html">Active Record</a>
+feature of RoR. To do so, we need to specify the <code>-O</code> option during the project
+creation:</p>
+<pre><code>rails new R3Twitter -O
+</code></pre>
+<p><br></p>
+<p>It is also possible to remove the Active Record in a later stage, but it’s
+much better to start with the right foot, trust me! The project has no models,
+and we will organize the back-end in controllers, which deal with the
+communication with the views, and helpers, which encapsulate the
+communication with the DB.</p>
+<h2 id="communicatewithredishelpers">Communicate with Redis: helpers</h2>
+<p>Helpers are Ruby modules that can be imported in the controllers. In the
+current structure of the projects there are three different <code>_helper</code> modules:
+<code>application</code>, <code>user</code> and <code>tweet</code>. The <code>application_helper</code> implements the
+business logic required to open a connection with the DB, and it also contains
+all the methods of general utility:</p>
+<pre><code>module ApplicationHelper
+  attr_reader :redis
+
+  @redis = nil
+
+  def init_redis
+    @redis = Redis.new(:host =&gt; Rails.configuration.x.redis.host,
+                       :port =&gt; Rails.configuration.x.redis.port,
+                       :password =&gt; Rails.configuration.x.redis.password) if @redis == nil
+  end
+
+  # Empty the DB. This method is used in the testing environment.
+  def flushdb
+    keys = @redis.keys('*')
+    @redis.del(*keys) unless keys.empty?
+
+    'OK'
+  end
+end
+</code></pre>
+<p><br></p>
+<p>Both the <code>user_helper</code> and the <code>tweet_helper</code> extend the <code>application_helper</code>
+in order to use the connector that access the DB. Each helper then contains the
+methods required to manage users and tweets at the Redis level
+(<em>e.g. generate unique ID’s, create a user, retrieve tweets, and so forth</em>).</p>
+<h2 id="communicatewithuserscontrollers">Communicate with users: controllers</h2>
+<p>Controllers are in charge of collecting the parameters from the views, process
+the business logic, and render the views. Once again there are three different
+controller: the <code>application_controller</code> is in charge of initializing the
+helpers, while <code>user</code> and <code>tweet</code> controller implement the business logic for
+our models. The application_controller is as simple as:</p>
+<pre><code>class ApplicationController &lt; ActionController::Base
+  protect_from_forgery with: :exception
+
+  before_action :initialize_helper
+
+  skip_before_filter :verify_authenticity_token
+
+  def initialize_helper
+    init_redis
+  end
+end
+</code></pre>
+<p><br></p>
+<h1 id="deployonheroku">Deploy on Heroku</h1>
+<p>To deploy on Heroku, we need to provide a configuration file, install Redis,
+and configure the app to work with the cloud DB.</p>
+<h2 id="procfile">Procfile</h2>
+<p>The first step we need to take to deploy our project on Heroku is a
+<code>Procfile</code> stored in the project’s root. Such file is plain simple:</p>
+<pre><code>web: bundle exec rails server -p $PORT
+</code></pre>
+<p><br></p>
+<h2 id="addredis">Add Redis</h2>
+<p>After that, we need to change the default Heroku DB, from PostgreSQL to Redis.
+To do so, create an app in Heroku, then remove the PostgreSQL service from
+<em>Resources</em> / <em>Add-ons</em>. Then, in the same section, search and select
+<em>Heroku Redis</em>.</p>
+<h2 id="differentsettingsfordifferentenvironments">Different settings for different environments</h2>
+<p>During the development and testing phase it is possible to use the Redis
+instance running in localhost. However, for the production environment we need
+to connect the application to the Redis instance running in the Heroku cloud.
+To do so, we are required to specify the host, the port and the password. To
+acquire such information I will use the Heroku CLI:</p>
+<pre><code>heroku config:get REDIS_URL --app r3twitter
+</code></pre>
+<p><br></p>
+<p>The result is in the form:</p>
+<pre><code>redis://h:&lt;PASSWORD&gt;@&lt;HOST&gt;:&lt;PORT&gt;
+</code></pre>
+<p><br></p>
+<p>RoR come with three different environment (<em>development, production and
+testing</em>), and each one of these environments has its own configuration file
+located at <code>config/environments</code>. We need to add the Redis settings at the end
+of each one of these files. For example, the <code>development.rd</code> file will look
+like:</p>
+<pre><code>Rails.application.configure do  
+  # Other stuff
+  ...
+
+  # Rails instance
+  config.x.redis.host = 'localhost'
+  config.x.redis.port = 6379
+  config.x.redis.password = nil
+end
+</code></pre>
+<p><br></p>
+<p>These settings are used in the <code>init</code> method of the aforementioned
+<code>application_helper</code> file:</p>
+<pre><code>def init_redis
+  @redis = Redis.new(:host =&gt; Rails.configuration.x.redis.host,
+                     :port =&gt; Rails.configuration.x.redis.port,
+                     :password =&gt; Rails.configuration.x.redis.password) if @redis == nil
+end
+</code></pre>
+<h1 id="deploy">Deploy</h1>
+<p>We are almost there! Now we just need to connect the Heroku app to the GitHub
+repository and deploy it. All these operations can be performed through the web
+interface. Et voilá, we can finally tweet our first message!
+<img class="img-responsive center-block" src="../src/images/r3twitter_02.png"></p>
+<h1 id="continuousintegration">Continuous integration</h1>
+<p>We can easily link our GitHub project to the continuous integration platform
+TravisCI. To do so, we just need a <code>.travis.yml</code> file in the project’s root.
+The file is as simple as:</p>
+<pre><code>language: ruby
+
+rvm:
+  - 2.2
+
+services:
+  - redis-server
+
+script:
+  - bundle exec rake test
+
+bundler_args: --binstubs=./bundler_stubs
+
+after_success:
+  - coveralls
+</code></pre>
+<p><br></p>
+<h1 id="conclusions">Conclusions</h1>
+<p>This post, based on an article by Salvatore Sanfilippo, describes how to
+implement a simple Twitter clone built with Ruby on Rails using Redis as the
+main DB. The data structure has been easily implemented in Redis with very
+few functions. RoR has been used to implement the web app by removing the
+default Active Record feature and mapping the Redis functionalities by means of
+Ruby modules. Finally, the app has been deployed on Heroku, removing the default
+PostgreSQL storage and installing the Redis DB.</p>
+            </article>
+          </div>
+        </div>
+        <br>
+        <hr>
+        <div class="row">
+          <div class="col-lg-12 text-center">
+              <a id="twitter" class="keyword" target="_blank" title="Share it on Twitter" href="https://twitter.com/intent/tweet?text=DIY Twitter with Redis and Ruby on Rails&url=http://guido-barbaglia.blog/posts/diy_twitter_with_redis_and_ruby_on_rails.html">
+                  <i class="fa fa-twitter fa-2x"></i></a>
+              &nbsp;
+              <a id="linkedin" class="keyword" target="_blank" title="Share it on LinkedIn" href="http://www.linkedin.com/shareArticle?mini=true&url=http://guido-barbaglia.blog/posts/diy_twitter_with_redis_and_ruby_on_rails.html&title=DIY Twitter with Redis and Ruby on Rails">
+                  <i class="fa fa-linkedin fa-2x"></i></a>
+              &nbsp;
+              <a id="reddit" class="keyword" target="_blank" title="Share it on Reddit" href="http://www.reddit.com/submit?url=http://guido-barbaglia.blog/posts/diy_twitter_with_redis_and_ruby_on_rails.html&title=DIY Twitter with Redis and Ruby on Rails">
+                  <i class="fa fa-reddit fa-2x"></i></a>
+              &nbsp;
+              <a id="facebook" class="keyword" target="_blank" title="Share it on Facebook" href="http://www.facebook.com/sharer/sharer.php?u=http://guido-barbaglia.blog/posts/diy_twitter_with_redis_and_ruby_on_rails.html&title=DIY Twitter with Redis and Ruby on Rails">
+                  <i class="fa fa-facebook fa-2x"></i></a>
+              &nbsp;
+              <a id="google-plus" class="keyword" target="_blank" title="Share it on Google+" href="https://plus.google.com/share?url=http://guido-barbaglia.blog/posts/diy_twitter_with_redis_and_ruby_on_rails.html">
+                  <i class="fa fa-google-plus fa-2x"></i></a>
+          </div>
+        </div>
+        <hr>
+        <div class="row">
+          <div class="col-lg-12">
+            <div id="disqus_thread"></div>
+            <script>
+                (function() {
+                    var d = document, s = d.createElement('script');
+                    s.src = '//guido-barbaglia.disqus.com/embed.js';
+                    s.setAttribute('data-timestamp', +new Date());
+                    (d.head || d.body).appendChild(s);
+                })();
+            </script>
+          </div>
+        </div>
+        <hr>
+        <script src="//z-na.amazon-adsystem.com/widgets/onejs?MarketPlace=US&adInstanceId=03df545c-279d-4a52-a4e4-f6e790dd0f1c&storeId=guidobarbagli-20"></script>
+        <hr>
+        <p class="text-center">
+          &copy; 2016 Guido Barbaglia
+        </p>
+        <hr>
+      </div>
+      <div id="imports"></div>
+      <br class="hidden-xs hidden-sm">
+      <br class="hidden-xs hidden-sm">
+    </body>
+</html>
