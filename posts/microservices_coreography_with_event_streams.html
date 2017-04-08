@@ -1,0 +1,369 @@
+<html>
+    <head>
+      <title>Microservices coreography with event streams</title>
+
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+      <meta name="format-detection" content="telephone=no">
+      <meta http-equiv="X-UA-Compatible" content="IE=edge">
+      <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+      <meta name="description" content="Reduce the coupling between microservices through the use of event streams">
+      <meta name="robots" content="index,follow">
+
+      <script>
+        (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+        (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+        m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+        })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+        ga('create', 'UA-87710589-1', 'auto');
+        ga('send', 'pageview');
+      </script>
+      <script type="application/ld+json">
+        {
+          "@context":"http://schema.org",
+          "@type":"BlogPosting",
+          "mainEntityOfPage": {
+            "@type": "WebPage",
+            "@id": "http://guido-barbaglia.blog/posts/microservices_coreography_with_event_streams.html"
+          },
+          "headline":"Microservices coreography with event streams",
+          "description":"Reduce the coupling between microservices through the use of event streams",
+          "author": {
+              "@type": "Person",
+              "name": "Guido Barbaglia"
+          },
+          "datePublished": "2017-04-08T05:48:17.947Z",
+          "dateModified": "2017-04-08T05:48:17.947Z",
+          "publisher": {
+            "@type": "Organization",
+            "name": "Guido Barbaglia",
+            "logo": {
+              "@type": "ImageObject",
+              "url": "http://guido-barbaglia.blog/src/images/portrait.jpg",
+              "width": "150",
+              "height": 60
+            }
+          },
+          "image": {
+            "@type": "ImageObject",
+            "url": "http://guido-barbaglia.blog/src/images/microservices_coreography_with_event_streams.png",
+            "height": 150,
+            "width": "150"
+          }
+        }
+      </script>
+
+      <meta name="twitter:card" content="summary" />
+      <meta name="twitter:site" content="http://guido-barbaglia.blog/posts/microservices_coreography_with_event_streams.html" />
+      <meta name="twitter:title" content="Microservices coreography with event streams" />
+      <meta name="twitter:description" content="Reduce the coupling between microservices through the use of event streams" />
+      <meta name="twitter:image" content="http://guido-barbaglia.blog/src/images/microservices_coreography_with_event_streams.png" />
+      
+      <meta property="og:url" content="http://guido-barbaglia.blog/posts/microservices_coreography_with_event_streams.html" />
+      <meta property="og:type" content="article" />
+      <meta property="og:title" content="Microservices coreography with event streams" />
+      <meta property="og:description" content="Reduce the coupling between microservices through the use of event streams" />
+      <meta property="og:image" content="http://guido-barbaglia.blog/src/images/microservices_coreography_with_event_streams.png" />
+
+      <link rel="shortcut icon" href="../src/icons/favicon.ico">
+      <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet">
+      <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
+      <link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet">
+      <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.8.0/styles/default.min.css">
+        <link href="../src/css/guido-barbaglia.css" rel="stylesheet">
+
+      <script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
+      <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.8.0/highlight.min.js"></script>
+      <script src="https://cdn.rawgit.com/showdownjs/showdown/1.5.1/dist/showdown.min.js"></script>
+
+      <script>
+        function enhance() {
+            const pres = $('pre');
+            for (var idx of Array(pres.length).keys()) { hljs.highlightBlock(pres.get(idx)) }
+            $('table').addClass('table table-striped table-bordered table-condensed table-hover');
+            $('a').addClass('keyword');
+        }
+      </script>
+    </head>
+
+    <body onload="enhance();">
+      <br class="hidden-xs hidden-sm">
+      <br class="hidden-xs hidden-sm">
+      <div class="container">
+        <hr>
+        <h4 class="text-center">
+          <a href="../">Home</a>
+        </h4>
+        <hr>
+        <br>
+
+        <div class='row'>
+          <div class='col-lg-4 hidden-xs hidden-sm hidden-md hidden-print'>
+            <img  src='../src/images/microservices_coreography_with_event_streams.png'
+                  class='img-responsive img-circle center-block'
+                  style="border: 1px solid #000;" >
+            <br>
+          </div>
+          <div class='col-lg-8'>
+            <div class='row'>
+              <div class='col-lg-11'>
+                <div class='summary'>
+                  <p>Reduce the coupling between microservices through the use of event streams</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <hr>
+        <div class='row'>
+          <div class='col-lg-12'>
+            <article>
+                <h1 id="microservicescoreographywitheventstreams">Microservices coreography with event streams</h1>
+<p><hr>
+<br></p>
+<p>I recently had the opportunity to attend
+<a href="https://twitter.com/fgeorge52?lang=en">Fred George</a>'s talk
+"<em>IoT and MicroServices in the Home</em>" at
+<a href="http://nights.yowconference.com.au/">YOW! Nights</a>. The talk is available on
+<a href="https://youtu.be/J1eTutzcGFQ">YouTube</a> and it's strongly recommended! Another
+similar talk is <a href="https://twitter.com/perrynfowler">Perryn Fowler</a>'s
+"<em>Microservices and IoT: A Perfect Match</em>", also available on
+<a href="https://youtu.be/Am7edhP6G7s">YouTube</a>. These talks are somehow similar and
+describe the use of event streams to "<em>organize</em>" several microservices that
+monitor and control some IoT devices such as lights and sensors. I found the
+topic very interesting, and I wanted to try this type of architecture myself.
+The systems presented in the aforementioned talks are based on real-time data
+processing, and I want to figure out whether this approach can be also used for
+other use cases.</p>
+<h1 id="edisoncars">Edison Cars</h1>
+<p><em>Edison Cars</em> is an hypothetical low-cost manufacturer of electric vehicles that wants
+to sell its products online. The newly born company has a shiny state-of-the-art
+UI for its sales, and it needs to communicates such information to other
+departments of the company, such as the warehouse, the assembly lines and
+so forth and so on. There are several ways to implement an IT infrastructure
+capable to support such business model.</p>
+<h2 id="monolith">Monolith</h2>
+<p>Well. No. 😬</p>
+<h2 id="synchronousrestfulservices">Synchronous RESTful Services</h2>
+<p>A first approach consists in the implementation of several microservices, one for
+each division of the company. As soon as a customer buys a new car, the sales
+service stores a new record in its DB, and then it invokes all the services
+required to "<em>implement</em>" the sale. Such approach is known as <em>services
+orchestration</em>. Soon enough we will find out that the sales app is required to
+<em>know too much</em>: it has to know which are the services required, how to invoke
+them, and eventually in which order. Every time we want to add a new service,
+we are required to modify the sales app to make it aware of the new app it
+needs to communicate with.</p>
+<h2 id="queues">Queues</h2>
+<p>Another solution consists in the use of queues, such as
+<a href="https://aws.amazon.com/sqs/">SQS</a>, <a href="https://github.com/chanks/que">Que</a> or
+similar. With this implementation, the sole responsibility of the sales app is
+to (<em>sell a car and</em>) enqueue the data about the sale. Such information is then
+retrieved and processed by workers in the other services. Usually a
+queue works for a single consumer, which removes the job from the queue. Therefore,
+this is not an ideal solution if we need to share the same information
+between several services, unless we instanciate a queue for each required service
+and we enqueue the same information over and over again.</p>
+<p>The sales app is still required to know about other services, in the form of
+queues, but through this architecture it is not required to know <em>how</em> to invoke
+such services. Its sole responsibility now is to post a message to a queue.
+The overall system is also more fault-tolerant, because it will keep working even
+if one of the other services is down. With services orchestration, the downtime
+of one of the services affects the sales app, because it is not able to communicate
+with the other apps required to complete the sale. In this new model, the sales
+app can complete the sale as soon as it publishes the message to the queue. Once
+the faulty service is up and running again, it will simply subscribe to the queue
+again and process the remaining job, without blocking the entire business.</p>
+<h2 id="datafeeds">Data Feeds</h2>
+<p>To make the sales app completely independent from other services, we can
+introduce a data feed. A data feed is a JSON/XML representation
+of one or more entities stored in the DB (<em>e.g. orders</em>) that can be consumed
+by other services. Such services periodically check the feed for updates and
+create a local copy of such data in their local DB. In this scenario, a
+warehouse app can check the feed and order new pieces when it detects a new
+order, a dashboard app can update its statistics and so son.</p>
+<p>The sales app now is not required to know about other systems at all, new
+services can be easilly added and removed, and the overall architecture is still
+very fault-tolerant. In this scenario, even the downtime of a source of information
+won't affect the whole system. Let's say there's a customer app, which stores
+the information required for the billing and the shipment. Even if this app is
+down for some reason, the fault won't affect hypothetical billing and shipping
+apps, because they hold a copy of the customers information in their local DB.</p>
+<p>This solution works well when data is not updated often and the local copy is
+good enough to continue operations. On the other hand, we are stressing source
+apps (<em>e.g. sales, customers, etc.</em>) which are accessed often to provide fresh
+data. This can potentially slow down the app when there are many downstream
+systems and/or the feed is particularly heavy.</p>
+<h2 id="eventstreams">Event Streams</h2>
+<p>With an event stream, the sales app is required to pubilsh the sale event and
+the relative data to a message broker. Downstream systems subscribe to the event
+stream and get notified every time there is a new event. The advantages are the
+same of the Data Feed solution, but we have added an extra layer between the data
+source and its consumers. The message broker is an external system, therefore
+the sales app is not queried constantly. Consumer systems read directly from the
+stream and store the data locally, achievieng the same decoupling and resiliency
+goals. Is this the silver bullet then? Can I use it for any use case?</p>
+<h1 id="rabbitmqhandson">RabbitMQ Hands-on</h1>
+<p>I've tried to build the microservices for <em>Edison Cars</em> using
+<a href="https://www.rabbitmq.com/">RabbitMQ</a>, as suggested by Fred George in his talk.
+Other possible technologies are <a href="https://aws.amazon.com/kinesis">AWS Kinesis</a>
+and <a href="https://kafka.apache.org/">Apache Kafka</a>, even though RabbitMQ is simple
+enough to play with it and quickly test some ideas.  The source code of my
+little project is available on
+<a href="https://github.com/Kalimaha/event-stream-playground">GitHub</a>. In this
+implementation, for each new order in the sales app, a new record is
+stored in the DB, and the event is published on the <a href="https://www.rabbitmq.com/tutorials/tutorial-three-ruby.html">exchange</a>.
+Basically, an exchange is an object that receives messages and pushes them to
+queues:</p>
+<pre><code>def publish(order:)
+  connection  = open_connection
+  channel     = connection.create_channel
+  exchange    = channel.fanout('orders', :durable =&gt; true)
+  message     = create_message(order)
+
+  exchange.publish(message, :persistent =&gt; true)
+
+  connection.close
+end
+</code></pre>
+<p><br></p>
+<p>The data source needs to open a connection, create a channel and an exchange
+(<em>both idempotent operations</em>), and then publish the message. The code on the
+consumer side is very similar:</p>
+<pre><code>def consume(queue_name, block)
+  connection  = open_connection
+  channel     = connection.create_channel
+  exchange    = channel.fanout('orders', :durable =&gt; true)
+  queue       = channel.queue(queue_name, :auto_delete =&gt; false)
+  queue.bind(exchange)
+
+  begin
+    queue.subscribe(:block =&gt; block, :manual_ack =&gt; true) do |delivery_info, properties, body|
+      json = JSON.parse(body)
+      if Order.find_by_external_id(json['external_id']).nil?
+        order = Order.new(order_data(json))
+        order.save
+      end
+    end
+  rescue Interrupt =&gt; _
+    channel.close
+    connection.close
+  end
+end
+</code></pre>
+<p><br></p>
+<p>Once the consumer receives a message from the exchange, it looks in the DB to
+determine whether it already has a copy of that order, and it stores it
+otherwise. This mechanism will avoid duplicate copies of the data and wrong
+operations based on it. I'm failry sure that the customer wants to buy only
+<em>one</em> car at the time!</p>
+<h2 id="disadvantages">Disadvantages</h2>
+<p>All good then? Well, not really. Let's take a look at the weak points of this
+architecture:</p>
+<ul>
+<li><p><strong>If a tree falls in a forest and no one is around to hear it, does it make a
+sound?:</strong> Not in the RabbitMQ world. If the source publishes a message to the
+exchange with no existing queue, the message is discarded, lost. For example,
+if the sales app sells a car before any other service had the chance to
+subscribe to its exchange, the orders are lost and never delivered to anyone.
+Unlikely, but it may happen. The solution that I've implemented so far is to
+create a queue in the datasource, named <em>history</em>. Basically, the data source
+produces the data and publishes it to the exchange, but it also "<em>consumes</em>" it
+in a sort of backup queue. By doing this we ensure that there's always at least
+one consumer of the queue, which is the data source itself.</p></li>
+<li><p><strong>Adding Services:</strong> when a new consumer subscribes to the exchange, it reads
+the data from that moment on. For example, imagine that you want to add a new
+service to your architecture to create statistics over the sales. This service
+will not have access to the historical timeseries of such sales, but only to
+the sales made from the moment it subscribes to the exchance on. To address this
+problem, I added a small <a href="https://github.com/ruby/rake">Rake</a> task, that
+subscribe to the aforementioned <em>history</em> queue, and populates the DB. This is
+the same as having a feed, even though we are still dealing with the event stream
+with no overhead for the datasource.</p></li>
+</ul>
+<h1 id="conclusions">Conclusions</h1>
+<p>So, what's the outcome of my little experiment? The advantages of queues, data
+feeds and event streams in terms of decoupling and resiliency are obvious.
+Although event streams are very interesting, it is possible to use this solution
+in selected use cases only.</p>
+<p>For example, should <em>Edison Cars</em> share its sales data through streams? Well,
+as usual, it depends. Streams shouldn't be used for, let's say, a billing app.
+Such data should be always available at any point in time, while with the
+stream, the information lives in the stream until someone consumes it. Although
+it is possible to make the data persistent in the exchange, it's not
+reccomended, for at least two reasons. By doing so, we are creating a copy of
+the data that should live only in the DB. Furthermore, this data may become
+outdated and can potentially lead to wrong outcomes.</p>
+<p>On the other hand, there are use cases where event streams can be preferred to
+data feeds. <em>Edison Cars</em> could decide to send a confirmation email to the user
+once a sale has been made, and this scenario can be easilly implemented with a
+mailing app that "<em>listen</em>" to the exchange and sends a message for every new
+object in the queue. A list of possible use cases is available on the
+<a href="https://kafka.apache.org/uses">Kafka website</a>, and it includes messaging,
+metrics,log aggregation, etc. And, of course,  real-time data processing for IoT
+devices, as per the talks that inspired this post. 🙂</p>
+<p><br></p>
+<hr>
+<h1 id="resources">Resources</h1>
+<ul>
+<li>Fred George's <a href="https://youtu.be/J1eTutzcGFQ">IoT and MicroServices in the Home</a></li>
+<li>Perryn Fowler's <a href="https://youtu.be/Am7edhP6G7s">Microservices and IoT: A Perfect Match</a></li>
+<li>JR D'Amore's <a href="https://www.thoughtworks.com/insights/blog/scaling-microservices-event-stream">Scaling Microservices with an Event Stream</a></li>
+<li><a href="https://aws.amazon.com/sqs/">AWS SQS</a></li>
+<li><a href="https://github.com/chanks/que">Que</a></li>
+<li><a href="https://www.rabbitmq.com/">RabbitMQ</a></li>
+<li><a href="https://aws.amazon.com/kinesis/">AWS Kinesis</a></li>
+<li><a href="https://kafka.apache.org/">Apache Kafka</a></li>
+<li><a href="https://github.com/Kalimaha/event-stream-playground">My source code</a></li>
+</ul>
+            </article>
+          </div>
+        </div>
+        <br>
+        <hr>
+        <div class="row">
+          <div class="col-lg-12 text-center">
+              <a id="twitter" class="keyword" target="_blank" title="Share it on Twitter" href="https://twitter.com/intent/tweet?text=Microservices coreography with event streams&url=http://guido-barbaglia.blog/posts/microservices_coreography_with_event_streams.html">
+                  <i class="fa fa-twitter fa-2x"></i></a>
+              &nbsp;
+              <a id="linkedin" class="keyword" target="_blank" title="Share it on LinkedIn" href="http://www.linkedin.com/shareArticle?mini=true&url=http://guido-barbaglia.blog/posts/microservices_coreography_with_event_streams.html&title=Microservices coreography with event streams">
+                  <i class="fa fa-linkedin fa-2x"></i></a>
+              &nbsp;
+              <a id="reddit" class="keyword" target="_blank" title="Share it on Reddit" href="http://www.reddit.com/submit?url=http://guido-barbaglia.blog/posts/microservices_coreography_with_event_streams.html&title=Microservices coreography with event streams">
+                  <i class="fa fa-reddit fa-2x"></i></a>
+              &nbsp;
+              <a id="facebook" class="keyword" target="_blank" title="Share it on Facebook" href="http://www.facebook.com/sharer/sharer.php?u=http://guido-barbaglia.blog/posts/microservices_coreography_with_event_streams.html&title=Microservices coreography with event streams">
+                  <i class="fa fa-facebook fa-2x"></i></a>
+              &nbsp;
+              <a id="google-plus" class="keyword" target="_blank" title="Share it on Google+" href="https://plus.google.com/share?url=http://guido-barbaglia.blog/posts/microservices_coreography_with_event_streams.html">
+                  <i class="fa fa-google-plus fa-2x"></i></a>
+          </div>
+        </div>
+        <hr>
+        <div class="row">
+          <div class="col-lg-12">
+            <div id="disqus_thread"></div>
+            <script>
+                (function() {
+                    var d = document, s = d.createElement('script');
+                    s.src = '//guido-barbaglia.disqus.com/embed.js';
+                    s.setAttribute('data-timestamp', +new Date());
+                    (d.head || d.body).appendChild(s);
+                })();
+            </script>
+          </div>
+        </div>
+        <hr>
+        <script src="//z-na.amazon-adsystem.com/widgets/onejs?MarketPlace=US&adInstanceId=03df545c-279d-4a52-a4e4-f6e790dd0f1c&storeId=guidobarbagli-20"></script>
+        <hr>
+        <p class="text-center">
+          &copy; 2016 Guido Barbaglia
+        </p>
+        <hr>
+      </div>
+      <div id="imports"></div>
+      <br class="hidden-xs hidden-sm">
+      <br class="hidden-xs hidden-sm">
+    </body>
+</html>
