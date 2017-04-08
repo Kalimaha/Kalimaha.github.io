@@ -1,4 +1,4 @@
-# Microservices orchestration with event streams
+# Microservices coreography with event streams
 <hr>
 <br>
 
@@ -9,22 +9,19 @@ I recently had the opportunity to attend
 [YouTube](https://youtu.be/J1eTutzcGFQ) and it's strongly recommended! Another
 similar talk is [Perryn Fowler](https://twitter.com/perrynfowler)'s
 "_Microservices and IoT: A Perfect Match_", also available on
-[YouTube](https://youtu.be/Am7edhP6G7s).
-
-These talks are somehow similar and describe the use of event streams to
-orchestrate several microservices that monitor and control some IoT devices
-such as lights and sensors.
-
-I found the topic very interesting, and I wanted to try this type of architecture
-myself. The systems presented in the aforementioned talks are based on real-time
-data processing, and I want to figure out whether this approach can be also
-used for other use cases.
+[YouTube](https://youtu.be/Am7edhP6G7s). These talks are somehow similar and
+describe the use of event streams to "_organize_" several microservices that
+monitor and control some IoT devices such as lights and sensors. I found the
+topic very interesting, and I wanted to try this type of architecture myself.
+The systems presented in the aforementioned talks are based on real-time data
+processing, and I want to figure out whether this approach can be also used for
+other use cases.
 
 # Edison Cars
-_Edison Cars_ is an hypothetical manufacturer of electric vehicles that wants
+_Edison Cars_ is an hypothetical low-cost manufacturer of electric vehicles that wants
 to sell its products online. The newly born company has a shiny state-of-the-art
-UI that collects orders from customers and communicates such information to the
-other departments of the company, such as the warehouse, the assembly lines and
+UI for its sales, and it needs to communicates such information to other
+departments of the company, such as the warehouse, the assembly lines and
 so forth and so on. There are several ways to implement an IT infrastructure
 capable to support such business model.
 
@@ -34,13 +31,15 @@ Well. No. 😬
 
 ## Synchronous RESTful Services
 
-A first approach consist in the implementation of several microservices, one for
+A first approach consists in the implementation of several microservices, one for
 each division of the company. As soon as a customer buys a new car, the sales
 service stores a new record in its DB, and then it invokes all the services
 required to "_implement_" the sale. Such approach is known as _services
 orchestration_. Soon enough we will find out that the sales app is required to
 _know too much_: it has to know which are the services required, how to invoke
-them, and eventually in which order.
+them, and eventually in which order. Every time we want to add a new service,
+we are required to modify the sales app to make it aware of the new app it
+needs to communicate with.
 
 ## Queues
 Another solution consists in the use of queues, such as
@@ -55,7 +54,7 @@ and we enqueue the same information over and over again.
 
 The sales app is still required to know about other services, in the form of
 queues, but through this architecture it is not required to know _how_ to invoke
-such services Its sole responsibility now is to post a message to a queue.
+such services. Its sole responsibility now is to post a message to a queue.
 The overall system is also more fault-tolerant, because it will keep working even
 if one of the other services is down. With services orchestration, the downtime
 of one of the services affects the sales app, because it is not able to communicate
@@ -100,9 +99,12 @@ goals. Is this the silver bullet then? Can I use it for any use case?
 # RabbitMQ Hands-on
 I've tried to build the microservices for _Edison Cars_ using
 [RabbitMQ](https://www.rabbitmq.com/), as suggested by Fred George in his talk.
-The source code of my little project is available on [GitHub](https://github.com/Kalimaha/event-stream-playground).
-
-In this implementation, for each new order in the sales app, a new record is
+Other possible technologies are [AWS Kinesis](https://aws.amazon.com/kinesis)
+and [Apache Kafka](https://kafka.apache.org/), even though RabbitMQ is simple
+enough to play with it and quickly test some ideas.  The source code of my
+little project is available on
+[GitHub](https://github.com/Kalimaha/event-stream-playground). In this
+implementation, for each new order in the sales app, a new record is
 stored in the DB, and the event is published on the [exchange](https://www.rabbitmq.com/tutorials/tutorial-three-ruby.html).
 Basically, an exchange is an object that receives messages and pushes them to
 queues:
@@ -122,7 +124,7 @@ end
 <br>
 
 The data source needs to open a connection, create a channel and an exchange
-(_both idempotent operations_) and then publish the message. The code on the
+(_both idempotent operations_), and then publish the message. The code on the
 consumer side is very similar:
 
 ```
@@ -170,5 +172,51 @@ produces the data and publishes it to the exchange, but it also "_consumes_" it
 in a sort of backup queue. By doing this we ensure that there's always at least
 one consumer of the queue, which is the data source itself.
 
-* __Adding Consumers:__ when a new consumer subscribes to the exchange, it reads
-the data from that moment on. ESEMPIO To solve this problem, I added a small rake task, that subscribe to the aforementioned history queue, and populates the DB. This is the same as having a feed, even though we are still dealing with the event stream with no overhead for the datasource.
+* __Adding Services:__ when a new consumer subscribes to the exchange, it reads
+the data from that moment on. For example, imagine that you want to add a new
+service to your architecture to create statistics over the sales. This service
+will not have access to the historical timeseries of such sales, but only to
+the sales made from the moment it subscribes to the exchance on. To address this
+problem, I added a small [Rake](https://github.com/ruby/rake) task, that
+subscribe to the aforementioned _history_ queue, and populates the DB. This is
+the same as having a feed, even though we are still dealing with the event stream
+with no overhead for the datasource.
+
+# Conclusions
+So, what's the outcome of my little experiment? The advantages of queues, data
+feeds and event streams in terms of decoupling and resiliency are obvious.
+Although event streams are very interesting, it is possible to use this solution
+in selected use cases only.
+
+For example, should _Edison Cars_ share its sales data through streams? Well,
+as usual, it depends. Streams shouldn't be used for, let's say, a billing app.
+Such data should be always available at any point in time, while with the
+stream, the information lives in the stream until someone consumes it. Although
+it is possible to make the data persistent in the exchange, it's not
+reccomended, for at least two reasons. By doing so, we are creating a copy of
+the data that should live only in the DB. Furthermore, this data may become
+outdated and can potentially lead to wrong outcomes.
+
+On the other hand, there are use cases where event streams can be preferred to
+data feeds. _Edison Cars_ could decide to send a confirmation email to the user
+once a sale has been made, and this scenario can be easilly implemented with a
+mailing app that "_listen_" to the exchange and sends a message for every new
+object in the queue. A list of possible use cases is available on the
+[Kafka website](https://kafka.apache.org/uses), and it includes messaging,
+metrics,log aggregation, etc. And, of course,  real-time data processing for IoT
+devices, as per the talks that inspired this post. 🙂
+
+<br>
+<hr>
+
+# Resources
+
+* Fred George's [IoT and MicroServices in the Home](https://youtu.be/J1eTutzcGFQ)
+* Perryn Fowler's [Microservices and IoT: A Perfect Match](https://youtu.be/Am7edhP6G7s)
+* JR D'Amore's [Scaling Microservices with an Event Stream](https://www.thoughtworks.com/insights/blog/scaling-microservices-event-stream)
+* [AWS SQS](https://aws.amazon.com/sqs/)
+* [Que](https://github.com/chanks/que)
+* [RabbitMQ](https://www.rabbitmq.com/)
+* [AWS Kinesis](https://aws.amazon.com/kinesis/)
+* [Apache Kafka](https://kafka.apache.org/)
+* [My source code](https://github.com/Kalimaha/event-stream-playground)

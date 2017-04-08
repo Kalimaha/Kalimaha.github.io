@@ -32,8 +32,8 @@
               "@type": "Person",
               "name": "Guido Barbaglia"
           },
-          "datePublished": "2017-04-08T03:05:36.569Z",
-          "dateModified": "2017-04-08T03:05:36.569Z",
+          "datePublished": "2017-04-08T05:48:17.947Z",
+          "dateModified": "2017-04-08T05:48:17.947Z",
           "publisher": {
             "@type": "Organization",
             "name": "Guido Barbaglia",
@@ -119,7 +119,7 @@
         <div class='row'>
           <div class='col-lg-12'>
             <article>
-                <h1 id="microservicesorchestrationwitheventstreams">Microservices orchestration with event streams</h1>
+                <h1 id="microservicescoreographywitheventstreams">Microservices coreography with event streams</h1>
 <p><hr>
 <br></p>
 <p>I recently had the opportunity to attend
@@ -129,31 +129,32 @@
 <a href="https://youtu.be/J1eTutzcGFQ">YouTube</a> and it's strongly recommended! Another
 similar talk is <a href="https://twitter.com/perrynfowler">Perryn Fowler</a>'s
 "<em>Microservices and IoT: A Perfect Match</em>", also available on
-<a href="https://youtu.be/Am7edhP6G7s">YouTube</a>.</p>
-<p>These talks are somehow similar and describe the use of event streams to
-orchestrate several microservices that monitor and control some IoT devices
-such as lights and sensors.</p>
-<p>I found the topic very interesting, and I wanted to try this type of architecture
-myself. The systems presented in the aforementioned talks are based on real-time
-data processing, and I want to figure out whether this approach can be also
-used for other use cases.</p>
+<a href="https://youtu.be/Am7edhP6G7s">YouTube</a>. These talks are somehow similar and
+describe the use of event streams to "<em>organize</em>" several microservices that
+monitor and control some IoT devices such as lights and sensors. I found the
+topic very interesting, and I wanted to try this type of architecture myself.
+The systems presented in the aforementioned talks are based on real-time data
+processing, and I want to figure out whether this approach can be also used for
+other use cases.</p>
 <h1 id="edisoncars">Edison Cars</h1>
-<p><em>Edison Cars</em> is an hypothetical manufacturer of electric vehicles that wants
+<p><em>Edison Cars</em> is an hypothetical low-cost manufacturer of electric vehicles that wants
 to sell its products online. The newly born company has a shiny state-of-the-art
-UI that collects orders from customers and communicates such information to the
-other departments of the company, such as the warehouse, the assembly lines and
+UI for its sales, and it needs to communicates such information to other
+departments of the company, such as the warehouse, the assembly lines and
 so forth and so on. There are several ways to implement an IT infrastructure
 capable to support such business model.</p>
 <h2 id="monolith">Monolith</h2>
 <p>Well. No. 😬</p>
 <h2 id="synchronousrestfulservices">Synchronous RESTful Services</h2>
-<p>A first approach consist in the implementation of several microservices, one for
+<p>A first approach consists in the implementation of several microservices, one for
 each division of the company. As soon as a customer buys a new car, the sales
 service stores a new record in its DB, and then it invokes all the services
 required to "<em>implement</em>" the sale. Such approach is known as <em>services
 orchestration</em>. Soon enough we will find out that the sales app is required to
 <em>know too much</em>: it has to know which are the services required, how to invoke
-them, and eventually in which order.</p>
+them, and eventually in which order. Every time we want to add a new service,
+we are required to modify the sales app to make it aware of the new app it
+needs to communicate with.</p>
 <h2 id="queues">Queues</h2>
 <p>Another solution consists in the use of queues, such as
 <a href="https://aws.amazon.com/sqs/">SQS</a>, <a href="https://github.com/chanks/que">Que</a> or
@@ -166,7 +167,7 @@ between several services, unless we instanciate a queue for each required servic
 and we enqueue the same information over and over again.</p>
 <p>The sales app is still required to know about other services, in the form of
 queues, but through this architecture it is not required to know <em>how</em> to invoke
-such services Its sole responsibility now is to post a message to a queue.
+such services. Its sole responsibility now is to post a message to a queue.
 The overall system is also more fault-tolerant, because it will keep working even
 if one of the other services is down. With services orchestration, the downtime
 of one of the services affects the sales app, because it is not able to communicate
@@ -206,9 +207,13 @@ goals. Is this the silver bullet then? Can I use it for any use case?</p>
 <h1 id="rabbitmqhandson">RabbitMQ Hands-on</h1>
 <p>I've tried to build the microservices for <em>Edison Cars</em> using
 <a href="https://www.rabbitmq.com/">RabbitMQ</a>, as suggested by Fred George in his talk.
-The source code of my little project is available on <a href="https://github.com/Kalimaha/event-stream-playground">GitHub</a>.</p>
-<p>For each new order in the sales app, a new record is stored in the DB, and the
-event is published on the <a href="https://www.rabbitmq.com/tutorials/tutorial-three-ruby.html">exchange</a>.
+Other possible technologies are <a href="https://aws.amazon.com/kinesis">AWS Kinesis</a>
+and <a href="https://kafka.apache.org/">Apache Kafka</a>, even though RabbitMQ is simple
+enough to play with it and quickly test some ideas.  The source code of my
+little project is available on
+<a href="https://github.com/Kalimaha/event-stream-playground">GitHub</a>. In this
+implementation, for each new order in the sales app, a new record is
+stored in the DB, and the event is published on the <a href="https://www.rabbitmq.com/tutorials/tutorial-three-ruby.html">exchange</a>.
 Basically, an exchange is an object that receives messages and pushes them to
 queues:</p>
 <pre><code>def publish(order:)
@@ -222,6 +227,96 @@ queues:</p>
   connection.close
 end
 </code></pre>
+<p><br></p>
+<p>The data source needs to open a connection, create a channel and an exchange
+(<em>both idempotent operations</em>), and then publish the message. The code on the
+consumer side is very similar:</p>
+<pre><code>def consume(queue_name, block)
+  connection  = open_connection
+  channel     = connection.create_channel
+  exchange    = channel.fanout('orders', :durable =&gt; true)
+  queue       = channel.queue(queue_name, :auto_delete =&gt; false)
+  queue.bind(exchange)
+
+  begin
+    queue.subscribe(:block =&gt; block, :manual_ack =&gt; true) do |delivery_info, properties, body|
+      json = JSON.parse(body)
+      if Order.find_by_external_id(json['external_id']).nil?
+        order = Order.new(order_data(json))
+        order.save
+      end
+    end
+  rescue Interrupt =&gt; _
+    channel.close
+    connection.close
+  end
+end
+</code></pre>
+<p><br></p>
+<p>Once the consumer receives a message from the exchange, it looks in the DB to
+determine whether it already has a copy of that order, and it stores it
+otherwise. This mechanism will avoid duplicate copies of the data and wrong
+operations based on it. I'm failry sure that the customer wants to buy only
+<em>one</em> car at the time!</p>
+<h2 id="disadvantages">Disadvantages</h2>
+<p>All good then? Well, not really. Let's take a look at the weak points of this
+architecture:</p>
+<ul>
+<li><p><strong>If a tree falls in a forest and no one is around to hear it, does it make a
+sound?:</strong> Not in the RabbitMQ world. If the source publishes a message to the
+exchange with no existing queue, the message is discarded, lost. For example,
+if the sales app sells a car before any other service had the chance to
+subscribe to its exchange, the orders are lost and never delivered to anyone.
+Unlikely, but it may happen. The solution that I've implemented so far is to
+create a queue in the datasource, named <em>history</em>. Basically, the data source
+produces the data and publishes it to the exchange, but it also "<em>consumes</em>" it
+in a sort of backup queue. By doing this we ensure that there's always at least
+one consumer of the queue, which is the data source itself.</p></li>
+<li><p><strong>Adding Services:</strong> when a new consumer subscribes to the exchange, it reads
+the data from that moment on. For example, imagine that you want to add a new
+service to your architecture to create statistics over the sales. This service
+will not have access to the historical timeseries of such sales, but only to
+the sales made from the moment it subscribes to the exchance on. To address this
+problem, I added a small <a href="https://github.com/ruby/rake">Rake</a> task, that
+subscribe to the aforementioned <em>history</em> queue, and populates the DB. This is
+the same as having a feed, even though we are still dealing with the event stream
+with no overhead for the datasource.</p></li>
+</ul>
+<h1 id="conclusions">Conclusions</h1>
+<p>So, what's the outcome of my little experiment? The advantages of queues, data
+feeds and event streams in terms of decoupling and resiliency are obvious.
+Although event streams are very interesting, it is possible to use this solution
+in selected use cases only.</p>
+<p>For example, should <em>Edison Cars</em> share its sales data through streams? Well,
+as usual, it depends. Streams shouldn't be used for, let's say, a billing app.
+Such data should be always available at any point in time, while with the
+stream, the information lives in the stream until someone consumes it. Although
+it is possible to make the data persistent in the exchange, it's not
+reccomended, for at least two reasons. By doing so, we are creating a copy of
+the data that should live only in the DB. Furthermore, this data may become
+outdated and can potentially lead to wrong outcomes.</p>
+<p>On the other hand, there are use cases where event streams can be preferred to
+data feeds. <em>Edison Cars</em> could decide to send a confirmation email to the user
+once a sale has been made, and this scenario can be easilly implemented with a
+mailing app that "<em>listen</em>" to the exchange and sends a message for every new
+object in the queue. A list of possible use cases is available on the
+<a href="https://kafka.apache.org/uses">Kafka website</a>, and it includes messaging,
+metrics,log aggregation, etc. And, of course,  real-time data processing for IoT
+devices, as per the talks that inspired this post. 🙂</p>
+<p><br></p>
+<hr>
+<h1 id="resources">Resources</h1>
+<ul>
+<li>Fred George's <a href="https://youtu.be/J1eTutzcGFQ">IoT and MicroServices in the Home</a></li>
+<li>Perryn Fowler's <a href="https://youtu.be/Am7edhP6G7s">Microservices and IoT: A Perfect Match</a></li>
+<li>JR D'Amore's <a href="https://www.thoughtworks.com/insights/blog/scaling-microservices-event-stream">Scaling Microservices with an Event Stream</a></li>
+<li><a href="https://aws.amazon.com/sqs/">AWS SQS</a></li>
+<li><a href="https://github.com/chanks/que">Que</a></li>
+<li><a href="https://www.rabbitmq.com/">RabbitMQ</a></li>
+<li><a href="https://aws.amazon.com/kinesis/">AWS Kinesis</a></li>
+<li><a href="https://kafka.apache.org/">Apache Kafka</a></li>
+<li><a href="https://github.com/Kalimaha/event-stream-playground">My source code</a></li>
+</ul>
             </article>
           </div>
         </div>
