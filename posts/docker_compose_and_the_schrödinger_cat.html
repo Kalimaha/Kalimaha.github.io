@@ -1,0 +1,252 @@
+<html>
+    <head>
+      <title>Docker Compose and the Schrödinger cat</title>
+
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+      <meta name="format-detection" content="telephone=no">
+      <meta http-equiv="X-UA-Compatible" content="IE=edge">
+      <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+      <meta name="description" content="Take advantage of Docker Compose healthchecks to make sure your containers are
+up and running in the right sequence">
+      <meta name="robots" content="index,follow">
+
+      <script>
+        (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+        (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+        m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+        })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+        ga('create', 'UA-87710589-1', 'auto');
+        ga('send', 'pageview');
+      </script>
+      <script type="application/ld+json">
+        {
+          "@context":"http://schema.org",
+          "@type":"BlogPosting",
+          "mainEntityOfPage": {
+            "@type": "WebPage",
+            "@id": "http://guido-barbaglia.blog/posts/docker_compose_and_the_schrödinger_cat.html"
+          },
+          "headline":"Docker Compose and the Schrödinger cat",
+          "description":"Take advantage of Docker Compose healthchecks to make sure your containers are
+up and running in the right sequence",
+          "author": {
+              "@type": "Person",
+              "name": "Guido Barbaglia"
+          },
+          "datePublished": "2017-08-16T09:19:16.306Z",
+          "dateModified": "2017-08-16T09:19:16.306Z",
+          "publisher": {
+            "@type": "Organization",
+            "name": "Guido Barbaglia",
+            "logo": {
+              "@type": "ImageObject",
+              "url": "http://guido-barbaglia.blog/src/images/portrait.jpg",
+              "width": "150",
+              "height": 60
+            }
+          },
+          "image": {
+            "@type": "ImageObject",
+            "url": "http://guido-barbaglia.blog/src/images/docker_compose_and_the_schrödinger_cat.png",
+            "height": 150,
+            "width": "150"
+          }
+        }
+      </script>
+
+      <meta name="twitter:card" content="summary" />
+      <meta name="twitter:site" content="http://guido-barbaglia.blog/posts/docker_compose_and_the_schrödinger_cat.html" />
+      <meta name="twitter:title" content="Docker Compose and the Schrödinger cat" />
+      <meta name="twitter:description" content="Take advantage of Docker Compose healthchecks to make sure your containers are
+up and running in the right sequence" />
+      <meta name="twitter:image" content="http://guido-barbaglia.blog/src/images/docker_compose_and_the_schrödinger_cat.png" />
+      
+      <meta property="og:url" content="http://guido-barbaglia.blog/posts/docker_compose_and_the_schrödinger_cat.html" />
+      <meta property="og:type" content="article" />
+      <meta property="og:title" content="Docker Compose and the Schrödinger cat" />
+      <meta property="og:description" content="Take advantage of Docker Compose healthchecks to make sure your containers are
+up and running in the right sequence" />
+      <meta property="og:image" content="http://guido-barbaglia.blog/src/images/docker_compose_and_the_schrödinger_cat.png" />
+
+      <link rel="shortcut icon" href="../src/icons/favicon.ico">
+      <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet">
+      <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
+      <link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet">
+      <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.8.0/styles/default.min.css">
+        <link href="../src/css/guido-barbaglia.css" rel="stylesheet">
+
+      <script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
+      <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.8.0/highlight.min.js"></script>
+      <script src="https://cdn.rawgit.com/showdownjs/showdown/1.5.1/dist/showdown.min.js"></script>
+
+      <script>
+        function enhance() {
+            const pres = $('pre');
+            for (var idx of Array(pres.length).keys()) { hljs.highlightBlock(pres.get(idx)) }
+            $('table').addClass('table table-striped table-bordered table-condensed table-hover');
+            $('a').addClass('keyword');
+        }
+      </script>
+    </head>
+
+    <body onload="enhance();">
+      <br class="hidden-xs hidden-sm">
+      <br class="hidden-xs hidden-sm">
+      <div class="container">
+        <hr>
+        <h4 class="text-center">
+          <a href="../">Home</a>
+        </h4>
+        <hr>
+        <br>
+
+        <div class='row'>
+          <div class='col-lg-4 hidden-xs hidden-sm hidden-md hidden-print'>
+            <img  src='../src/images/docker_compose_and_the_schrödinger_cat.png'
+                  class='img-responsive img-circle center-block'
+                  style="border: 1px solid #000;" >
+            <br>
+          </div>
+          <div class='col-lg-8'>
+            <div class='row'>
+              <div class='col-lg-11'>
+                <div class='summary'>
+                  <p>Take advantage of Docker Compose healthchecks to make sure your containers are
+up and running in the right sequence</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <hr>
+        <div class='row'>
+          <div class='col-lg-12'>
+            <article>
+                <h1 id="dockercomposeandtheschrdingerscat">Docker Compose and the Schrödinger's cat</h1>
+<p>As developers, we work every day with <a href="https://www.docker.com/">Docker</a>. And
+if you don't, you should! The main purpose of Docker is to insure portability
+between your development machine, the staging and the production environments.
+As long as you write and test your code inside a Docker container, you can be
+confident that such container, once deployed into production, will keep working
+as expected. You can finally use the "<em>it works on my machine!</em>" sentence! 🙂</p>
+<p>Another great technology we deal with every day is
+<a href="https://docs.docker.com/compose/">Docker Compose</a>. With Compose, you can
+define and link together different containers to simulate a bigger architecture.
+A typical use case is represented by a first container which encapsulates a
+web-app, linked to a second container with the DB. Great, right?</p>
+<p>One thing we don't do every day though is to create new projects, the famous
+"<em>initial commit</em>". Usually, someone else already set up the project, possibly
+a long time ago, and configured, among other things, its Docker and Compose
+settings. And, most of the times, you don't have to deal with, or change, such
+settings.</p>
+<h2 id="leavethisworldalittlebetterthanyoufoundit">Leave this world a little better than you found it</h2>
+<p>The other day my colleague and I picked what it seemed an harmless card from
+our wall, so we decided to start with some nice refactoring.
+"<em>It'll be quick mate</em>", were our famous last words. But this is another story.</p>
+<p>On our path to enlightenment we had to explore the scripts that run tests in
+Docker (<em>and therefore in the CI</em>), and we came across a <code>wait</code> script that
+goes more or less like that:</p>
+<pre><code>#! /bin/sh
+set -e
+
+while ! nc -w 1 $DB_HOST $DB_PORT 2&gt;/dev/null
+do
+  sleep 1
+done
+</code></pre>
+<p><br></p>
+<p>What are you waiting for?</p>
+<p>The codebase we were refactoring is a typical Docker Compose use case. There is
+a main container which holds the source code, and a second one with the DB.
+The aforementioned script is used by the CI to wait for the DB inside the
+container to be up and running before running the tests.</p>
+<p>Without the <code>wait</code> script we can be in a state where both containers are
+healthy, from Docker's point of view, but the source code inside them
+(<em>the DB in our case</em>) is not yet ready to be executed.
+Like the <a href="https://en.wikipedia.org/wiki/Schr%C3%B6dinger%27s_cat">Schrödinger's cat</a>,
+our DB can be both dead and alive! Well, sort of. 🙂</p>
+<h2 id="enterdockercomposehealthchecks">Enter Docker Compose Health Checks</h2>
+<p>Docker Compose, in its version 2.1, introduced a nice feature to overcome this
+problem: <a href="https://docs.docker.com/compose/compose-file/#healthcheck">healthchecks</a>!
+With this feature, it is possible to define a conditional dependency between
+two containers, and this condition is basically that the container we depend on
+is healthy. What does <em>healthy</em> mean though? Let's consider the following,
+simplistic, example:</p>
+<pre><code class="yaml language-yaml">version: '2.1'
+
+services:
+
+  webapp:
+    image: myapp
+    depends_on:
+      database:
+        condition: service_healthy  
+
+  database:
+    image: postgres:9.4
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready"]
+      interval: 5s
+      timeout: 30s
+      retries: 3
+</code></pre>
+<p><br></p>
+<p>We have a first container, <code>webapp</code>, which runs our source code, and it
+depends on a second container being healthy. The definition of healthy, in this
+example, is that PostgreSQL's <a href="https://www.postgresql.org/docs/9.3/static/app-pg-isready.html"><code>pg_isready</code></a>
+function returns <code>0</code>, <em>A.K.A.</em> the DB is up, running and accepting connections.</p>
+<p>Thanks to Compose healthchecks we don't need all the <code>wait</code> scripts (<em>or worse</em>)
+workarounds anymore and we can leave the composition responsibility to, well,
+Docker Compose!</p>
+            </article>
+          </div>
+        </div>
+        <br>
+        <hr>
+        <div class="row">
+          <div class="col-lg-12 text-center">
+              <a id="twitter" class="keyword" target="_blank" title="Share it on Twitter" href="https://twitter.com/intent/tweet?text=Docker Compose and the Schrödinger cat&url=http://guido-barbaglia.blog/posts/docker_compose_and_the_schrödinger_cat.html">
+                  <i class="fa fa-twitter fa-2x"></i></a>
+              &nbsp;
+              <a id="linkedin" class="keyword" target="_blank" title="Share it on LinkedIn" href="http://www.linkedin.com/shareArticle?mini=true&url=http://guido-barbaglia.blog/posts/docker_compose_and_the_schrödinger_cat.html&title=Docker Compose and the Schrödinger cat">
+                  <i class="fa fa-linkedin fa-2x"></i></a>
+              &nbsp;
+              <a id="reddit" class="keyword" target="_blank" title="Share it on Reddit" href="http://www.reddit.com/submit?url=http://guido-barbaglia.blog/posts/docker_compose_and_the_schrödinger_cat.html&title=Docker Compose and the Schrödinger cat">
+                  <i class="fa fa-reddit fa-2x"></i></a>
+              &nbsp;
+              <a id="facebook" class="keyword" target="_blank" title="Share it on Facebook" href="http://www.facebook.com/sharer/sharer.php?u=http://guido-barbaglia.blog/posts/docker_compose_and_the_schrödinger_cat.html&title=Docker Compose and the Schrödinger cat">
+                  <i class="fa fa-facebook fa-2x"></i></a>
+              &nbsp;
+              <a id="google-plus" class="keyword" target="_blank" title="Share it on Google+" href="https://plus.google.com/share?url=http://guido-barbaglia.blog/posts/docker_compose_and_the_schrödinger_cat.html">
+                  <i class="fa fa-google-plus fa-2x"></i></a>
+          </div>
+        </div>
+        <hr>
+        <div class="row">
+          <div class="col-lg-12">
+            <div id="disqus_thread"></div>
+            <script>
+                (function() {
+                    var d = document, s = d.createElement('script');
+                    s.src = '//guido-barbaglia.disqus.com/embed.js';
+                    s.setAttribute('data-timestamp', +new Date());
+                    (d.head || d.body).appendChild(s);
+                })();
+            </script>
+          </div>
+        </div>
+        <hr>
+        <script src="//z-na.amazon-adsystem.com/widgets/onejs?MarketPlace=US&adInstanceId=03df545c-279d-4a52-a4e4-f6e790dd0f1c&storeId=guidobarbagli-20"></script>
+        <hr>
+        <p class="text-center">
+          &copy; 2016 Guido Barbaglia
+        </p>
+        <hr>
+      </div>
+      <div id="imports"></div>
+      <br class="hidden-xs hidden-sm">
+      <br class="hidden-xs hidden-sm">
+    </body>
+</html>
