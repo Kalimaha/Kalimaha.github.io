@@ -1,0 +1,37 @@
+{
+   "provider":{
+      "name":"Restaurant Service"
+   },
+   "consumer":{
+      "name":"UberEats"
+   },
+   "interactions":[
+      {
+         "providerState": "some menu items exist",
+         "description": "a request for a single menu item",
+         "request":{
+            "method":"GET",
+            "path":"/42"
+         },
+         "response":{
+            "status": 200,
+            "headers":{
+               "Content-Type":"application/json"
+            },
+            "body":{
+               "id": 42,
+               "name": "Spam & Eggs",
+               "price": 15.0
+            }
+         }
+      }
+   ],
+   "metadata":{
+      "pact-specification":{
+         "version":"1.0.0"
+      },
+      "pact-jvm":{
+         "version":"1.0.0"
+      }
+   }
+}
