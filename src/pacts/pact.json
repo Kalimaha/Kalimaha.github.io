@@ -27,20 +27,15 @@
       },
       {
          "providerState": "some menu items exist",
-         "description": "a request for the menu",
+         "description": "a request for an item which is not on the menu",
          "request":{
             "method":"GET",
-            "path":"/"
+            "path":"/24/"
          },
          "response":{
-            "status": 200,
+            "status": 404,
             "headers":{
                "Content-Type":"application/json"
-            },
-            "body":{
-               "id": 42,
-               "name": "Spam & Eggs",
-               "price": 15.0
             }
          }
       }
