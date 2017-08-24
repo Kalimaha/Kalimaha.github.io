@@ -24,6 +24,25 @@
                "price": 15.0
             }
          }
+      },
+      {
+         "providerState": "some menu items exist",
+         "description": "a request for the menu",
+         "request":{
+            "method":"GET",
+            "path":"/"
+         },
+         "response":{
+            "status": 200,
+            "headers":{
+               "Content-Type":"application/json"
+            },
+            "body":{
+               "id": 42,
+               "name": "Spam & Eggs",
+               "price": 15.0
+            }
+         }
       }
    ],
    "metadata":{
