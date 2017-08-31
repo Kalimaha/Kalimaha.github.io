@@ -11,7 +11,7 @@
          "description": "a request for a single menu item",
          "request":{
             "method":"GET",
-            "path":"/42"
+            "path":"/42/"
          },
          "response":{
             "status": 200,
