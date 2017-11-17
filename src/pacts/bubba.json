@@ -9,28 +9,18 @@
         "path": "/pizzas/margherita/",
         "query": "",
         "method": "GET",
-        "headers": [
-          {
-            "Host": "localhost:9999"
-          },
-          {
-            "User-Agent": "python-requests/2.18.4"
-          },
-          {
-            "Accept-Encoding": "gzip, deflate"
-          },
-          {
-            "Accept": "*/*"
-          },
-          {
+        "headers": {
+          "Host": "localhost:9999",
+            "User-Agent": "python-requests/2.18.4",
+            "Accept-Encoding": "gzip, deflate",
+            "Accept": "*/*",
             "Connection": "keep-alive"
           }
-        ]
       },
       "response": {
         "body": "{\"type\": \"margherita\"}",
         "status": 200,
-        "headers": []
+        "headers": {}
       }
     }
   ],
