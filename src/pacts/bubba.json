@@ -1,0 +1,43 @@
+{
+  "interactions": [
+    {
+      "status": "PASSED",
+      "providerState": "a pizza exists",
+      "description": "a request for a margherita pizza",
+      "request": {
+        "body": null,
+        "path": "/pizzas/margherita/",
+        "query": "",
+        "method": "GET",
+        "headers": [
+          {
+            "Host": "localhost:9999"
+          },
+          {
+            "User-Agent": "python-requests/2.18.4"
+          },
+          {
+            "Accept-Encoding": "gzip, deflate"
+          },
+          {
+            "Accept": "*/*"
+          },
+          {
+            "Connection": "keep-alive"
+          }
+        ]
+      },
+      "response": {
+        "body": "{\"type\": \"margherita\"}",
+        "status": 200,
+        "headers": []
+      }
+    }
+  ],
+  "provider": {
+    "name": "Bubba Pizza"
+  },
+  "consumer": {
+    "name": "UberEats"
+  }
+}
