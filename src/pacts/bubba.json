@@ -18,7 +18,7 @@
           }
       },
       "response": {
-        "body": "{\"type\": \"margherita\"}",
+        "body": {"type": "margherita"},
         "status": 200,
         "headers": {}
       }
