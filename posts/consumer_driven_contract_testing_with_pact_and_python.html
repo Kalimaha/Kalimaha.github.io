@@ -1,0 +1,295 @@
+<html>
+    <head>
+      <title>Consumer driven contract testing with pact and python</title>
+
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+      <meta name="format-detection" content="telephone=no">
+      <meta http-equiv="X-UA-Compatible" content="IE=edge">
+      <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+      <meta name="description" content="Deploy your Python microservices with confidence with consumer-driven contract
+testing.">
+      <meta name="robots" content="index,follow">
+
+      <script>
+        (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+        (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+        m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+        })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+        ga('create', 'UA-87710589-1', 'auto');
+        ga('send', 'pageview');
+      </script>
+      <script type="application/ld+json">
+        {
+          "@context":"http://schema.org",
+          "@type":"BlogPosting",
+          "mainEntityOfPage": {
+            "@type": "WebPage",
+            "@id": "http://guido-barbaglia.blog/posts/consumer_driven_contract_testing_with_pact_and_python.html"
+          },
+          "headline":"Consumer driven contract testing with pact and python",
+          "description":"Deploy your Python microservices with confidence with consumer-driven contract
+testing.",
+          "author": {
+              "@type": "Person",
+              "name": "Guido Barbaglia"
+          },
+          "datePublished": "2018-03-06T08:35:06.862Z",
+          "dateModified": "2018-03-06T08:35:06.862Z",
+          "publisher": {
+            "@type": "Organization",
+            "name": "Guido Barbaglia",
+            "logo": {
+              "@type": "ImageObject",
+              "url": "http://guido-barbaglia.blog/src/images/portrait.jpg",
+              "width": "150",
+              "height": 60
+            }
+          },
+          "image": {
+            "@type": "ImageObject",
+            "url": "http://guido-barbaglia.blog/src/images/consumer_driven_contract_testing_with_pact_and_python.png",
+            "height": 150,
+            "width": "150"
+          }
+        }
+      </script>
+
+      <meta name="twitter:card" content="summary" />
+      <meta name="twitter:site" content="http://guido-barbaglia.blog/posts/consumer_driven_contract_testing_with_pact_and_python.html" />
+      <meta name="twitter:title" content="Consumer driven contract testing with pact and python" />
+      <meta name="twitter:description" content="Deploy your Python microservices with confidence with consumer-driven contract
+testing." />
+      <meta name="twitter:image" content="http://guido-barbaglia.blog/src/images/consumer_driven_contract_testing_with_pact_and_python.png" />
+      
+      <meta property="og:url" content="http://guido-barbaglia.blog/posts/consumer_driven_contract_testing_with_pact_and_python.html" />
+      <meta property="og:type" content="article" />
+      <meta property="og:title" content="Consumer driven contract testing with pact and python" />
+      <meta property="og:description" content="Deploy your Python microservices with confidence with consumer-driven contract
+testing." />
+      <meta property="og:image" content="http://guido-barbaglia.blog/src/images/consumer_driven_contract_testing_with_pact_and_python.png" />
+
+      <link rel="shortcut icon" href="../src/icons/favicon.ico">
+      <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet">
+      <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
+      <link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet">
+      <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.8.0/styles/default.min.css">
+        <link href="../src/css/guido-barbaglia.css" rel="stylesheet">
+
+      <script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
+      <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.8.0/highlight.min.js"></script>
+      <script src="https://cdn.rawgit.com/showdownjs/showdown/1.5.1/dist/showdown.min.js"></script>
+
+      <script>
+        function enhance() {
+            const pres = $('pre');
+            for (var idx of Array(pres.length).keys()) { hljs.highlightBlock(pres.get(idx)) }
+            $('table').addClass('table table-striped table-bordered table-condensed table-hover');
+            $('a').addClass('keyword');
+        }
+      </script>
+    </head>
+
+    <body onload="enhance();">
+      <br class="hidden-xs hidden-sm">
+      <br class="hidden-xs hidden-sm">
+      <div class="container">
+        <hr>
+        <h4 class="text-center">
+          <a href="../">Home</a>
+        </h4>
+        <hr>
+        <br>
+
+        <div class='row'>
+          <div class='col-lg-4 hidden-xs hidden-sm hidden-md hidden-print'>
+            <img  src='../src/images/consumer_driven_contract_testing_with_pact_and_python.png'
+                  class='img-responsive img-circle center-block'
+                  style="border: 1px solid #000;" >
+            <br>
+          </div>
+          <div class='col-lg-8'>
+            <div class='row'>
+              <div class='col-lg-11'>
+                <div class='summary'>
+                  <p>Deploy your Python microservices with confidence with consumer-driven contract
+testing.</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <hr>
+        <div class='row'>
+          <div class='col-lg-12'>
+            <article>
+                <h1 id="consumerdrivencontracttestingwithpactandpython">Consumer-driven contract testing with Pact and Python</h1>
+<p><hr>
+<br></p>
+<p>Today microservices play a very important role, as they have become the architecture of choice for many companies. The web is full of articles and talks about the amazing advantages of this architecture, e.g.:</p>
+<ul>
+<li>Faster time to market</li>
+<li>Smaller teams</li>
+<li>Ease of maintainance</li>
+<li>Independent scalability of components</li>
+<li>Independent choice of programming languages</li>
+</ul>
+<p>and so forth and so on. Nothing in life is free of course, and all these amazing features have a cost. First and foremost your company will probably experience an exponential growth of microservices, and you may end up with <a href="https://goo.gl/cZnhZi">something like this</a>… With such a proliferation of services, how can you ensure the correct behaviour of your platform? How do you manage breaking changes between consumers and providers? There are many answers to these questions, but let's consider two of them.</p>
+<h2 id="providerdrivencontracts">Provider-Driven Contracts</h2>
+<p>A way to establish some order in the far-west of your services is to create a "<em>contract</em>" between a provider and its consumers. If we make a real life example, we may consider a restaurant as a service provider and hungry people as its natural consumers. The contract between the restaurant and its customers is clearly represented by, well, the menu! By reading the menu, consumers know exactly which services they can access and which are the rules regulating such services (<em>e.g. price, suitability for vegetarians, etc.</em>). Going back to microservices, we can build a restaurant service that exposes a "<em>contract</em>" (<em>in JSON format</em>) that other services can access in order to build and verify their interactions in terms of endpoints, payloads and responses. There are many ways to implement such a contract, e.g. <a href="http://onlinelibrary.wiley.com/doi/10.1002/spe.2466/full">through the JSON Schema specification</a>.</p>
+<h2 id="consumerdrivencontracts">Consumer-Driven Contracts</h2>
+<p>A different approach is represented by consumer-driven contracts: service consumers define the contract between them and their providers, and providers must honour such contracts. The first time I heard of this approach I thought: "<em>Well, this is stupid!</em>". I can't walk into a restaurant, define my own menu and expect the restaurant to provide what I want! Well, let's be a little bit more open minded and consider the following image:</p>
+<p><img class="img-responsive center-block" src="../src/classic_kitchen_brigade.jpg"></p>
+<p>A kitchen brigade can be seen as a collection of microservices that need to cooperate in order to produce the final output. In this situation it makes a lot of sense for one microservice, e.g. the <code>SousChefService</code>, to define a contract with its providers, e.g. the <code>RoastChefService</code>. The correct behaviour of the overall architecture is ensured because every service must honour contracts with its consumers, and breaking changes are detected (<em>and possibly avoided, or at least discussed</em>) as soon as they happen. How to achieve that? A possible implementation of this pattern is represented by Pact, a framework that provides support for consumer-driven contract testing.</p>
+<h2 id="pact">Pact</h2>
+<p>Pact is based on simple JSON files that allow interoperability between programming languages. The examples in the next sections use a Python implementation of the Pact framework, but the base concepts are the same. Pact tests have two phases: provider test and consumer test. Such phases are "<em>asynchronous</em>" and do not require real interactions between the two systems. In the initial phase, the consumer defines its expectations about one or more interactions with a provider. For example, the consumer defines what payload it will send and what the expected response is. Such expectations are verified locally against a mock server, generating (<em>when successful</em>) a JSON file (<em>the pact</em>). This modus operandi represents a sort of "<em>TDD for services</em>", because developers can define the interaction first, and develop the <code>repositories/controllers</code> based on the responses of the mock server, with no need for real HTTP interactions. In the second phase, the provider re-plays the interactions recorded in the Pact file and verifies that the expectations are met. Pact files can be stored in the provider's codebase or obtained through a Pact Broker that acts as a "<em>middle-man</em>" between consumers and providers. What about an example at this point?</p>
+<h2 id="establishthecontract">Establish the contract</h2>
+<p>Let's consider the scenario where the Sous Chef relies on the Grill Chef to cook the steaks that he will then garnish and send to the clients. Such a situation can be described with a test:</p>
+<pre><code>@service_consumer('Sous Chef')
+@has_pact_with('Grill Chef')
+class GrillChefTest(ServiceProviderTest):
+
+    @given('steaks are available')
+    @upon_receiving('a request for a steak')
+    @with_request({'method': 'POST', 'path': '/steaks/', 'body': {'cooking': 'medium-rare'}})
+    @will_respond_with({'status': 201, 'body': {'waitingTime': 10}})
+    def test_steak(self):
+        response = GrillChefRepository.steak('medium-rare')
+        assert response['waitingTime'] == 10
+</code></pre>
+<p><br></p>
+<p>Let's break down this test to understand how it works. The first bit is the definition of the class:</p>
+<pre><code>@service_consumer('Sous Chef')
+@has_pact_with('Grill Chef')
+class GrillChefTest(ServiceProviderTest):
+    pass
+</code></pre>
+<p><br></p>
+<p>The class itself extends <code>ServiceProviderTest</code>, provided by the Pact library. It also identifies the consumer (<code>@service_consumer('Sous Chef')</code>) and the provider (<code>@has_pact_with('Grill Chef')</code>). Each class will generate a single pact file that contains one or more interactions. Each method in the class describes an interaction and has a setup section, which configures the mock server and the test itself. The setup of the interaction requires the following:</p>
+<ul>
+<li><strong>given:</strong> the pre-condition to the test that tells the provider how to set the initial state for this interaction. For example, this may require storing some dummy data in the DB before executing the test.</li>
+<li><strong>upon_receiving:</strong> a description of the interaction.</li>
+<li><strong>with_request:</strong> the payload that the consumer will send to the provider. The test itself will fail if the request is different from the one declared in the setup.</li>
+<li><strong>will<em>respond</em>with:</strong> the expected response from the provider.</li>
+</ul>
+<p>The resulting Pact file for this interaction is the following:</p>
+<pre><code>{
+  "provider": { "name": "Grill Chef" },
+  "consumer": { "name": "Sous Chef" },
+  "interactions": [
+    {
+      "status": "PASSED",
+      "providerState": "steaks are available",
+      "description": "a request for a steak",
+      "request": {
+        "body": { "cooking": "medium-rare" },
+        "path": "/steaks/",
+        "query": "",
+        "method": "POST",
+        "headers": []
+      },
+      "response": {
+        "body": { "waitingTime": 10 },
+        "status": 201,
+        "headers": []
+      }
+    }
+  ]
+}
+</code></pre>
+<p><br></p>
+<p>Pact tests can be used to verify all scenarios of interest, such as wrong requests or internal error. For example, the following example covers the case of a <code>4xx</code> HTTP error code, and it will add a new entry to the interactions section of our pact file:</p>
+<pre><code>@given('steaks are available')
+@upon_receiving('a request for a well-done steak')
+@with_request({'method': 'POST', 'path': '/steaks/', 'body': {'cooking': 'well-done'}})
+@will_respond_with({'status': 422, 'body': {'reason': 'we do not serve well-done steaks'}})
+def test_steak(self):
+    response = steak('well-done')
+    assert response.status_code == 422
+</code></pre>
+<p><br></p>
+<p>Once we're happy with the interactions, we can send the pact file to the Pact Broker to streamline the whole process, or simply store it in the provider's codebase for verification.</p>
+<h2 id="honouryourcontracts">Honour your contracts</h2>
+<p>We must now make sure that the provider honours his pacts with the consumers. The test looks like this:</p>
+<pre><code>@honours_pact_with('Sous Chef')
+@pact_uri('http://localhost:9292/pacts/provider/Grill%20Chef/consumer/Sous%20Chef/latest.json')
+class SousChef(ServiceConsumerTest):
+
+    @state('steaks are available')
+    def test_steak(self):
+        DB.save(Steak(cooked=False))
+</code></pre>
+<p><br></p>
+<p>Pact file can be obtained either through a URL or local file, and its location is defined with the <code>pact_uri</code> decorator. We then need to define a state for each <code>given</code> condition that has been defined by the consumer. In the previous section we defined two different interactions, but they're both based on the same pre-condition: "<em>steaks are available</em>". States are used to prepare the system to run the test, e.g. store some dummy data in the test DB. The provider is now able to re-play the interactions stored in the pact file and verify that everything goes as expected. During this phase, the pact library will actually start the service, make the requests defined in the pact, and verify the responses against the expectations. The provider is therefore required to define a <code>pact_helper.py</code> file that is capable to start and stop the service. The following is a simple implementation with Gunicorn:</p>
+<pre><code>class GrillChefPactHelper(PactHelper):
+    test_port = 8080
+    process = None
+
+    def setup(self):
+        cmd = 'gunicorn start:app -w 3 -b :8080 --log-level error'
+        self.process = subprocess.Popen(cmd, shell=True)
+
+    def tear_down(self):
+        self.process.kill()
+</code></pre>
+<p><br></p>
+<h2 id="conclusions">Conclusions</h2>
+<p>Pact is a framework that implements the consumer-driven contract testing pattern. It can be used to verify the interactions between "<em>internal</em>" services, where "<em>internal</em>" means that you have control over the consumers and the providers (<em>you can try to write a consumer test for Google Maps, not sure whether they will commit to honour it though!</em>). This technique may reduce the need for costly integration tests and give you more confidence about the overall behaviour of your systems. Pact tests can be run as part of your testing pipeline and are quite fast. But, how can pact tests prevent breaking changes??? Well, they can't! But the real value added of this integration strategy is the fact that it fosters conversations and collaboration between teams. Whenever you need to introduce a breaking change as a provider, you can immediately verify which are the consumers that will be affected by the change, and initiate a process that involves both teams with the final goal of keeping your platform up, running and healthy.</p>
+<h2 id="resources">Resources</h2>
+<ul>
+<li><a href="https://docs.pact.io/">Pact</a>: home of Pact framework</li>
+<li><a href="https://docs.pact.io/documentation/implementation_guides.html">Official Pact implementations</a></li>
+<li><a href="https://pypi.python.org/pypi?:action=display&name=pact-test">Pact Test for Python</a>: an alternative implementation of Pact in Python, compatible with Pact 1.0, demonstrated in this article</li>
+<li><a href="https://martinfowler.com/articles/consumerDrivenContracts.html">Consumer-Driven Contracts: A Service Evolution Pattern</a>: more about cosumer-driven contract testing by Martin Fowler</li>
+</ul>
+            </article>
+          </div>
+        </div>
+        <br>
+        <hr>
+        <div class="row">
+          <div class="col-lg-12 text-center">
+              <a id="twitter" class="keyword" target="_blank" title="Share it on Twitter" href="https://twitter.com/intent/tweet?text=Consumer driven contract testing with pact and python&url=http://guido-barbaglia.blog/posts/consumer_driven_contract_testing_with_pact_and_python.html">
+                  <i class="fa fa-twitter fa-2x"></i></a>
+              &nbsp;
+              <a id="linkedin" class="keyword" target="_blank" title="Share it on LinkedIn" href="http://www.linkedin.com/shareArticle?mini=true&url=http://guido-barbaglia.blog/posts/consumer_driven_contract_testing_with_pact_and_python.html&title=Consumer driven contract testing with pact and python">
+                  <i class="fa fa-linkedin fa-2x"></i></a>
+              &nbsp;
+              <a id="reddit" class="keyword" target="_blank" title="Share it on Reddit" href="http://www.reddit.com/submit?url=http://guido-barbaglia.blog/posts/consumer_driven_contract_testing_with_pact_and_python.html&title=Consumer driven contract testing with pact and python">
+                  <i class="fa fa-reddit fa-2x"></i></a>
+              &nbsp;
+              <a id="facebook" class="keyword" target="_blank" title="Share it on Facebook" href="http://www.facebook.com/sharer/sharer.php?u=http://guido-barbaglia.blog/posts/consumer_driven_contract_testing_with_pact_and_python.html&title=Consumer driven contract testing with pact and python">
+                  <i class="fa fa-facebook fa-2x"></i></a>
+              &nbsp;
+              <a id="google-plus" class="keyword" target="_blank" title="Share it on Google+" href="https://plus.google.com/share?url=http://guido-barbaglia.blog/posts/consumer_driven_contract_testing_with_pact_and_python.html">
+                  <i class="fa fa-google-plus fa-2x"></i></a>
+          </div>
+        </div>
+        <hr>
+        <div class="row">
+          <div class="col-lg-12">
+            <div id="disqus_thread"></div>
+            <script>
+                (function() {
+                    var d = document, s = d.createElement('script');
+                    s.src = '//guido-barbaglia.disqus.com/embed.js';
+                    s.setAttribute('data-timestamp', +new Date());
+                    (d.head || d.body).appendChild(s);
+                })();
+            </script>
+          </div>
+        </div>
+        <hr>
+        <script src="//z-na.amazon-adsystem.com/widgets/onejs?MarketPlace=US&adInstanceId=03df545c-279d-4a52-a4e4-f6e790dd0f1c&storeId=guidobarbagli-20"></script>
+        <hr>
+        <p class="text-center">
+          &copy; 2016 Guido Barbaglia
+        </p>
+        <hr>
+      </div>
+      <div id="imports"></div>
+      <br class="hidden-xs hidden-sm">
+      <br class="hidden-xs hidden-sm">
+    </body>
+</html>
