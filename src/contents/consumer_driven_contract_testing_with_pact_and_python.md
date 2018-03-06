@@ -20,7 +20,7 @@ A way to establish some order in the far-west of your services is to create a "_
 
 A different approach is represented by consumer-driven contracts: service consumers define the contract between them and their providers, and providers must honour such contracts. The first time I heard of this approach I thought: "_Well, this is stupid!_". I can't walk into a restaurant, define my own menu and expect the restaurant to provide what I want! Well, let's be a little bit more open minded and consider the following image:
 
-<img class="img-responsive center-block" src="../src/classic_kitchen_brigade.jpg">
+<img class="img-responsive center-block" src="../src/images/classic_kitchen_brigade.jpg">
 
 A kitchen brigade can be seen as a collection of microservices that need to cooperate in order to produce the final output. In this situation it makes a lot of sense for one microservice, e.g. the `SousChefService`, to define a contract with its providers, e.g. the `RoastChefService`. The correct behaviour of the overall architecture is ensured because every service must honour contracts with its consumers, and breaking changes are detected (_and possibly avoided, or at least discussed_) as soon as they happen. How to achieve that? A possible implementation of this pattern is represented by Pact, a framework that provides support for consumer-driven contract testing.
 
